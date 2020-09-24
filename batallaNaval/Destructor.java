@@ -7,13 +7,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-public class Portaaviones extends Barco {
-	
-	public static final String rutaFile="src/imagenes/portaaviones.jpg";
-	private static BufferedImage bufferImage = null; 
-	public static final int numeroCasillas = 4;
+public class Destructor extends Barco {
 
-	public Portaaviones(String nombre) {
+	public static final String rutaFile="src/imagenes/destructor.jpg";
+	private static BufferedImage bufferImage = null; 
+	public static final int numeroCasillas = 2;
+
+	public Destructor(String nombre) {
 			
 		super(nombre,numeroCasillas);
 		naufragado=true;
@@ -23,7 +23,8 @@ public class Portaaviones extends Barco {
 				
 		}catch(IOException e) {
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null,"No se ha encontrado el archivo portaaviones.jpg");
+			JOptionPane.showMessageDialog(null,"No se ha encontrado el archivo destructor.jpg");
 		}
 	}
+	
 }
