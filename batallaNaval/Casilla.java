@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+
 public class Casilla extends JButton {
 	private static int width = 10;
 	private static int height = 10;
@@ -14,6 +15,7 @@ public class Casilla extends JButton {
 	private boolean hasBarco;
 	private boolean zonaDestruida;
 	private ImageIcon imagen;
+	//private Portaaviones avioncito;
 	
 	//Constructor
 	public Casilla(int idCasilla, int row, int col) {
