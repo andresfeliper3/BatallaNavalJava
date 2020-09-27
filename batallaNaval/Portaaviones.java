@@ -26,30 +26,4 @@ public class Portaaviones extends Barco {
 		}
 	}
 
-	//Retorna true si el barco fue golpeado y false si no fue golpeado.
-	@Override
-	public boolean disparoAcertado(Casilla casilla) {
-		// TODO Auto-generated method stub
-		 for(int i = 0; i < casillasDondeEstoy.length; i++) {
-			 if(casilla == casillasDondeEstoy[i]) {
-				 casillasDondeEstoy[i] = null;
-				 return true;
-			 }
-		 }
-		return false;
-	}
-	
-	public void hundirBarco() {
-		naufragado = true;
-	}
-	
-	public void revisarEstadoBarco() {
-		for(int i = 0; i < casillasDondeEstoy.length; i++) {	
-			if(casillasDondeEstoy[i] != null) {
-				return;
-			}
-		}
-		hundirBarco();
-	}
-
 }
