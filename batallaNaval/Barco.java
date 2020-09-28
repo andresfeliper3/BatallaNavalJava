@@ -1,5 +1,7 @@
 package batallaNaval;
 
+import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 
 public abstract class Barco {
@@ -8,8 +10,9 @@ public abstract class Barco {
 	protected int tamanho;
 	protected boolean naufragado=false;
 	protected Casilla[] casillasDondeEstoy;
+	protected BufferedImage bufferedImage = null;
 	
-	public Barco(String nombre, int numeroCasillas) {
+	public Barco(int numeroCasillas) {
 		
 		this.nombre = nombre;
 		this.tamanho = numeroCasillas;
@@ -34,6 +37,10 @@ public abstract class Barco {
 		naufragado = true;
 	}
 	
+	public int getTamanho() {
+		return tamanho;
+	}
+
 	private void revisarEstadoBarco() {
 		for(int i = 0; i < casillasDondeEstoy.length; i++) {	
 			if(casillasDondeEstoy[i] != null) {
@@ -45,6 +52,10 @@ public abstract class Barco {
 	
 	public boolean getEstadoBarco() {
 		return naufragado;
+	}
+	
+	public BufferedImage getBufferedImage() {
+		return bufferedImage;
 	}
 	
 }

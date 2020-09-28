@@ -22,7 +22,9 @@ public class BatallaNaval extends JFrame {
 	private boolean turno;
 	private TableroPosicion tableroPosicion;
 	private TableroPrincipal tableroPrincipal;
-	private Escucha escucha;
+	private JFrame referencia = this;
+	private Muelle muelle;
+	
 	private JLabel titulo;
 	//Constructor
 	public BatallaNaval() {
@@ -37,6 +39,7 @@ public class BatallaNaval extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		muelle = new Muelle(referencia);
 		
 	}
 	
@@ -44,7 +47,7 @@ public class BatallaNaval extends JFrame {
 		//Container & layout
 		
 		//Escucha
-		escucha = new Escucha();
+	
 		
 		//Componentes gráficos
 		//Título
@@ -62,11 +65,5 @@ public class BatallaNaval extends JFrame {
 	}
 
 	
-	private class Escucha implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent eventAction) {
-			// TODO Auto-generated method stub
-			
-		}
-	}	
+	
 }

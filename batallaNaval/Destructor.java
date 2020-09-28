@@ -1,6 +1,6 @@
 package batallaNaval;
 
-import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -9,14 +9,13 @@ import javax.swing.JOptionPane;
 
 public class Destructor extends Barco {
 	public static final String rutaFile="src/imagenes/destructor.jpg";
-	private static BufferedImage bufferImage = null; 
 	public static final int numeroCasillas = 2;
-	public Destructor(String nombre, int numeroCasillas) {
-		super(nombre, numeroCasillas);
+	public Destructor() {
+		super(numeroCasillas);
 		// TODO Auto-generated constructor stub
 		
 		try {
-				bufferImage = ImageIO.read(new File(rutaFile));
+				bufferedImage = ImageIO.read(new File(rutaFile));
 				
 		}catch(IOException e) {
 			// TODO Auto-generated catch block
