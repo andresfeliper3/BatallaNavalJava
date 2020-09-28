@@ -7,8 +7,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class Casilla extends JButton {
-	private static int width = 10;
-	private static int height = 10;
+	private static int casillaSize=0;
+	private static int maxCasillas=0;
 	private static String rutaDelArchivoAgua = "";
 	private int idCasilla, row, col;
 	private boolean hasBarco;
@@ -28,9 +28,13 @@ public class Casilla extends JButton {
 		
 		//Configuración del botón
 		this.setBackground(Color.CYAN);
-		this.setPreferredSize(new Dimension(width, height));
+		this.setPreferredSize(new Dimension(casillaSize, casillaSize));
 	}
 
+	public static void setCasillaSizeMaxCasillas(int tamanho,int numeroCasillas) {
+		casillaSize= tamanho;
+		maxCasillas= numeroCasillas;	
+	}
 	public void cambiarImagen(ImageIcon imagen) {
 		this.imagen = imagen;
 		this.setIcon(imagen);

@@ -1,17 +1,16 @@
 package batallaNaval;
 
-import javax.swing.ImageIcon;
+import java.awt.image.BufferedImage;
 
 public abstract class Barco {
 
-	protected String nombre;
 	protected int tamanho;
 	protected boolean naufragado=false;
 	protected Casilla[] casillasDondeEstoy;
-	
-	public Barco(String nombre, int tamanhoBarco) {
+	protected static BufferedImage bufferImage = null; 
+	public Barco(int tamanhoBarco) {
 		
-		this.nombre = nombre;
+		
 		this.tamanho = tamanhoBarco;
 		this.casillasDondeEstoy = new Casilla[tamanho];
 
@@ -49,4 +48,14 @@ public abstract class Barco {
 		}
 		hundirBarco();
 	}
+
+	public int getTamanho() {
+		return tamanho;
+	}
+
+	public static BufferedImage getBufferImage() {
+		return bufferImage;
+	}
+	
+	
 }

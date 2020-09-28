@@ -1,6 +1,6 @@
 package batallaNaval;
 
-import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -10,13 +10,11 @@ import javax.swing.JOptionPane;
 public class Portaaviones extends Barco {
 	
 	public static final String rutaFile="src/imagenes/portaaviones.jpg";
-	private static BufferedImage bufferImage = null; 
 	public static final int numeroCasillas = 4;
 
-	public Portaaviones(String nombre) {
+	public Portaaviones() {
 			
-		super(nombre,numeroCasillas);
-		naufragado=true;
+		super(numeroCasillas);
 		
 		try {
 				bufferImage = ImageIO.read(new File(rutaFile));

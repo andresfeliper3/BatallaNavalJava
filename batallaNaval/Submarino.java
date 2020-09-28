@@ -1,6 +1,6 @@
 package batallaNaval;
 
-import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -10,13 +10,11 @@ import javax.swing.JOptionPane;
 public class Submarino extends Barco {
 
 	public static final String rutaFile="src/imagenes/submarino.jpg";
-	private static BufferedImage bufferImage = null; 
 	public static final int numeroCasillas = 3;
 
-	public Submarino(String nombre) {
+	public Submarino() {
 			
-		super(nombre,numeroCasillas);
-		naufragado=true;
+		super(numeroCasillas);
 		
 		try {
 				bufferImage = ImageIO.read(new File(rutaFile));

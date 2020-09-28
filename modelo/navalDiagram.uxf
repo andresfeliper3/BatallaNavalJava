@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>540</x>
+      <x>528</x>
       <y>0</y>
       <w>180</w>
       <h>72</h>
@@ -18,7 +18,7 @@ main();</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>348</x>
+      <x>336</x>
       <y>204</y>
       <w>192</w>
       <h>120</h>
@@ -35,7 +35,7 @@ cambiarImagen();</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>720</x>
+      <x>708</x>
       <y>204</y>
       <w>168</w>
       <h>120</h>
@@ -51,7 +51,7 @@ Disparar();
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>60</x>
+      <x>48</x>
       <y>588</y>
       <w>228</w>
       <h>120</h>
@@ -66,7 +66,7 @@ disparoAcertado(Int idCasilla): bool</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>312</x>
+      <x>300</x>
       <y>588</y>
       <w>276</w>
       <h>120</h>
@@ -81,7 +81,7 @@ disparoAcertado(Int idCasilla): bool</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>924</x>
+      <x>912</x>
       <y>588</y>
       <w>276</w>
       <h>120</h>
@@ -96,7 +96,7 @@ disparoAcertado(Int idCasilla): bool</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>624</x>
+      <x>612</x>
       <y>588</y>
       <w>276</w>
       <h>120</h>
@@ -111,7 +111,7 @@ disparoAcertado(Int idCasilla): bool</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>468</x>
+      <x>456</x>
       <y>756</y>
       <w>276</w>
       <h>192</h>
@@ -132,7 +132,7 @@ disparoAcertado(Int idCasilla): bool
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>540</x>
+      <x>528</x>
       <y>336</y>
       <w>180</w>
       <h>216</h>
@@ -154,7 +154,7 @@ ponerParteBarco();</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>540</x>
+      <x>528</x>
       <y>84</y>
       <w>180</w>
       <h>108</h>
@@ -162,7 +162,7 @@ ponerParteBarco();</panel_attributes>
     <panel_attributes>BatallaNaval
 --
 Int estadoDelJuego
-Int turno //0, yo 1, pc
+boolean turno //true, yo false, pc
 --
 jugar();
 </panel_attributes>
@@ -171,7 +171,7 @@ jugar();
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>156</x>
+      <x>144</x>
       <y>696</y>
       <w>468</w>
       <h>84</h>
@@ -182,7 +182,7 @@ jugar();
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>432</x>
+      <x>420</x>
       <y>696</y>
       <w>192</w>
       <h>84</h>
@@ -193,7 +193,7 @@ jugar();
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>588</x>
+      <x>576</x>
       <y>696</y>
       <w>204</w>
       <h>84</h>
@@ -204,7 +204,7 @@ jugar();
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>588</x>
+      <x>576</x>
       <y>696</y>
       <w>504</w>
       <h>84</h>
@@ -215,7 +215,7 @@ jugar();
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>156</x>
+      <x>144</x>
       <y>540</y>
       <w>480</w>
       <h>84</h>
@@ -227,7 +227,7 @@ m1=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>432</x>
+      <x>420</x>
       <y>540</y>
       <w>204</w>
       <h>84</h>
@@ -239,7 +239,7 @@ m1=2</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
+      <x>588</x>
       <y>540</y>
       <w>192</w>
       <h>84</h>
@@ -251,7 +251,7 @@ m1=3</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
+      <x>588</x>
       <y>540</y>
       <w>492</w>
       <h>84</h>
@@ -263,7 +263,7 @@ m1=4</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>612</x>
+      <x>600</x>
       <y>312</y>
       <w>216</w>
       <h>60</h>
@@ -275,7 +275,7 @@ m1=100</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
+      <x>408</x>
       <y>300</y>
       <w>228</w>
       <h>72</h>
@@ -289,7 +289,7 @@ m1=100
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
+      <x>408</x>
       <y>180</y>
       <w>228</w>
       <h>60</h>
@@ -301,7 +301,7 @@ m1=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>612</x>
+      <x>600</x>
       <y>180</y>
       <w>216</w>
       <h>60</h>
@@ -313,7 +313,7 @@ m1=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>624</x>
+      <x>612</x>
       <y>60</y>
       <w>36</w>
       <h>48</h>
@@ -324,7 +324,7 @@ m1=1</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>12</x>
+      <x>0</x>
       <y>48</y>
       <w>300</w>
       <h>216</h>
