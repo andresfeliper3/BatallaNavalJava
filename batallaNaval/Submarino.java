@@ -9,15 +9,14 @@ import javax.swing.JOptionPane;
 
 public class Submarino extends Barco {
 
-	public static final String rutaFile="src/imagenes/submarino.jpg";
-	private static BufferedImage bufferImage = null; 
+	public static final String rutaFile="src/imagenes/submarino.png";
 	public static final int numeroCasillas = 3;
 
-	public Submarino(String nombre, int numeroCasillas) {
-		super(nombre, numeroCasillas);
+	public Submarino() {
+		super(numeroCasillas);
 		// TODO Auto-generated constructor stub	
 		try {
-				bufferImage = ImageIO.read(new File(rutaFile));
+				bufferedImage = ImageIO.read(new File(rutaFile));
 				
 		}catch(IOException e) {
 			// TODO Auto-generated catch block
