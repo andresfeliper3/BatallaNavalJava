@@ -20,21 +20,18 @@ public class TableroPosicion extends JPanel {
 	private BufferedImage bufferImage = null;
 	private Barco barcoSeleccionado;
 	private Casilla casillaSeleccionada;
-	private int casillaSize = 30;
+	private int casillaSize = 50;
 	private int gridSize = 10;
 	private int cantidadBarcos;
 	private Escucha escucha;
-	private Portaaviones portaavion;
-	private Submarino submarino1,submarino2;
-	private Destructor destructor1,destructor2,destructor3;
-	private Fragata fragata1,fragata2,fragata3,fragata4;
 	
+
 	
 	public TableroPosicion() {
 		//Layout
 		escucha = new Escucha();
 		
-		//Crear barcos
+		/*Crear barcos
 		//1 Portaavion
 		portaavion = new Portaaviones();
 		//2 Submarinos
@@ -49,7 +46,7 @@ public class TableroPosicion extends JPanel {
 		fragata2 = new Fragata();
 		fragata3 = new Fragata();
 		fragata4 = new Fragata();
-		
+		*/
 		
 		this.setLayout(new GridLayout(gridSize,gridSize));
 		System.out.println("HOLI");

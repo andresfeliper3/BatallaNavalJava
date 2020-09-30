@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class Submarino extends Barco {
 
-	public static final String rutaFile="src/imagenes/submarino.jpg";
+	public static final String rutaFile="src/imagenes/submarino.png";
 	public static final int numeroCasillas = 3;
 
 	public Submarino() {
@@ -21,7 +21,7 @@ public class Submarino extends Barco {
 				
 		}catch(IOException e) {
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null,"No se ha encontrado el archivo submarino.jpg");
+			JOptionPane.showMessageDialog(null,"No se ha encontrado el archivo submarino.png");
 		}
 	}
 }

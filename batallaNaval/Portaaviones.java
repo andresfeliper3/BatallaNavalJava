@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class Portaaviones extends Barco {
 	
-	public static final String rutaFile="src/imagenes/portaaviones.jpg";
+	public static final String rutaFile="src/imagenes/portaaviones.png";
 	public static final int numeroCasillas = 4;
 
 	public Portaaviones() {
@@ -21,7 +21,7 @@ public class Portaaviones extends Barco {
 				
 		}catch(IOException e) {
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null,"No se ha encontrado el archivo portaaviones.jpg");
+			JOptionPane.showMessageDialog(null,"No se ha encontrado el archivo portaaviones.png");
 		}
 	}
 }

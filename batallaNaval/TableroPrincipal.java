@@ -16,7 +16,7 @@ public class TableroPrincipal extends JPanel {
 	private BufferedImage bufferImage = null;
 	private Barco barcoSeleccionado;
 	private Casilla casillaSeleccionada;
-	private int casillaSize = 30;
+	private int casillaSize = 50;
 	private int gridSize = 10;
 	private int cantidadBarcos;
 	

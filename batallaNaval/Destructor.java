@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class Destructor extends Barco {
 
-	public static final String rutaFile="src/imagenes/destructor.jpg";
+	public static final String rutaFile="src/imagenes/destructor.png";
 	public static final int numeroCasillas = 2;
 
 	public Destructor() {
@@ -21,7 +21,7 @@ public class Destructor extends Barco {
 				
 		}catch(IOException e) {
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null,"No se ha encontrado el archivo destructor.jpg");
+			JOptionPane.showMessageDialog(null,"No se ha encontrado el archivo destructor.png");
 		}
 	}
 	
