@@ -30,11 +30,12 @@ public class Muelle extends JPanel {
 	private GridBagConstraints constraints;
 	private ImageIcon imagen;
 	private JLabel miPortaaviones, miSubmarino1, miSubmarino2, miDestructor1, miDestructor2, miDestructor3,  miFragata1, miFragata2, miFragata3, miFragata4;
-	
-	
+	private int indexOfBarcoSeleccionado;
+	private JLabel[] misBarcos = {miPortaaviones, miSubmarino1, miSubmarino2, miDestructor1, miDestructor2, miDestructor3,  miFragata1, miFragata2, miFragata3, miFragata4};
+	private BatallaNaval ventana;
 	//Constructor
 
-	public Muelle() {
+	public Muelle(BatallaNaval ventana) {
 		//Layout
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
 		setLayout(new GridBagLayout());
@@ -45,6 +46,8 @@ public class Muelle extends JPanel {
 		visible = true;
 		setVisible(visible);
 		setBackground(Color.WHITE);
+		//Ventana batalla naval
+		this.ventana = ventana;
 		//Componentes
 		//Título
 		titulo = new JLabel("Organice sus barcos");
@@ -103,45 +106,63 @@ public class Muelle extends JPanel {
         , RotatedIcon.Rotate.DOWN
 		 * */
 		
-		imagen = new ImageIcon(Portaaviones.rutaFile);
-		miPortaaviones = new JLabel(new RotatedIcon(imagen, RotatedIcon.Rotate.DOWN));
-		miPortaaviones.addMouseListener(escucha);
-		zonaPortaaviones.add(miPortaaviones);
+		
 		JPanel panelSeleccionado = new JPanel();
-		JLabel[] misBarcos = {miSubmarino1, miSubmarino2, miDestructor1, miDestructor2, miDestructor3,  miFragata1, miFragata2, miFragata3, miFragata4};
+		
 		for(int i = 0; i < misBarcos.length; i++) {	
-			if(i < 2) {
+			if(i == 0) {
+				imagen = new ImageIcon(Portaaviones.rutaFile);
+				misBarcos[i] = new JLabel(new RotatedIcon(imagen, RotatedIcon.Rotate.DOWN));
+				panelSeleccionado = zonaPortaaviones;
+
+			}
+			else if(i < 3) {
 				imagen = new ImageIcon(Submarino.rutaFile);
 				panelSeleccionado = zonaSubmarinos;
+				misBarcos[i] = new JLabel(imagen);
 			}
-			else if(i > 1 && i < 5) {
+			else if(i > 2 && i < 6) {
 				imagen = new ImageIcon(Destructor.rutaFile);
 				panelSeleccionado = zonaDestructores;
+				misBarcos[i] = new JLabel(imagen);
 			}
-			else if(i > 4 && i < 9) {
+			else if(i > 5 && i < 10) {
 				imagen = new ImageIcon(Fragata.rutaFile);
 				panelSeleccionado = zonaFragatas;
+				misBarcos[i] = new JLabel(imagen);
 			}
 			//imagen
-			misBarcos[i] = new JLabel(imagen);
 			misBarcos[i].addMouseListener(escucha);
 			panelSeleccionado.add(misBarcos[i]);
 		}
 		
 
 	}
+	
+	//Retorna index de los barcos del array. Retorna -1 si no tiene posicion
+	private int indexOfBarco(JLabel barco) {
+		for(int i = 0; i < misBarcos.length; i++) {
+			if(barco == misBarcos[i]) {
+				return i;
+			}
+		}	
+		return -1;		
+	}
+	
+
 	private class Escucha implements MouseListener, ActionListener {
 
 		@Override
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked(MouseEvent eventMouse) {
 			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {
+		public void mousePressed(MouseEvent eventMouse) {
 			// TODO Auto-generated method stub
-			
+			indexOfBarcoSeleccionado = indexOfBarco((JLabel)eventMouse.getSource());	
+			ventana.pasarBarcoSeleccionado(indexOfBarcoSeleccionado);
 		}
 
 		@Override

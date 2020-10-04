@@ -8,7 +8,7 @@ public abstract class Barco {
 
 	protected String nombre;
 	protected int tamanho;
-	protected boolean naufragado=false;
+	protected boolean naufragado = false;
 	protected Casilla[] casillasDondeEstoy;
 	protected BufferedImage bufferedImage = null;
 	
@@ -32,7 +32,15 @@ public abstract class Barco {
 		 }
 		return false;
 	}
-	
+	public void setCasillasDondeEstoy(Casilla casilla) {
+		for(int i = 0; i < tamanho; i++) {
+			if(casillasDondeEstoy[i] == null) {
+				casillasDondeEstoy[i] = casilla;
+				//System.out.println(casilla.getIdCasilla());
+				break;
+			}
+		}
+	}
 	private void hundirBarco() {
 		naufragado = true;
 	}

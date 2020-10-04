@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -26,7 +27,6 @@ public class TableroPosicion extends JPanel {
 	private Escucha escucha;
 	
 	
-	
 	//Constructor 
 	public TableroPosicion() {
 		//Layout
@@ -38,19 +38,7 @@ public class TableroPosicion extends JPanel {
 		//Escucha
 		escucha = new Escucha();
 		
-		//Barcos
-		/*
-		portaaviones = new Portaaviones();
-		submarino1 = new Submarino();
-		submarino1 = new Submarino();
-		destructor1 = new Destructor();
-		destructor2 = new Destructor();
-		destructor3 = new Destructor();
-		fragata1 = new Fragata();
-		fragata2 = new Fragata();
-		fragata3 = new Fragata();
-		fragata4 = new Fragata();
-		*/
+		
 		//JPanel configuration
 		pintarCasillas();
 		
@@ -76,22 +64,16 @@ public class TableroPosicion extends JPanel {
 	public void pintarBarco(Casilla casillaSeleccionada) {
 		if(barcoSeleccionado != null) {
 			int clicksDisponibles = 0;
-			bufferedImage = barcoSeleccionado.getBufferedImage();
-			switch(barcoSeleccionado.getTamanho()) {
-			case Portaaviones.numeroCasillas:
-				clicksDisponibles = Portaaviones.numeroCasillas - 1;
-				break;
-			case Submarino.numeroCasillas:
-				clicksDisponibles = Submarino.numeroCasillas - 1;
-				break;
-			case Destructor.numeroCasillas:
-				clicksDisponibles = Destructor.numeroCasillas - 1;
-				break;
-			case Fragata.numeroCasillas:
-				//Fragata se pinta 
-				break;
-			}
+			ImageIcon imagen = new ImageIcon(barcoSeleccionado.getBufferedImage());
+			casillaSeleccionada.cambiarImagen(imagen);
+			barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
+			System.out.println(barcoSeleccionado.casillasDondeEstoy[0].getIdCasilla());
+			barcoSeleccionado = null;
 		}
+	}
+	
+	public void setBarcoSeleccionado(Barco barco) {
+		barcoSeleccionado = barco;
 	}
 	
 	private class Escucha implements ActionListener {
@@ -101,7 +83,7 @@ public class TableroPosicion extends JPanel {
 			
 			casillaSeleccionada = (Casilla)eventAction.getSource();
 			pintarBarco(casillaSeleccionada);
-			System.out.println(casillaSeleccionada.getIdCasilla());
+			
 		}
 	}	
 	

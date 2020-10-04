@@ -23,7 +23,7 @@ public class BatallaNaval extends JFrame {
 	private boolean turno;
 	private TableroPosicion tableroPosicion;
 	private TableroPrincipal tableroPrincipal;
-	private JFrame referencia = this;
+	private BatallaNaval referencia = this;
 	private Muelle muelle;
 	//Barcos
 	private Portaaviones miPortaaviones, pcPortaaviones;
@@ -31,6 +31,8 @@ public class BatallaNaval extends JFrame {
 	private Destructor miDestructor1, miDestructor2, miDestructor3, pcDestructor1, pcDestructor2, pcDestructor3;
 	private Fragata miFragata1, miFragata2, miFragata3, miFragata4, pcFragata1, pcFragata2, pcFragata3, pcFragata4;
 	private JLabel titulo;
+	private Barco[] misBarcos;
+	private Barco barcoSeleccionado;
 	//Constructor
 	public BatallaNaval() {
 		this.estado = 0;
@@ -45,7 +47,6 @@ public class BatallaNaval extends JFrame {
 		this.setVisible(true);
 		this.setBackground(Color.WHITE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		muelle = new Muelle();
 		
 	}
 	
@@ -60,7 +61,7 @@ public class BatallaNaval extends JFrame {
 		//titulo = new JLabel("Batalla Naval");
 		//add(titulo, BorderLayout.NORTH);
 		//Muelle
-		muelle = new Muelle();
+		muelle = new Muelle(referencia);
 		add(muelle, BorderLayout.WEST);
 		//Tablero posición
 		tableroPosicion = new TableroPosicion();
@@ -79,12 +80,27 @@ public class BatallaNaval extends JFrame {
 		miFragata1 = new Fragata();
 		miFragata2 = new Fragata();
 		miFragata3 = new Fragata();
-		miFragata4 = new Fragata();
+		miFragata4 = new Fragata();		
 		
-		
+		//Array de barcos
+		misBarcos = new Barco[10];
+		misBarcos[0] = miPortaaviones;
+		misBarcos[1] = miSubmarino1;
+		misBarcos[2] = miSubmarino2;
+		misBarcos[3] = miDestructor1;
+		misBarcos[4] = miDestructor2;
+		misBarcos[5] = miDestructor3;
+		misBarcos[6] = miFragata1;
+		misBarcos[7] = miFragata2;
+		misBarcos[8] = miFragata3;
+		misBarcos[9] = miFragata4;
 		
 	}
 
-	
-	
+	public void pasarBarcoSeleccionado(int index) {
+		barcoSeleccionado = misBarcos[index];
+		System.out.println(barcoSeleccionado.getTamanho());
+		tableroPosicion.setBarcoSeleccionado(barcoSeleccionado);
+	}
+
 }
