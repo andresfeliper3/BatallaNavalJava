@@ -31,11 +31,14 @@ public class Muelle extends JPanel {
 	   miDestructor3,miFragata1,miFragata2,miFragata3,miFragata4;
 	private JLabel[] barcos = new JLabel[10];;
 	private JPanel[] zonas = new JPanel[4];
+	private int indexOfBarcoSeleccionado;
+	private BatallaNaval referenciaBatallaNaval;
 	
-	public Muelle() {
+	public Muelle(BatallaNaval refBatallaNaval) {
 
 			this.setBackground(Color.WHITE);
 			initGUI();
+			referenciaBatallaNaval=refBatallaNaval;
 	}
 	
 	private void initGUI() {
@@ -129,6 +132,7 @@ public class Muelle extends JPanel {
 		barcos[8] = miFragata3;
 		barcos[9] = miFragata4;
 		
+	
 		pintarBarcos();
 	}
 
@@ -139,20 +143,24 @@ public class Muelle extends JPanel {
 				if(i == 0) {
 					imagen = new ImageIcon(Portaaviones.rutaFile);
 					barcos[i] = new JLabel(new RotatedIcon(imagen,RotatedIcon.Rotate.DOWN));
+					
 				}
 				else if(i >0 && i <=2) {
 					imagen = new ImageIcon(Submarino.rutaFile);
+					barcos[i] = new JLabel(imagen);
 					j=1;
 				}
 				else if(i > 2 && i <=5) {
 					imagen = new ImageIcon(Destructor.rutaFile);
+					barcos[i] = new JLabel(imagen);
 					j=2;
 				}
 				else if(i >5){
 					imagen = new ImageIcon(Fragata.rutaFile);
+					barcos[i] = new JLabel(imagen);
 					j=3;
 				}
-				barcos[i] = new JLabel(imagen);
+
 				barcos[i].addMouseListener(escucha);
 				barcos[i].setCursor(new Cursor(Cursor.MOVE_CURSOR));
 				barcos[i].addMouseMotionListener(escucha);
@@ -160,12 +168,23 @@ public class Muelle extends JPanel {
 		}
 	}
 
+	private void indexOfBarco(JLabel barcoSeleccionado) {
+
+		for(int i =0;i<barcos.length;i++) {
+			if(barcoSeleccionado == barcos[i]) {
+				indexOfBarcoSeleccionado = i;
+			}
+		}
+	}
+
 	private class Escucha extends MouseAdapter implements ActionListener, MouseMotionListener{
 		
 		public void mousePressed(MouseEvent eventMouse) {
-			if(eventMouse.getSource() instanceof JLabel) {
-				
-			}
+			//System.out.println(indexOfBarcoSeleccionado);
+			JLabel barcoSeleccionado = (JLabel)eventMouse.getSource();
+			indexOfBarco(barcoSeleccionado);
+			referenciaBatallaNaval.pasarBarco(indexOfBarcoSeleccionado);
+			
 		}
 
 		public void mouseEntered(MouseEvent eventMouse) {

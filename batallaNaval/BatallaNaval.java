@@ -24,8 +24,10 @@ public class BatallaNaval extends JFrame {
 	private JFrame	ZonaDeJuego;
 	private TableroPosicion tableroPosicion;
 	private TableroPrincipal tableroPrincipal;
+	private BatallaNaval referenciaBatallaNaval = this;
 	private Muelle muelle;
 	private JLabel titulo;
+
 	
 	//Mi muelle
 	private Portaaviones miPortaaviones;
@@ -39,6 +41,9 @@ public class BatallaNaval extends JFrame {
 	private Destructor pcDestructor1,pcDestructor2,pcDestructor3;
 	private Fragata pcFragata1,pcFragata2,pcFragata3,pcFragata4;
 	
+	private Barco[] misBarcos;
+	private Barco[] pcBarcos = new Barco[10];
+	private Barco barcoSeleccionado;
 	
 	public BatallaNaval() {
 			
@@ -70,8 +75,52 @@ public class BatallaNaval extends JFrame {
 		add(tableroPrincipal,BorderLayout.EAST);
 		
 		//Muelle
-		muelle = new Muelle();
+		muelle = new Muelle(referenciaBatallaNaval);
 		add(muelle,BorderLayout.WEST);
+		
+		//Barcos
+		miPortaaviones = new Portaaviones();
+		miSubmarino1 = new Submarino();
+		miSubmarino2 = new Submarino();
+		miDestructor1 = new Destructor();
+		miDestructor2 = new Destructor();
+		miDestructor3 = new Destructor();
+		miFragata1 = new Fragata();
+		miFragata2 = new Fragata();
+		miFragata3 = new Fragata();
+		miFragata4 = new Fragata();
+		
+		misBarcos = new Barco[10];
+		misBarcos[0] = miPortaaviones;
+		misBarcos[1] = miSubmarino1;
+		misBarcos[2] = miSubmarino2;
+		misBarcos[3] = miDestructor1;
+		misBarcos[4] = miDestructor2;
+		misBarcos[5] = miDestructor3;
+		misBarcos[6] = miFragata1;
+		misBarcos[7] = miFragata2;
+		misBarcos[8] = miFragata3;
+		misBarcos[9] = miFragata4;
+		
+		pcBarcos = new Barco[10];
+		pcBarcos[0] = pcPortaaviones;
+		pcBarcos[1] = pcSubmarino1;
+		pcBarcos[2] = pcSubmarino2;
+		pcBarcos[3] = pcDestructor1;
+		pcBarcos[4] = pcDestructor2;
+		pcBarcos[5] = pcDestructor3;
+		pcBarcos[6] = pcFragata1;
+		pcBarcos[7] = pcFragata2;
+		pcBarcos[8] = pcFragata3;
+		pcBarcos[9] = pcFragata4;
+		
+		muelle = new Muelle(referenciaBatallaNaval);
+	}
+	
+	public void pasarBarco(int index) {
+		
+		barcoSeleccionado = misBarcos[index];
+		tableroPosicion.setBarcoSeleccionado(barcoSeleccionado);
 
 	}
 
@@ -80,9 +129,7 @@ public class BatallaNaval extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
-			Casilla casillaSeleccionada = (Casilla)eventAction.getSource();
-			tableroPosicion.pintarBarco(casillaSeleccionada);
-			System.out.println(casillaSeleccionada.getIdCasilla());
+
 			
 		}
 		

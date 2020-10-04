@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -15,41 +16,21 @@ import javax.swing.border.Border;
 
 public class TableroPosicion extends JPanel {
 	
-	private Barco[] barcos;
 	private Casilla[][] casillas;
 	private BufferedImage bufferImage = null;
 	private Barco barcoSeleccionado;
 	private Casilla casillaSeleccionada;
 	private int casillaSize = 50;
 	private int gridSize = 10;
-	private int cantidadBarcos;
 	private Escucha escucha;
-	
+	int clicksDisponibles;
 
 	
 	public TableroPosicion() {
 		//Layout
 		escucha = new Escucha();
 		
-		/*Crear barcos
-		//1 Portaavion
-		portaavion = new Portaaviones();
-		//2 Submarinos
-		submarino1 = new Submarino();
-		submarino2 = new Submarino();
-		//3 Destructores
-		destructor1 = new Destructor();
-		destructor2 = new Destructor();
-		destructor3 = new Destructor();
-		//4 fragatas
-		fragata1 = new Fragata();
-		fragata2 = new Fragata();
-		fragata3 = new Fragata();
-		fragata4 = new Fragata();
-		*/
-		
 		this.setLayout(new GridLayout(gridSize,gridSize));
-		System.out.println("HOLI");
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 5);
 		this.setBorder(border);
 
@@ -77,51 +58,41 @@ public class TableroPosicion extends JPanel {
 		}
 	}
 	
-	public void pintarBarco(Casilla casillaSeleccionado) {
+	private void pintarBarco() {
 		
-		int clicksDisponibles = 0;
+		int x = clicksDisponibles*casillaSize-casillaSize;
 		
-		if(barcoSeleccionado != null) {
+		if(clicksDisponibles >0 && barcoSeleccionado != null && casillaSeleccionada.isHasBarco()==false) {
 			
-			bufferImage = barcoSeleccionado.getBufferImage();
-	
-			switch(barcoSeleccionado.getTamanho()){
-				
-			case Portaaviones.numeroCasillas: //Portaaviones
-				
-				clicksDisponibles = Portaaviones.numeroCasillas-1;
-					
-					break;
-			case Submarino.numeroCasillas: //Submarinos
-					
-				clicksDisponibles = Submarino.numeroCasillas-1;
-					break;
-			case Destructor.numeroCasillas: //Destructores
-					
-				clicksDisponibles = Destructor.numeroCasillas-1;
-					break;
-			case Fragata.numeroCasillas: //Fragatas
-					
-				clicksDisponibles = Fragata.numeroCasillas-1; //fragata se pinta de una vez
-					break;
-			}
+			bufferImage = barcoSeleccionado.getBufferedImage();
+			BufferedImage subImage = bufferImage.getSubimage(x, 0, casillaSize, casillaSize);
+			ImageIcon casillaImage = new ImageIcon(subImage);
+			barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 			
-			
+			casillaSeleccionada.cambiarImagen(casillaImage);
+			casillaSeleccionada.setHasBarco();
+			clicksDisponibles--;
+
+		}else {
+			barcoSeleccionado = null;
 		}
+		
 	}
+	
+	public void setBarcoSeleccionado(Barco barco) {
+		barcoSeleccionado = barco;
+		clicksDisponibles = barcoSeleccionado.getTamanho();
+		
+	}
+	
 	public class Escucha implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
 			casillaSeleccionada = (Casilla)eventAction.getSource();
-			pintarBarco(casillaSeleccionada);
-			System.out.println(casillaSeleccionada.getIdCasilla());
+			pintarBarco();
 			
 		}
-		
 	}
-	
-	
-	
 }

@@ -7,7 +7,7 @@ public abstract class Barco {
 	protected int tamanho;
 	protected boolean naufragado=false;
 	protected Casilla[] casillasDondeEstoy;
-	protected static BufferedImage bufferImage = null; 
+	protected BufferedImage bufferedImage = null; 
 	public Barco(int tamanhoBarco) {
 		
 		
@@ -53,9 +53,18 @@ public abstract class Barco {
 		return tamanho;
 	}
 
-	public static BufferedImage getBufferImage() {
-		return bufferImage;
+	public BufferedImage getBufferedImage() {
+		return bufferedImage;
 	}
 	
+	public void setCasillasDondeEstoy(Casilla casilla) {
+		
+		for(int i =0;i<casillasDondeEstoy.length;i++) {
+			if(casillasDondeEstoy[i] != null) {
+				casillasDondeEstoy[i] = casilla;
+				break;
+			}
+		}
+	}
 	
 }

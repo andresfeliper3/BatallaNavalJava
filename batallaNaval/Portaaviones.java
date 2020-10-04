@@ -17,7 +17,7 @@ public class Portaaviones extends Barco {
 		super(numeroCasillas);
 		
 		try {
-				bufferImage = ImageIO.read(new File(rutaFile));
+				bufferedImage = ImageIO.read(new File(rutaFile));
 				
 		}catch(IOException e) {
 			// TODO Auto-generated catch block
