@@ -52,7 +52,7 @@ public class BatallaNaval extends JFrame {
 	
 	private void initGUI() {
 		//Container & layout
-		
+	
 		//Escucha
 	
 		
@@ -73,7 +73,7 @@ public class BatallaNaval extends JFrame {
 		//Mis barcos
 		miPortaaviones = new Portaaviones();
 		miSubmarino1 = new Submarino();
-		miSubmarino1 = new Submarino();
+		miSubmarino2 = new Submarino();
 		miDestructor1 = new Destructor();
 		miDestructor2 = new Destructor();
 		miDestructor3 = new Destructor();
@@ -99,7 +99,6 @@ public class BatallaNaval extends JFrame {
 
 	public void pasarBarcoSeleccionado(int index) {
 		barcoSeleccionado = misBarcos[index];
-		System.out.println(barcoSeleccionado.getTamanho());
 		tableroPosicion.setBarcoSeleccionado(barcoSeleccionado);
 	}
 

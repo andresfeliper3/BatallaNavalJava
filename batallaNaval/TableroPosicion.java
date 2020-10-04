@@ -23,9 +23,10 @@ public class TableroPosicion extends JPanel {
 	private Barco[] barcos = new Barco[cantidadBarcos];
 	private Casilla[][] casillas = new Casilla[gridSize][gridSize];
 	private BufferedImage bufferedImage = null;
+	private ImageIcon imagen;
 	private Border border;
 	private Escucha escucha;
-	
+	private int clicksDisponibles;
 	
 	//Constructor 
 	public TableroPosicion() {
@@ -61,19 +62,31 @@ public class TableroPosicion extends JPanel {
 	
 	//NO SE HA TERMINADO
 	//Poner barco
+	int counter = 0;
 	public void pintarBarco(Casilla casillaSeleccionada) {
-		if(barcoSeleccionado != null) {
-			int clicksDisponibles = 0;
-			ImageIcon imagen = new ImageIcon(barcoSeleccionado.getBufferedImage());
-			casillaSeleccionada.cambiarImagen(imagen);
-			barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-			System.out.println(barcoSeleccionado.casillasDondeEstoy[0].getIdCasilla());
+		if(barcoSeleccionado != null && clicksDisponibles > 0 && !casillaSeleccionada.getHasBarco()) {
+			bufferedImage = barcoSeleccionado.getBufferedImage();
+			BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+			imagen = new ImageIcon(subImagen);
+			
+				casillaSeleccionada.cambiarImagen(imagen);
+				casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
+				barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
+				counter += 50;	
+				clicksDisponibles--;
+		}		
+		//Si ya puse todos las partes del barco, se borra el barco seleccionado
+		if(clicksDisponibles == 0) {
 			barcoSeleccionado = null;
+			counter = 0;
 		}
+	
+		
 	}
 	
 	public void setBarcoSeleccionado(Barco barco) {
 		barcoSeleccionado = barco;
+		clicksDisponibles = barcoSeleccionado.getTamanho();
 	}
 	
 	private class Escucha implements ActionListener {

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -33,9 +34,11 @@ public class Muelle extends JPanel {
 	private int indexOfBarcoSeleccionado;
 	private JLabel[] misBarcos = {miPortaaviones, miSubmarino1, miSubmarino2, miDestructor1, miDestructor2, miDestructor3,  miFragata1, miFragata2, miFragata3, miFragata4};
 	private BatallaNaval ventana;
+	private JLabel barcoSeleccionado;
 	//Constructor
 
 	public Muelle(BatallaNaval ventana) {
+		
 		//Layout
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
 		setLayout(new GridBagLayout());
@@ -151,7 +154,6 @@ public class Muelle extends JPanel {
 	
 
 	private class Escucha implements MouseListener, ActionListener {
-
 		@Override
 		public void mouseClicked(MouseEvent eventMouse) {
 			// TODO Auto-generated method stub
@@ -161,8 +163,12 @@ public class Muelle extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent eventMouse) {
 			// TODO Auto-generated method stub
-			indexOfBarcoSeleccionado = indexOfBarco((JLabel)eventMouse.getSource());	
+			barcoSeleccionado = (JLabel)eventMouse.getSource();
+			indexOfBarcoSeleccionado = indexOfBarco(barcoSeleccionado);	
+			System.out.println(indexOfBarcoSeleccionado);
 			ventana.pasarBarcoSeleccionado(indexOfBarcoSeleccionado);
+			barcoSeleccionado.setVisible(false);
+
 		}
 
 		@Override
@@ -188,6 +194,8 @@ public class Muelle extends JPanel {
 			// TODO Auto-generated method stub
 			
 		}
+
+		
 		
 	}
 }

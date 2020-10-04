@@ -40,7 +40,7 @@ public class Casilla extends JButton {
 		this.imagen = imagen;
 		this.setIcon(imagen);
 	}
-	public boolean isHasBarco() {
+	public boolean getHasBarco() {
 		return hasBarco;
 	}
 
