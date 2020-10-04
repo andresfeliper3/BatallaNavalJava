@@ -68,12 +68,11 @@ public class TableroPosicion extends JPanel {
 			bufferedImage = barcoSeleccionado.getBufferedImage();
 			BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
 			imagen = new ImageIcon(subImagen);
-			
-				casillaSeleccionada.cambiarImagen(imagen);
-				casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-				barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-				counter += 50;	
-				clicksDisponibles--;
+			casillaSeleccionada.cambiarImagen(imagen);
+			casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
+			barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
+			counter += 50;	
+			clicksDisponibles--;
 		}		
 		//Si ya puse todos las partes del barco, se borra el barco seleccionado
 		if(clicksDisponibles == 0) {
