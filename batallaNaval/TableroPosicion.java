@@ -75,6 +75,7 @@ public class TableroPosicion extends JPanel {
 			imagen = new ImageIcon(subImagen);
 
 			//Si ya está la primera parte del barco puesta, se decide la orientación total con el segundo click
+		
 			if(clicksDisponibles == barcoSeleccionado.getTamanho() - 1) {
 				//por la derecha
 				if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() + 1) {
@@ -83,6 +84,16 @@ public class TableroPosicion extends JPanel {
 					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 					counter += 50;	
 					clicksDisponibles--;
+				}
+				//por la izquierda
+				else if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() - 1) {
+					casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.UPSIDE_DOWN));
+					casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
+					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
+					counter += 50;	
+					clicksDisponibles--;
+					//Rota anterior
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.UPSIDE_DOWN));
 				}
 				//por abajo
 				else if(casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() && casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() + 1) {
@@ -124,6 +135,13 @@ public class TableroPosicion extends JPanel {
 						casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
 						barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 						counter += 50;	
+						clicksDisponibles--;
+					}
+					else if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getCol() - 1) {
+						casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.UPSIDE_DOWN));
+						casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
+						barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
+						counter += 50;		
 						clicksDisponibles--;
 					}
 				}

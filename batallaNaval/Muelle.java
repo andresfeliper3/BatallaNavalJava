@@ -160,7 +160,10 @@ public class Muelle extends JPanel {
 		return -1;		
 	}
 	
-	
+	//editar mensaje de ayuda
+	public void setMensaje(String texto) {
+		mensaje.setText(texto);
+	}
 	private class Escucha implements MouseListener, ActionListener {
 		@Override
 		public void mouseClicked(MouseEvent eventMouse) {
@@ -177,6 +180,7 @@ public class Muelle extends JPanel {
 				indexOfBarcoSeleccionado = indexOfBarco(barcoSeleccionado);	
 				ventana.pasarBarcoSeleccionado(indexOfBarcoSeleccionado);
 				barcoSeleccionado.setVisible(false);
+				setMensaje("Haga click en una casilla para poner el barco");
 			}
 		}
 

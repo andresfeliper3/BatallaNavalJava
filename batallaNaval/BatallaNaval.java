@@ -107,6 +107,6 @@ public class BatallaNaval extends JFrame {
 		boolean hayBarco = tableroPosicion.getBarcoSeleccionado() == null ? false : true;
 		return hayBarco;	
 	}
-
+	
 
 }
