@@ -37,13 +37,13 @@ public class Casilla extends JButton {
 		casillaSize = size;
 		maxCasillas = cantidadCasillas;
 	}
-	public void cambiarImagen(ImageIcon imagen) {
+
+	public void setImagen(Icon imagen) {
 		this.imagen = imagen;
 		this.setIcon(imagen);
 	}
-	public void cambiarImagen(Icon imagen) {
-		this.imagen = imagen;
-		this.setIcon(imagen);
+	public Icon getImagen() {
+		return imagen;
 	}
 	public boolean getHasBarco() {
 		return hasBarco;

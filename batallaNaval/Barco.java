@@ -49,6 +49,7 @@ public abstract class Barco {
 		return tamanho;
 	}
 
+	//Revisa  el estado del barco
 	private void revisarEstadoBarco() {
 		for(int i = 0; i < casillasDondeEstoy.length; i++) {	
 			if(casillasDondeEstoy[i] != null) {
@@ -64,6 +65,10 @@ public abstract class Barco {
 	
 	public BufferedImage getBufferedImage() {
 		return bufferedImage;
+	}
+
+	public Casilla[] getCasillasDondeEstoy() {
+		return casillasDondeEstoy;
 	}
 	
 }

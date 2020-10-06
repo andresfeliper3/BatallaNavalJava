@@ -102,6 +102,11 @@ public class BatallaNaval extends JFrame {
 		tableroPosicion.setBarcoSeleccionado(barcoSeleccionado);
 	}
 	
+	//Retorna true si en el muelle se ha seleccionado un barco
+	public boolean hayBarcoSeleccionado() {
+		boolean hayBarco = tableroPosicion.getBarcoSeleccionado() == null ? false : true;
+		return hayBarco;	
+	}
 
 
 }

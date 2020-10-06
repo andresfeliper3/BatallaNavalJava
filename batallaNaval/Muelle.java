@@ -22,7 +22,7 @@ import javax.swing.plaf.ColorUIResource;
 
 public class Muelle extends JPanel {
 	private JButton ready;
-	private JLabel titulo;
+	private JLabel titulo, mensaje;
 	private JLabel textoPortaaviones, textoSubmarinos, textoFragatas, textoDestructores;
 	private Escucha escucha;
 	private JFrame batallaNaval;
@@ -60,6 +60,14 @@ public class Muelle extends JPanel {
 		constraints.gridheight = 1;
 		constraints.anchor = GridBagConstraints.CENTER;
 		add(titulo, constraints);
+		
+		//Mensaje de ayuda
+		mensaje = new JLabel("Haga click sobre un barco");
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.gridwidth = 3;
+		constraints.anchor = GridBagConstraints.CENTER;
+		add(mensaje, constraints);
 		//Botón 
 		ready = new JButton("Ready");
 		ready.addActionListener(escucha);
@@ -152,7 +160,7 @@ public class Muelle extends JPanel {
 		return -1;		
 	}
 	
-
+	
 	private class Escucha implements MouseListener, ActionListener {
 		@Override
 		public void mouseClicked(MouseEvent eventMouse) {
@@ -163,12 +171,13 @@ public class Muelle extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent eventMouse) {
 			// TODO Auto-generated method stub
-			barcoSeleccionado = (JLabel)eventMouse.getSource();
-			indexOfBarcoSeleccionado = indexOfBarco(barcoSeleccionado);	
-			System.out.println(indexOfBarcoSeleccionado);
-			ventana.pasarBarcoSeleccionado(indexOfBarcoSeleccionado);
-			barcoSeleccionado.setVisible(false);
-
+			//Revisa que el usuario no tenga un barco seleccionado. Esto asegura que termine de poner las partes de un barco.
+			if(!ventana.hayBarcoSeleccionado()) {
+				barcoSeleccionado = (JLabel)eventMouse.getSource();
+				indexOfBarcoSeleccionado = indexOfBarco(barcoSeleccionado);	
+				ventana.pasarBarcoSeleccionado(indexOfBarcoSeleccionado);
+				barcoSeleccionado.setVisible(false);
+			}
 		}
 
 		@Override
