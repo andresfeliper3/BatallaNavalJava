@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -62,17 +63,51 @@ public class TableroPosicion extends JPanel {
 	
 	//NO SE HA TERMINADO
 	//Poner barco
+	Casilla casillaGuardada;
 	int counter = 0;
 	public void pintarBarco(Casilla casillaSeleccionada) {
 		if(barcoSeleccionado != null && clicksDisponibles > 0 && !casillaSeleccionada.getHasBarco()) {
-			bufferedImage = barcoSeleccionado.getBufferedImage();
-			BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
-			imagen = new ImageIcon(subImagen);
-			casillaSeleccionada.cambiarImagen(imagen);
-			casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-			barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-			counter += 50;	
-			clicksDisponibles--;
+			//Si ya está la primera parte del barco puesta, decide la orientación total
+			if(clicksDisponibles == barcoSeleccionado.getTamanho() - 1) {
+				//por la derecha
+				if(casillaSeleccionada.getRow() == casillaGuardada.getRow() && casillaSeleccionada.getCol() == casillaGuardada.getCol() + 1) {
+					bufferedImage = barcoSeleccionado.getBufferedImage();
+					BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+					imagen = new ImageIcon(subImagen);
+					casillaSeleccionada.cambiarImagen(imagen);
+					casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
+					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
+					counter += 50;	
+					clicksDisponibles--;
+					System.out.println("por derecha");
+				}
+				//por abajo
+				else if(casillaSeleccionada.getCol() == casillaGuardada.getCol() && casillaSeleccionada.getRow() == casillaGuardada.getRow() + 1) {
+					bufferedImage = barcoSeleccionado.getBufferedImage();
+					BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+					imagen = new ImageIcon(subImagen);	
+					casillaSeleccionada.cambiarImagen((Icon)new RotatedIcon(imagen, RotatedIcon.Rotate.DOWN));
+					casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
+					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
+					counter += 50;	
+					clicksDisponibles--;
+					//Rota anterior
+					casillaGuardada.cambiarImagen((Icon)new RotatedIcon(casillaGuardada.getIcon(), RotatedIcon.Rotate.DOWN));
+				}
+			} 
+			//Primer click para un barco
+			else {
+				bufferedImage = barcoSeleccionado.getBufferedImage();
+				BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+				imagen = new ImageIcon(subImagen);
+				casillaSeleccionada.cambiarImagen(imagen);
+				casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
+				barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
+				counter += 50;	
+				clicksDisponibles--;
+				System.out.println("primer click");
+			}
+			
 		}		
 		//Si ya puse todos las partes del barco, se borra el barco seleccionado
 		if(clicksDisponibles == 0) {
@@ -80,7 +115,7 @@ public class TableroPosicion extends JPanel {
 			counter = 0;
 		}
 	
-		
+		casillaGuardada = casillaSeleccionada;
 	}
 	
 	public void setBarcoSeleccionado(Barco barco) {

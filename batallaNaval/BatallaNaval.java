@@ -101,5 +101,7 @@ public class BatallaNaval extends JFrame {
 		barcoSeleccionado = misBarcos[index];
 		tableroPosicion.setBarcoSeleccionado(barcoSeleccionado);
 	}
+	
+
 
 }

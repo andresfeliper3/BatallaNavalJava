@@ -3,6 +3,7 @@ package batallaNaval;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -14,7 +15,7 @@ public class Casilla extends JButton {
 	private int idCasilla, row, col;
 	private boolean hasBarco;
 	private boolean zonaDestruida;
-	private ImageIcon imagen;
+	private Icon imagen;
 	//private Portaaviones avioncito;
 	
 	//Constructor
@@ -40,6 +41,10 @@ public class Casilla extends JButton {
 		this.imagen = imagen;
 		this.setIcon(imagen);
 	}
+	public void cambiarImagen(Icon imagen) {
+		this.imagen = imagen;
+		this.setIcon(imagen);
+	}
 	public boolean getHasBarco() {
 		return hasBarco;
 	}
@@ -58,6 +63,12 @@ public class Casilla extends JButton {
 
 	public int getIdCasilla() {
 		return idCasilla;
+	}
+	public int getRow() {
+		return row;
+	}
+	public int getCol() {
+		return col;
 	}
 	
 }
