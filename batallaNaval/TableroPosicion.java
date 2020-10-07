@@ -66,7 +66,7 @@ public class TableroPosicion extends JPanel {
 
 	int counter = 0;
 	boolean orientacion = true; //true si es horizontal, false si es vertical
-	public void pintarBarco(Casilla casillaSeleccionada) {
+	private void pintarBarco(Casilla casillaSeleccionada) {
 		//Revisa que haya un barco seleccionado, que no se hayan hecho todos los clicks disponibles y que la casilla no tenga ya un barco
 		if(barcoSeleccionado != null && clicksDisponibles > 0 && !casillaSeleccionada.getHasBarco()) {
 			//Cargar imagen
@@ -173,6 +173,68 @@ public class TableroPosicion extends JPanel {
 		
 	}
 	
+	//Retorna true si hay al menos una dirección posible para poner el barco (arriba, abajo, izq, der). Retorna false si el barco en ninguna dirección cabe.
+	int acum = 0;
+	private boolean cabeElBarco() {
+		
+		boolean porDerecha = true, porIzquierda = true, porArriba = true, porAbajo = true;
+		//Por derecha
+		int row = casillaSeleccionada.getRow();
+		int col = casillaSeleccionada.getCol();
+		
+		//La primera casilla para poner el barco. Sólo necesita revisar el primer click
+		if(clicksDisponibles == barcoSeleccionado.getTamanho()) {
+			//Por derecha
+			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
+				//Límite por derecha
+				if(col + cambioEnCasilla >= gridSize) {
+					break;
+				}
+				//Revisar 
+				if(casillas[row][col + cambioEnCasilla].getHasBarco()) {
+					porDerecha = false;
+				}
+			}
+			//Por abajo
+			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
+				//Límite por abajo
+				if(row + cambioEnCasilla >= gridSize) {
+					break;
+				}
+					
+				if(casillas[row + cambioEnCasilla][col].getHasBarco()) {
+					porArriba = false;
+				}
+			}
+			//Por izquierda
+			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
+				//Límite por izquierda
+				if(col - cambioEnCasilla < 0) {
+					break;
+				}
+				if(casillas[row][col - cambioEnCasilla].getHasBarco()) {
+					porIzquierda = false;
+				}
+			}
+			//Por arriba
+			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
+				//Límite por arriba
+				if(row - cambioEnCasilla < 0) {
+					break;
+				}
+				if(casillas[row - cambioEnCasilla][col].getHasBarco()) {
+					porAbajo = false;
+				}
+			}
+			
+			if(porDerecha || porArriba || porIzquierda || porAbajo) {
+				return true;
+			}
+			return false;
+		}
+		return true;	
+	}
+	
 	//Indica el barco seleccionado y e inicia el conteo de los clicks disponibles restantes
 	public void setBarcoSeleccionado(Barco barco) {
 		barcoSeleccionado = barco;
@@ -190,8 +252,10 @@ public class TableroPosicion extends JPanel {
 			// TODO Auto-generated method stub
 			
 			casillaSeleccionada = (Casilla)eventAction.getSource();
-			pintarBarco(casillaSeleccionada);
-			
+			//Si el barco se puede poner en al menos una orientación de las 4 (arriba, abajo, izq, der).
+			if(cabeElBarco()) {
+				pintarBarco(casillaSeleccionada);
+			}		
 		}
 	}	
 	
