@@ -87,13 +87,13 @@ public class TableroPosicion extends JPanel {
 				}
 				//por la izquierda
 				else if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() - 1) {
-					casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.UPSIDE_DOWN));
+					casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.REFLECT));
 					casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
 					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 					counter += 50;	
 					clicksDisponibles--;
 					//Rota anterior
-					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.UPSIDE_DOWN));
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.REFLECT));
 				}
 				//por abajo
 				else if(casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() && casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() + 1) {
@@ -138,7 +138,7 @@ public class TableroPosicion extends JPanel {
 						clicksDisponibles--;
 					}
 					else if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getCol() - 1) {
-						casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.UPSIDE_DOWN));
+						casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.REFLECT));
 						casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
 						barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 						counter += 50;		
@@ -174,42 +174,51 @@ public class TableroPosicion extends JPanel {
 	}
 	
 	//Retorna true si hay al menos una dirección posible para poner el barco (arriba, abajo, izq, der). Retorna false si el barco en ninguna dirección cabe.
-	int acum = 0;
+	boolean porDerecha, porIzquierda, porArriba, porAbajo;
 	private boolean cabeElBarco() {
+		//Siempre que se cambie de barco (se acaben los clicksDisponibles), los booleanos vuelven a ser true
 		
-		boolean porDerecha = true, porIzquierda = true, porArriba = true, porAbajo = true;
 		//Por derecha
 		int row = casillaSeleccionada.getRow();
 		int col = casillaSeleccionada.getCol();
 		
 		//La primera casilla para poner el barco. Sólo necesita revisar el primer click
 		if(clicksDisponibles == barcoSeleccionado.getTamanho()) {
+			porDerecha = true;
+			porIzquierda = true;
+			porArriba = true;
+			porAbajo = true;
 			//Por derecha
 			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
 				//Límite por derecha
 				if(col + cambioEnCasilla >= gridSize) {
+					porDerecha = false;
 					break;
 				}
 				//Revisar 
 				if(casillas[row][col + cambioEnCasilla].getHasBarco()) {
+					System.out.println("Por derecha se hace false");
 					porDerecha = false;
+					break;
 				}
 			}
 			//Por abajo
 			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
 				//Límite por abajo
 				if(row + cambioEnCasilla >= gridSize) {
+					porAbajo = false;
 					break;
 				}
 					
 				if(casillas[row + cambioEnCasilla][col].getHasBarco()) {
-					porArriba = false;
+					porAbajo = false;
 				}
 			}
 			//Por izquierda
 			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
 				//Límite por izquierda
 				if(col - cambioEnCasilla < 0) {
+					porIzquierda = false;
 					break;
 				}
 				if(casillas[row][col - cambioEnCasilla].getHasBarco()) {
@@ -220,10 +229,11 @@ public class TableroPosicion extends JPanel {
 			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
 				//Límite por arriba
 				if(row - cambioEnCasilla < 0) {
+					porArriba = false;
 					break;
 				}
 				if(casillas[row - cambioEnCasilla][col].getHasBarco()) {
-					porAbajo = false;
+					porArriba = false;
 				}
 			}
 			
@@ -232,6 +242,41 @@ public class TableroPosicion extends JPanel {
 			}
 			return false;
 		}
+		//El segundo click en una casilla donde se elige la dirección del barco
+		else if(clicksDisponibles == barcoSeleccionado.getTamanho() - 1) {
+			//Si se escogió la orientación derecha
+			if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() + 1) {
+				if(porDerecha) {
+					return true;
+				}
+				return false;
+			}
+			//Si se escogió la orientación superior
+			if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() - 1 && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol()) {
+				if(porArriba) {
+					return true;
+				}
+				return false;
+			}
+			//Si se escogió la orientación izquierdo
+			if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() - 1) {
+				if(porIzquierda) {
+					return true;
+				}
+				return false;
+			}
+			//Si se escogió la orientación inferior
+			if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() + 1 && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol()) {
+				if(porAbajo) {
+					return true;
+				}
+				return false;
+			}
+		}
+		
+		
+		
+		
 		return true;	
 	}
 	
