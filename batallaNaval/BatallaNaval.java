@@ -64,7 +64,7 @@ public class BatallaNaval extends JFrame {
 		muelle = new Muelle(referencia);
 		add(muelle, BorderLayout.WEST);
 		//Tablero posición
-		tableroPosicion = new TableroPosicion();
+		tableroPosicion = new TableroPosicion(referencia);
 		add(tableroPosicion, BorderLayout.CENTER);
 		//Tablero principal
 		tableroPrincipal = new TableroPrincipal();
@@ -107,6 +107,8 @@ public class BatallaNaval extends JFrame {
 		boolean hayBarco = tableroPosicion.getBarcoSeleccionado() == null ? false : true;
 		return hayBarco;	
 	}
-	
+	public void setMensajeMuelle(String mensaje) {
+		muelle.setMensaje(mensaje);
+	}
 
 }

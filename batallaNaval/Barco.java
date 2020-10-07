@@ -36,7 +36,6 @@ public abstract class Barco {
 		for(int i = 0; i < tamanho; i++) {
 			if(casillasDondeEstoy[i] == null) {
 				casillasDondeEstoy[i] = casilla;
-				//System.out.println(casilla.getIdCasilla());
 				break;
 			}
 		}

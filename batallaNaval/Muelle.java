@@ -15,13 +15,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.ColorUIResource;
 
 public class Muelle extends JPanel {
-	private JButton ready;
+	private JButton botonReady;
 	private JLabel titulo, mensaje;
 	private JLabel textoPortaaviones, textoSubmarinos, textoFragatas, textoDestructores;
 	private Escucha escucha;
@@ -35,6 +36,7 @@ public class Muelle extends JPanel {
 	private JLabel[] misBarcos = {miPortaaviones, miSubmarino1, miSubmarino2, miDestructor1, miDestructor2, miDestructor3,  miFragata1, miFragata2, miFragata3, miFragata4};
 	private BatallaNaval ventana;
 	private JLabel barcoSeleccionado;
+	private int barcosRestantes; //barcos que faltan por poner
 	//Constructor
 
 	public Muelle(BatallaNaval ventana) {
@@ -69,13 +71,13 @@ public class Muelle extends JPanel {
 		constraints.anchor = GridBagConstraints.CENTER;
 		add(mensaje, constraints);
 		//Botón 
-		ready = new JButton("Ready");
-		ready.addActionListener(escucha);
+		botonReady = new JButton("Ready");
+		botonReady.addActionListener(escucha);
 		constraints.gridx = 3;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		constraints.anchor = GridBagConstraints.LAST_LINE_END;
-		add(ready, constraints);
+		add(botonReady, constraints);
 		//Barcos
 		zonaPortaaviones = new JPanel();
 		zonaPortaaviones.setPreferredSize(new Dimension(100,500));
@@ -110,16 +112,9 @@ public class Muelle extends JPanel {
 	}
 	
 	private void pintarBarcos() {
-		/*//Icono rotado 90 grados (down = rota hacia la derecha, up = rota hacia la izquierda)
-        label2 = new JLabel(new RotatedIcon(imageIcon));
-        //Icono rotado 45 grados
-        label3 = new JLabel(new RotatedIcon(imageIcon, 45));
-        , RotatedIcon.Rotate.DOWN
-		 * */
-		
 		
 		JPanel panelSeleccionado = new JPanel();
-		
+	
 		for(int i = 0; i < misBarcos.length; i++) {	
 			if(i == 0) {
 				imagen = new ImageIcon(Portaaviones.rutaFile);
@@ -146,7 +141,7 @@ public class Muelle extends JPanel {
 			misBarcos[i].addMouseListener(escucha);
 			panelSeleccionado.add(misBarcos[i]);
 		}
-		
+		barcosRestantes = misBarcos.length;
 
 	}
 	
@@ -180,7 +175,8 @@ public class Muelle extends JPanel {
 				indexOfBarcoSeleccionado = indexOfBarco(barcoSeleccionado);	
 				ventana.pasarBarcoSeleccionado(indexOfBarcoSeleccionado);
 				barcoSeleccionado.setVisible(false);
-				setMensaje("Haga click en una casilla para poner el barco");
+				barcosRestantes--;
+				setMensaje("Haga click en una casilla");		
 			}
 		}
 
@@ -190,7 +186,7 @@ public class Muelle extends JPanel {
 			
 		}
 
-		@Override
+		@Override	
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
@@ -203,9 +199,12 @@ public class Muelle extends JPanel {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
-			
+			//Botón para empezar el juego
+			if(eventAction.getSource() == botonReady && barcosRestantes == 0) {
+				JOptionPane.showMessageDialog(null, "Empezar juego");
+			}
 		}
 
 		

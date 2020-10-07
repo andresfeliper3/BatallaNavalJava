@@ -28,9 +28,10 @@ public class TableroPosicion extends JPanel {
 	private Border border;
 	private Escucha escucha;
 	private int clicksDisponibles;
+	private BatallaNaval ventana;
 	
 	//Constructor 
-	public TableroPosicion() {
+	public TableroPosicion(BatallaNaval ventana) {
 		//Layout
 		this.setLayout(new GridLayout(gridSize, gridSize));
 		border = BorderFactory.createLineBorder(Color.BLACK, 5);
@@ -39,12 +40,10 @@ public class TableroPosicion extends JPanel {
 		
 		//Escucha
 		escucha = new Escucha();
-		
-		
+			
 		//JPanel configuration
+		this.ventana = ventana;
 		pintarCasillas();
-		
-		
 		
 	}
 	//Pinta las casillas inicialmente con agua
@@ -65,112 +64,92 @@ public class TableroPosicion extends JPanel {
 	//Poner barco
 
 	int counter = 0;
-	boolean orientacion = true; //true si es horizontal, false si es vertical
+	int orientacion = 1; //0: derecha, 1: izquierda, 2: abajo, 3: arriba
 	private void pintarBarco(Casilla casillaSeleccionada) {
 		//Revisa que haya un barco seleccionado, que no se hayan hecho todos los clicks disponibles y que la casilla no tenga ya un barco
 		if(barcoSeleccionado != null && clicksDisponibles > 0 && !casillaSeleccionada.getHasBarco()) {
 			//Cargar imagen
 			bufferedImage = barcoSeleccionado.getBufferedImage();
-			BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
-			imagen = new ImageIcon(subImagen);
-
-			//Si ya está la primera parte del barco puesta, se decide la orientación total con el segundo click
-		
+			//Si ya está la primera parte del barco puesta, se decide la orientación total con el segundo click		
 			if(clicksDisponibles == barcoSeleccionado.getTamanho() - 1) {
+				Casilla casillaActual;
 				//por la derecha
 				if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() + 1) {
-					casillaSeleccionada.setImagen(imagen);
-					casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-					counter += 50;	
-					clicksDisponibles--;
+					for(int i = 0; i < barcoSeleccionado.getTamanho() - 1; i++) {
+						BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+						imagen = new ImageIcon(subImagen);
+						casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() + i];
+						casillaActual.setImagen(imagen);
+						casillaActual.setHasBarco();
+						barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+						counter += 50;
+						clicksDisponibles--;
+					}
 				}
 				//por la izquierda
 				else if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() - 1) {
-					casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.REFLECT));
-					casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-					counter += 50;	
-					clicksDisponibles--;
-					//Rota anterior
-					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.REFLECT));
+					for(int i = 0; i < barcoSeleccionado.getTamanho() - 1; i++) {
+						BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+						imagen = new ImageIcon(subImagen);
+						casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() - i];
+						casillaActual.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.REFLECT));
+						casillaActual.setHasBarco();
+						barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+						counter += 50;
+						clicksDisponibles--;
+					}	
+					//Rota el primero
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.REFLECT));		
 				}
 				//por abajo
 				else if(casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() && casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() + 1) {
-					casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.DOWN));
-					casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-					counter += 50;	
-					clicksDisponibles--;
-					orientacion = false; //vertical
-					//Rota anterior
-					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.DOWN));
+					for(int i = 0; i < barcoSeleccionado.getTamanho() - 1; i++) {
+						BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+						imagen = new ImageIcon(subImagen);
+						casillaActual = casillas[casillaSeleccionada.getRow() + i][casillaSeleccionada.getCol()];
+						casillaActual.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.DOWN));
+						casillaActual.setHasBarco();
+						barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+						counter += 50;
+						clicksDisponibles--;
+					}	
+					//Rota el primero
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.DOWN));		
 				}
 				//por arriba
 				else if(casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() && casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow() - 1) {
-					casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.UP));
-					casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-					counter += 50;	
-					clicksDisponibles--;
-					orientacion = false; //vertical
-					//Rota anterior
-					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.UP));
+					for(int i = 0; i < barcoSeleccionado.getTamanho() - 1; i++) {
+						BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+						imagen = new ImageIcon(subImagen);
+						casillaActual = casillas[casillaSeleccionada.getRow() - i][casillaSeleccionada.getCol()];
+						casillaActual.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.UP));
+						casillaActual.setHasBarco();
+						barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+						counter += 50;
+						clicksDisponibles--;
+					}	
+					//Rota el primero
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.UP));		
 				}
 			} 
 			//Primer click para un barco, puede ser en cualquier lugar
 			else if(clicksDisponibles == barcoSeleccionado.getTamanho()){
+				BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+				imagen = new ImageIcon(subImagen);
 				casillaSeleccionada.setImagen(imagen);
 				casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
 				barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 				counter += 50;	
 				clicksDisponibles--;
-			}
-			//Resto de clicks para poner el barco, a partir del tercero.
-			else {
-				//El barco se está poniendo en posición horizontal
-				if(orientacion) {
-					if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getCol() + 1) {
-						casillaSeleccionada.setImagen(imagen);
-						casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-						barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-						counter += 50;	
-						clicksDisponibles--;
-					}
-					else if(casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getRow() && casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getCol() - 1) {
-						casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.REFLECT));
-						casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-						barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-						counter += 50;		
-						clicksDisponibles--;
-					}
-				}
-				//El barco se está poniendo en posición vertical
-				else {
-					if(casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getCol() && casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getRow() + 1)  {
-						casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.DOWN));
-						casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-						barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-						counter += 50;	
-						clicksDisponibles--;
-					}
-					else if(casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getCol() && casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[barcoSeleccionado.getTamanho() - clicksDisponibles - 1].getRow() - 1) {
-						casillaSeleccionada.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.UP));
-						casillaSeleccionada.setHasBarco(); //Decirle a la casilla que tiene un barco
-						barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-						counter += 50;	
-						clicksDisponibles--;
-					}
-				}
-			}
-			
+				cambiarMensajeMuelle("Escoja una casilla adyacente a la casilla seleccionada");
+			}		
 		}		
 		//Si ya puse todos las partes del barco, se borra el barco seleccionado para quem pueda escoger otro
 		if(clicksDisponibles == 0) {
 			barcoSeleccionado = null;
 			counter = 0;
-		}
-		
+			cambiarMensajeMuelle("Haga click en un barco");
+		}	
 	}
 	
 	//Retorna true si hay al menos una dirección posible para poner el barco (arriba, abajo, izq, der). Retorna false si el barco en ninguna dirección cabe.
@@ -272,11 +251,7 @@ public class TableroPosicion extends JPanel {
 				}
 				return false;
 			}
-		}
-		
-		
-		
-		
+		}	
 		return true;	
 	}
 	
@@ -290,7 +265,10 @@ public class TableroPosicion extends JPanel {
 		return barcoSeleccionado;
 	}
 
-
+	//Cambiar mensaje muelle
+	private void cambiarMensajeMuelle(String mensaje) {
+		ventana.setMensajeMuelle(mensaje);
+	}
 	private class Escucha implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
