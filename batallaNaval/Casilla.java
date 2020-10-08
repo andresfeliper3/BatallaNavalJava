@@ -67,6 +67,9 @@ public class Casilla extends JButton {
 	public void setHasWater(boolean hasWater) {
 		this.hasWater = hasWater;
 	}
+	public boolean getHasWater() {
+		return hasWater;
+	}
 	public Icon getImagen() {
 		return imagen;
 	}

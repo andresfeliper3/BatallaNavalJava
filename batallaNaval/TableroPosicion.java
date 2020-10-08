@@ -19,6 +19,7 @@ public class TableroPosicion extends JPanel {
 	private int casillaSize = 50;
 	private int gridSize = 11;
 	private int cantidadBarcos = 10;
+	private int limiteInferior = 1;
 	private Barco[] barcos = new Barco[cantidadBarcos];
 	private Casilla[][] casillas = new Casilla[gridSize][gridSize];
 	private BufferedImage bufferedImage = null;
@@ -127,7 +128,7 @@ public class TableroPosicion extends JPanel {
 				}
 			} 
 			//Primer click para un barco, puede ser en cualquier lugar
-			else if(clicksDisponibles == barcoSeleccionado.getTamanho()){
+			else if(clicksDisponibles == barcoSeleccionado.getTamanho() && casillaSeleccionada.getHasWater()){
 				BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
 				imagen = new ImageIcon(subImagen);
 				casillaSeleccionada.setImagen(imagen);
@@ -149,10 +150,9 @@ public class TableroPosicion extends JPanel {
 	boolean porDerecha, porIzquierda, porArriba, porAbajo;
 	private boolean cabeElBarco() {
 		//Siempre que se cambie de barco (se acaben los clicksDisponibles), los booleanos vuelven a ser true
-		//Por derecha
 		int row = casillaSeleccionada.getRow();
-		int col = casillaSeleccionada.getCol();	
-		//La primera casilla para poner el barco. Sólo necesita revisar el primer click
+		int col = casillaSeleccionada.getCol();		
+		//La primera casilla para poner el barco.
 		if(clicksDisponibles == barcoSeleccionado.getTamanho()) {
 			porDerecha = true;
 			porIzquierda = true;
@@ -185,7 +185,7 @@ public class TableroPosicion extends JPanel {
 			//Por izquierda
 			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
 				//Límite por izquierda
-				if(col - cambioEnCasilla < 0) {
+				if(col - cambioEnCasilla < limiteInferior) {
 					porIzquierda = false;
 					break;
 				}
@@ -196,7 +196,7 @@ public class TableroPosicion extends JPanel {
 			//Por arriba
 			for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
 				//Límite por arriba
-				if(row - cambioEnCasilla < 0) {
+				if(row - cambioEnCasilla < limiteInferior) {
 					porArriba = false;
 					break;
 				}
