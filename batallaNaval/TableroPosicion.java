@@ -13,13 +13,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-
 public class TableroPosicion extends JPanel {
-
 	private Barco barcoSeleccionado;
 	private Casilla casillaSeleccionada;
 	private int casillaSize = 50;
-	private int gridSize = 10;
+	private int gridSize = 11;
 	private int cantidadBarcos = 10;
 	private Barco[] barcos = new Barco[cantidadBarcos];
 	private Casilla[][] casillas = new Casilla[gridSize][gridSize];
@@ -29,14 +27,13 @@ public class TableroPosicion extends JPanel {
 	private Escucha escucha;
 	private int clicksDisponibles;
 	private BatallaNaval ventana;
-	
 	//Constructor 
 	public TableroPosicion(BatallaNaval ventana) {
 		//Layout
 		this.setLayout(new GridLayout(gridSize, gridSize));
 		border = BorderFactory.createLineBorder(Color.BLACK, 5);
 		this.setBorder(border);
-		Casilla.setCasillaSizeMaxCasillas(casillaSize, gridSize*gridSize);
+		Casilla.setCasillaSizeMaxCasillas(casillaSize, gridSize*gridSize, gridSize);
 		
 		//Escucha
 		escucha = new Escucha();
@@ -59,10 +56,7 @@ public class TableroPosicion extends JPanel {
 			}
 		}
 	}
-	
-	//NO SE HA TERMINADO
 	//Poner barco
-
 	int counter = 0;
 	int orientacion = 1; //0: derecha, 1: izquierda, 2: abajo, 3: arriba
 	private void pintarBarco(Casilla casillaSeleccionada) {
@@ -151,16 +145,13 @@ public class TableroPosicion extends JPanel {
 			cambiarMensajeMuelle("Haga click en un barco");
 		}	
 	}
-	
 	//Retorna true si hay al menos una dirección posible para poner el barco (arriba, abajo, izq, der). Retorna false si el barco en ninguna dirección cabe.
 	boolean porDerecha, porIzquierda, porArriba, porAbajo;
 	private boolean cabeElBarco() {
 		//Siempre que se cambie de barco (se acaben los clicksDisponibles), los booleanos vuelven a ser true
-		
 		//Por derecha
 		int row = casillaSeleccionada.getRow();
-		int col = casillaSeleccionada.getCol();
-		
+		int col = casillaSeleccionada.getCol();	
 		//La primera casilla para poner el barco. Sólo necesita revisar el primer click
 		if(clicksDisponibles == barcoSeleccionado.getTamanho()) {
 			porDerecha = true;
@@ -176,7 +167,6 @@ public class TableroPosicion extends JPanel {
 				}
 				//Revisar 
 				if(casillas[row][col + cambioEnCasilla].getHasBarco()) {
-					System.out.println("Por derecha se hace false");
 					porDerecha = false;
 					break;
 				}
@@ -187,8 +177,7 @@ public class TableroPosicion extends JPanel {
 				if(row + cambioEnCasilla >= gridSize) {
 					porAbajo = false;
 					break;
-				}
-					
+				}		
 				if(casillas[row + cambioEnCasilla][col].getHasBarco()) {
 					porAbajo = false;
 				}
@@ -214,8 +203,7 @@ public class TableroPosicion extends JPanel {
 				if(casillas[row - cambioEnCasilla][col].getHasBarco()) {
 					porArriba = false;
 				}
-			}
-			
+			}	
 			if(porDerecha || porArriba || porIzquierda || porAbajo) {
 				return true;
 			}
@@ -254,7 +242,6 @@ public class TableroPosicion extends JPanel {
 		}	
 		return true;	
 	}
-	
 	//Indica el barco seleccionado y e inicia el conteo de los clicks disponibles restantes
 	public void setBarcoSeleccionado(Barco barco) {
 		barcoSeleccionado = barco;
@@ -264,7 +251,6 @@ public class TableroPosicion extends JPanel {
 	public Barco getBarcoSeleccionado() {
 		return barcoSeleccionado;
 	}
-
 	//Cambiar mensaje muelle
 	private void cambiarMensajeMuelle(String mensaje) {
 		ventana.setMensajeMuelle(mensaje);
@@ -281,7 +267,4 @@ public class TableroPosicion extends JPanel {
 			}		
 		}
 	}	
-	
-	
-	
 }

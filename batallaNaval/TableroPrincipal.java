@@ -11,7 +11,7 @@ import javax.swing.border.Border;
 public class TableroPrincipal extends JPanel {
 	private Barco barcoSeleccionado;
 	private int casillaSize = 50;
-	private int gridSize = 10;
+	private int gridSize = 11;
 	private int cantidadBarcos = 10;
 	private Barco[] barcos = new Barco[cantidadBarcos];
 	private Casilla[][] casillas = new Casilla[gridSize][gridSize];
@@ -24,7 +24,7 @@ public class TableroPrincipal extends JPanel {
 		this.setLayout(new GridLayout(gridSize, gridSize));
 		border = BorderFactory.createLineBorder(Color.BLACK, 5);
 		this.setBorder(border);
-		Casilla.setCasillaSizeMaxCasillas(casillaSize, gridSize*gridSize);
+		Casilla.setCasillaSizeMaxCasillas(casillaSize, gridSize*gridSize, gridSize);
 		
 		//JPanel configuration
 		pintarCasillas();
