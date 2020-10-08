@@ -52,7 +52,7 @@ public class BatallaNaval extends JFrame {
 	this.setTitle("Batalla Naval");
 	this.pack();
 	this.setLocationRelativeTo(null);
-	//this.setResizable(false);
+	this.setResizable(false);
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.setVisible(true);
 
@@ -63,7 +63,53 @@ public class BatallaNaval extends JFrame {
 		
 		//escucha, referencia y control
 		escucha = new Escucha();
-		
+		//Barcos
+				miPortaaviones = new Portaaviones();
+				miSubmarino1 = new Submarino();
+				miSubmarino2 = new Submarino();
+				miDestructor1 = new Destructor();
+				miDestructor2 = new Destructor();
+				miDestructor3 = new Destructor();
+				miFragata1 = new Fragata();
+				miFragata2 = new Fragata();
+				miFragata3 = new Fragata();
+				miFragata4 = new Fragata();
+				
+				pcPortaaviones = new Portaaviones();
+				pcSubmarino1 = new Submarino();
+				pcSubmarino2 = new Submarino();
+				pcDestructor1 = new Destructor();
+				pcDestructor2 = new Destructor();
+				pcDestructor3 = new Destructor();
+				pcFragata1 = new Fragata();
+				pcFragata2 = new Fragata();
+				pcFragata3 = new Fragata();
+				pcFragata4 = new Fragata();
+				
+				misBarcos = new Barco[10];
+				misBarcos[0] = miPortaaviones;
+				misBarcos[1] = miSubmarino1;
+				misBarcos[2] = miSubmarino2;
+				misBarcos[3] = miDestructor1;
+				misBarcos[4] = miDestructor2;
+				misBarcos[5] = miDestructor3;
+				misBarcos[6] = miFragata1;
+				misBarcos[7] = miFragata2;
+				misBarcos[8] = miFragata3;
+				misBarcos[9] = miFragata4;
+				
+				pcBarcos = new Barco[10];
+				pcBarcos[0] = pcPortaaviones;
+				pcBarcos[1] = pcSubmarino1;
+				pcBarcos[2] = pcSubmarino2;
+				pcBarcos[3] = pcDestructor1;
+				pcBarcos[4] = pcDestructor2;
+				pcBarcos[5] = pcDestructor3;
+				pcBarcos[6] = pcFragata1;
+				pcBarcos[7] = pcFragata2;
+				pcBarcos[8] = pcFragata3;
+				pcBarcos[9] = pcFragata4;
+				
 		//set up GUIComponents add to window
 		titulo = new JLabel("Batalla Naval");
 		add(titulo,BorderLayout.NORTH);
@@ -71,48 +117,14 @@ public class BatallaNaval extends JFrame {
 		tableroPosicion = new TableroPosicion();
 		add(tableroPosicion,BorderLayout.CENTER);
 		
-		tableroPrincipal = new TableroPrincipal();
+		tableroPrincipal = new TableroPrincipal(pcBarcos);
 		add(tableroPrincipal,BorderLayout.EAST);
 		
 		//Muelle
 		muelle = new Muelle(referenciaBatallaNaval);
 		add(muelle,BorderLayout.WEST);
 		
-		//Barcos
-		miPortaaviones = new Portaaviones();
-		miSubmarino1 = new Submarino();
-		miSubmarino2 = new Submarino();
-		miDestructor1 = new Destructor();
-		miDestructor2 = new Destructor();
-		miDestructor3 = new Destructor();
-		miFragata1 = new Fragata();
-		miFragata2 = new Fragata();
-		miFragata3 = new Fragata();
-		miFragata4 = new Fragata();
 		
-		misBarcos = new Barco[10];
-		misBarcos[0] = miPortaaviones;
-		misBarcos[1] = miSubmarino1;
-		misBarcos[2] = miSubmarino2;
-		misBarcos[3] = miDestructor1;
-		misBarcos[4] = miDestructor2;
-		misBarcos[5] = miDestructor3;
-		misBarcos[6] = miFragata1;
-		misBarcos[7] = miFragata2;
-		misBarcos[8] = miFragata3;
-		misBarcos[9] = miFragata4;
-		
-		pcBarcos = new Barco[10];
-		pcBarcos[0] = pcPortaaviones;
-		pcBarcos[1] = pcSubmarino1;
-		pcBarcos[2] = pcSubmarino2;
-		pcBarcos[3] = pcDestructor1;
-		pcBarcos[4] = pcDestructor2;
-		pcBarcos[5] = pcDestructor3;
-		pcBarcos[6] = pcFragata1;
-		pcBarcos[7] = pcFragata2;
-		pcBarcos[8] = pcFragata3;
-		pcBarcos[9] = pcFragata4;
 		
 		muelle = new Muelle(referenciaBatallaNaval);
 	}

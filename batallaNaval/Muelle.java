@@ -3,6 +3,8 @@ package batallaNaval;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -10,8 +12,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -167,7 +173,7 @@ public class Muelle extends JPanel {
 				zonas[j].add(barcos[i]);
 		}
 	}
-
+    
 	private void indexOfBarco(JLabel barcoSeleccionado) {
 
 		for(int i =0;i<barcos.length;i++) {
@@ -181,12 +187,15 @@ public class Muelle extends JPanel {
 		
 		public void mousePressed(MouseEvent eventMouse) {
 			//System.out.println(indexOfBarcoSeleccionado);
+
 			JLabel barcoSeleccionado = (JLabel)eventMouse.getSource();
+			barcoSeleccionado.setVisible(false);
 			indexOfBarco(barcoSeleccionado);
 			referenciaBatallaNaval.pasarBarco(indexOfBarcoSeleccionado);
 			
 		}
 
+		
 		public void mouseEntered(MouseEvent eventMouse) {
 			
 		}
@@ -195,9 +204,19 @@ public class Muelle extends JPanel {
 			
 		}
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
-			
+			if(eventAction.getSource() == ready) {
+				
+				/*READY:
+				 * Cambiar el estado de juego a 1
+				 * Ocultar el Muelle
+				 */
+				
+				//BOTON RESTE EN BATALLA NAVAL:
+				referenciaBatallaNaval.dispose();
+				referenciaBatallaNaval = new BatallaNaval();
+			}
 		}
 	}
 }

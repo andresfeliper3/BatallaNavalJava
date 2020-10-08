@@ -2,6 +2,9 @@ package batallaNaval;
 
 import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+
 public abstract class Barco {
 
 	protected int tamanho;
@@ -60,11 +63,16 @@ public abstract class Barco {
 	public void setCasillasDondeEstoy(Casilla casilla) {
 		
 		for(int i =0;i<casillasDondeEstoy.length;i++) {
-			if(casillasDondeEstoy[i] != null) {
+			if(casillasDondeEstoy[i] == null) {
 				casillasDondeEstoy[i] = casilla;
 				break;
 			}
 		}
 	}
+
+	public Casilla[] getCasillasDondeEstoy() {
+		return casillasDondeEstoy;
+	}
 	
+
 }

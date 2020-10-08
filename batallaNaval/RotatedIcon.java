@@ -25,7 +25,8 @@ public class RotatedIcon implements Icon
         DOWN,
         UP,
         UPSIDE_DOWN,
-        ABOUT_CENTER;
+        ABOUT_CENTER,
+    	REFLECT;
     }
 
     private Icon icon;
@@ -250,6 +251,12 @@ public class RotatedIcon implements Icon
             g2.translate((getIconWidth() - icon.getIconWidth()) / 2, (getIconHeight() - icon.getIconHeight()) / 2);
             g2.rotate(Math.toRadians(degrees), x + cWidth, y + cHeight);
             icon.paintIcon(c, g2, x, y);
+        }
+        else if (rotate == Rotate.REFLECT)
+        {
+        	g2.translate(getIconWidth(),0);
+        	g2.scale(-1,1);
+        	icon.paintIcon(c, g2, x, y);
         }
 
         g2.dispose();
