@@ -20,6 +20,7 @@ public class BatallaNaval extends JFrame {
 	 * true: jugador
 	 * false: computador
 	 * */
+	private int cantidadBarcos = 10;
 	private boolean turno;
 	private TableroPosicion tableroPosicion;
 	private TableroPrincipal tableroPrincipal;
@@ -31,7 +32,7 @@ public class BatallaNaval extends JFrame {
 	private Destructor miDestructor1, miDestructor2, miDestructor3, pcDestructor1, pcDestructor2, pcDestructor3;
 	private Fragata miFragata1, miFragata2, miFragata3, miFragata4, pcFragata1, pcFragata2, pcFragata3, pcFragata4;
 	private JLabel titulo;
-	private Barco[] misBarcos;
+	private Barco[] misBarcos, pcBarcos;
 	private Barco barcoSeleccionado;
 	//Constructor
 	public BatallaNaval() {
@@ -56,19 +57,7 @@ public class BatallaNaval extends JFrame {
 		//Escucha
 	
 		
-		//Componentes gráficos
-		//Título
-		//titulo = new JLabel("Batalla Naval");
-		//add(titulo, BorderLayout.NORTH);
-		//Muelle
-		muelle = new Muelle(referencia);
-		add(muelle, BorderLayout.WEST);
-		//Tablero posición
-		tableroPosicion = new TableroPosicion(referencia);
-		add(tableroPosicion, BorderLayout.CENTER);
-		//Tablero principal
-		tableroPrincipal = new TableroPrincipal();
-		add(tableroPrincipal, BorderLayout.EAST);
+		//Objetos 
 		
 		//Mis barcos
 		miPortaaviones = new Portaaviones();
@@ -80,10 +69,21 @@ public class BatallaNaval extends JFrame {
 		miFragata1 = new Fragata();
 		miFragata2 = new Fragata();
 		miFragata3 = new Fragata();
-		miFragata4 = new Fragata();		
+		miFragata4 = new Fragata();	
 		
-		//Array de barcos
-		misBarcos = new Barco[10];
+		//Barcos del pc
+		pcPortaaviones = new Portaaviones();
+		pcSubmarino1 = new Submarino();
+		pcSubmarino2 = new Submarino();
+		pcDestructor1 = new Destructor();
+		pcDestructor2 = new Destructor();
+		pcDestructor3 = new Destructor();
+		pcFragata1 = new Fragata();
+		pcFragata2 = new Fragata();
+		pcFragata3 = new Fragata();
+		pcFragata4 = new Fragata();	
+		//Array de barcos del usuario
+		misBarcos = new Barco[cantidadBarcos];
 		misBarcos[0] = miPortaaviones;
 		misBarcos[1] = miSubmarino1;
 		misBarcos[2] = miSubmarino2;
@@ -94,6 +94,36 @@ public class BatallaNaval extends JFrame {
 		misBarcos[7] = miFragata2;
 		misBarcos[8] = miFragata3;
 		misBarcos[9] = miFragata4;
+		
+		//Array de barcos del computador
+		
+		pcBarcos = new Barco[cantidadBarcos];
+		pcBarcos[0] = pcPortaaviones;
+		pcBarcos[1] = pcSubmarino1;
+		pcBarcos[2] = pcSubmarino2;
+		pcBarcos[3] = pcDestructor1;
+		pcBarcos[4] = pcDestructor2;
+		pcBarcos[5] = pcDestructor3;
+		pcBarcos[6] = pcFragata1;
+		pcBarcos[7] = pcFragata2;
+		pcBarcos[8] = pcFragata3;
+		pcBarcos[9] = pcFragata4;
+		
+		//Componentes gráficos
+		
+		//Título
+		//titulo = new JLabel("Batalla Naval");
+		//add(titulo, BorderLayout.NORTH);
+		//Muelle
+		muelle = new Muelle(referencia);
+		add(muelle, BorderLayout.WEST);
+		//Tablero posición
+		tableroPosicion = new TableroPosicion(referencia);
+		add(tableroPosicion, BorderLayout.CENTER);
+		//Tablero principal
+		tableroPrincipal = new TableroPrincipal(pcBarcos);
+		add(tableroPrincipal, BorderLayout.EAST);
+
 		
 	}
 

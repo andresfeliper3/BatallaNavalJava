@@ -70,7 +70,7 @@ public class Muelle extends JPanel {
 		constraints.gridwidth = 3;
 		constraints.anchor = GridBagConstraints.CENTER;
 		add(mensaje, constraints);
-		//Botón 
+		//Botón ready
 		botonReady = new JButton("Ready");
 		botonReady.addActionListener(escucha);
 		constraints.gridx = 3;
@@ -78,6 +78,7 @@ public class Muelle extends JPanel {
 		constraints.gridwidth = 1;
 		constraints.anchor = GridBagConstraints.LAST_LINE_END;
 		add(botonReady, constraints);
+		//Botón reset
 		//Barcos
 		zonaPortaaviones = new JPanel();
 		zonaPortaaviones.setPreferredSize(new Dimension(100,500));
@@ -204,7 +205,13 @@ public class Muelle extends JPanel {
 			//Botón para empezar el juego
 			if(eventAction.getSource() == botonReady && barcosRestantes == 0) {
 				JOptionPane.showMessageDialog(null, "Empezar juego");
+				//EJECUTAR JUEGO
 			}
+			/*
+			if(eventAction.getSource() == botonReset) {
+				ventana.dispose();
+				ventana = new BatallaNaval();
+			}*/
 		}
 
 		

@@ -18,9 +18,7 @@ public class TableroPosicion extends JPanel {
 	private Casilla casillaSeleccionada;
 	private int casillaSize = 50;
 	private int gridSize = 11;
-	private int cantidadBarcos = 10;
 	private int limiteInferior = 1;
-	private Barco[] barcos = new Barco[cantidadBarcos];
 	private Casilla[][] casillas = new Casilla[gridSize][gridSize];
 	private BufferedImage bufferedImage = null;
 	private ImageIcon imagen;
