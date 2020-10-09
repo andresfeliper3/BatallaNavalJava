@@ -220,7 +220,6 @@ public class TableroPosicion extends JPanel {
 				break;
 					
 			case 1:	//Up
-				System.out.println("HOLA CASO 1");
 					for(int i=0;i<barcoSeleccionado.getTamanho()-1;i++) {
 						if(!casillas[casillaSeleccionada.getRow()-i][casillaSeleccionada.getCol()].isWater() || casillas[casillaSeleccionada.getRow()-i][casillaSeleccionada.getCol()].isHasBarco()) {
 							return false;
@@ -228,7 +227,6 @@ public class TableroPosicion extends JPanel {
 					}	
 					break;
 			case 2://Down
-				System.out.println("HOLA CASO 2");
 				for(int i=1;i<barcoSeleccionado.getTamanho()-1;i++) {
 					if(casillas[casillaSeleccionada.getRow()+i][casillaSeleccionada.getCol()].getRow()+1 == 12 || casillas[casillaSeleccionada.getRow()+i][casillaSeleccionada.getCol()].isHasBarco()) {
 						return false;
@@ -236,7 +234,6 @@ public class TableroPosicion extends JPanel {
 				}	
 					break;
 			case 3://Left
-				System.out.println("HOLA CASO 3");
 				for(int i=0;i<barcoSeleccionado.getTamanho()-1;i++) {
 					if(!casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol()-i].isWater() || casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol()-i].isHasBarco()) {
 						return false;
@@ -244,7 +241,6 @@ public class TableroPosicion extends JPanel {
 				}
 				break;
 			case 4://Right
-				System.out.println("HOLA CASO 4");
 				for(int i=0;i<barcoSeleccionado.getTamanho()-1;i++) {
 					if(casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol()+i].getCol()+1 == 12 || casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol()+i].isHasBarco()) {
 						return false;
