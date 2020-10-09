@@ -22,189 +22,206 @@ public class TableroPrincipal extends JPanel {
 	private Border border;
 	private Escucha escucha;
 	private Casilla casillaSeleccionada;
-	private int orientacion; //1: derecha, 2: izquierda, 3: abajo, 4: arriba
-	//Para quitar
+	private int orientacion; // 1: derecha, 2: izquierda, 3: abajo, 4: arriba
+	private Barco barcoSeleccionado;
+	private int limiteInferior = 1;
+	// Para quitar
 	private ImageIcon imagen;
-	
-	//Constructor 
+
+	// Constructor
 	public TableroPrincipal(Barco[] pcBarcos) {
-		//Layout
+		// Layout
 		this.setLayout(new GridLayout(gridSize, gridSize));
 		border = BorderFactory.createLineBorder(Color.BLACK, 5);
 		this.setBorder(border);
-		Casilla.setCasillaSizeMaxCasillas(casillaSize, gridSize*gridSize, gridSize);
-		//Escucha
+		Casilla.setCasillaSizeMaxCasillas(casillaSize, gridSize * gridSize, gridSize);
+		// Escucha
 		escucha = new Escucha();
-		//casillas
+		// casillas
 		casillas = new Casilla[gridSize][gridSize];
-		//barcos
-		barcos= new Barco[cantidadBarcos];
+		// barcos
+		barcos = new Barco[cantidadBarcos];
 		this.barcos = pcBarcos;
-		
-		//JPanel configuration
+
+		// JPanel configuration
 		pintarCasillas();
 		acomodarBarcos();
 	}
-	//Pinta las casillas inicialmente con agua
+
+	// Pinta las casillas inicialmente con agua
 	private void pintarCasillas() {
-		//Creación de barcos y casillas
-		
-		//Pintar casillas
+		// Creación de barcos y casillas
+
+		// Pintar casillas
 		int id = 0;
-		for(int row = 0; row < gridSize; row++) {
-			for(int col = 0; col < gridSize; col++ ) {
+		for (int row = 0; row < gridSize; row++) {
+			for (int col = 0; col < gridSize; col++) {
 				casillas[row][col] = new Casilla(id, row, col);
 				add(casillas[row][col]);
 				id++;
 			}
 		}
 	}
-	
-	//Random de posición inicial para un barco
+
+	// Random de posición inicial para un barco
 	private void randomCasilla() {
 		Random rand = new Random();
 		int randomRow = rand.nextInt(10) + 1;
 		int randomCol = rand.nextInt(10) + 1;
 		casillaSeleccionada = casillas[randomRow][randomCol];
-		
+
 	}
+
 	private void randomDirection() {
 		Random rand = new Random();
 		orientacion = rand.nextInt(4) + 1;
-	
+
 	}
-	//Retorna true si es posible poner el barco.
-	//Si su parámetro es 0, quiere decir que es la primera parte de un barco.
-	boolean porDerecha, porIzquierda, porArriba, porAbajo;
-	private boolean cabeElBarco(int param, Barco barcoSeleccionado) {
+
+	// Retorna true si es posible poner el barco.
+	// Genera una orientación aleatoria y la revisa. Si no funciona, genera otra. Si
+	// después de X giros, no ha funcionado ninguna dirección
+	// entonces retorna false.
+
+	private boolean cabeElBarco() {
+		// Generar dirección u orientación aleatoria y la revisa
+		int acum = 0;
+		do {
+			acum++;
+			randomDirection();
+		} while (!revisarDireccion(orientacion) && acum <= 8);
+
+		if (revisarDireccion(orientacion)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// revisa una orientación específica
+	private boolean revisarDireccion(int orientacion) {
+
 		int row = casillaSeleccionada.getRow();
 		int col = casillaSeleccionada.getCol();
-		porDerecha = true;
-		porIzquierda = true;
-		porArriba = true;
-		porAbajo = true;
-		switch(param) {
-		//Primera parte del barco
-			case 0:
-				if(!casillaSeleccionada.getHasBarco()) {
-					return true;
+		switch (orientacion) {
+		case 1:
+			// por derecha
+			for (int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
+				// Límite por derecha
+				if (col + cambioEnCasilla >= gridSize) {
+					return false;
 				}
-				return false;
-			//Por derecha
-			case 1: 
-				for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
-					if(col + cambioEnCasilla >= gridSize  ) {
-						porDerecha = false;
-						break;
-					}
-					if(casillas[row][col + cambioEnCasilla].getHasBarco()) {
-						porDerecha = false;
-						break;
-					}
+				// Otro barco presente
+				if (casillas[row][col + cambioEnCasilla].getHasBarco()) {
+					return false;
 				}
-				break;
-				//Por izquierda
-			case 2: 
-				for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
-					if(col - cambioEnCasilla < 1) {
-						porIzquierda = false;
-						break;
-					}
-					if(casillas[row][col - cambioEnCasilla].getHasBarco()) {
-						porIzquierda = false;
-						break;
-					}
+			}
+			return true;
+		case 2:
+			// por izquierda
+			for (int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
+				// Límite por izquierda
+				if (col - cambioEnCasilla < limiteInferior) {
+					return false;
 				}
-				break;
-				//Por abajo
-			case 3: 
-				for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
-					if(row + cambioEnCasilla >= gridSize) {
-						porAbajo = false;
-						break;
-					}
-					if(casillas[row + cambioEnCasilla][col].getHasBarco()) {
-						porAbajo = false;
-						break;
-					}
+				// Otro barco presente
+				if (casillas[row][col - cambioEnCasilla].getHasBarco()) {
+					return false;
 				}
-				break;
-				//Por arriba
-			case 4: 
-				for(int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
-					if(row - cambioEnCasilla < 1) {
-						porArriba = false;
-						break;
-					}
-					if(casillas[row - cambioEnCasilla][col].getHasBarco()) {
-						porArriba = false;
-						break;
-					}
+			}
+			return true;
+		case 3:
+			// por abajo
+			for (int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
+				// Límite por abajo
+				if (row + cambioEnCasilla >= gridSize) {
+					return false;
 				}
-				break;
-		}
-		if(porDerecha || porIzquierda || porArriba || porAbajo) {
+				// Otro barco presente
+				if (casillas[row + cambioEnCasilla][col].getHasBarco()) {
+					return false;
+				}
+			}
+			return true;
+		case 4:
+			// por arriba
+			for (int cambioEnCasilla = 0; cambioEnCasilla < barcoSeleccionado.getTamanho(); cambioEnCasilla++) {
+				// Otro barco presente o límites por derecha
+				if (row - cambioEnCasilla < limiteInferior) {
+					return false;
+				}
+				if (casillas[row - cambioEnCasilla][col].getHasBarco()) {
+					return false;
+				}
+			}
 			return true;
 		}
 		return false;
+
 	}
-	
-	private void acomodarBarcos() {		
-		for(int barco = 0; barco < barcos.length; barco++) {	
-			imagen = new ImageIcon(barcos[barco].getBufferedImage());
+
+	private void acomodarBarcos() {
+
+		for (int barco = 0; barco < barcos.length; barco++) {
+
+			// Dentro del ciclo de los barcos
+			barcoSeleccionado = barcos[barco];
+			// Generar casilla aleatoria que funcione. Mientras tenga un barco, genera otra
+			// casilla aleatoria.
 			do {
-				do {	
-					randomCasilla();	
-				} while(!cabeElBarco(0, barcos[barco]));
-				randomDirection();
-			} while(!cabeElBarco(orientacion, barcos[barco]));
-				
-			//Ciclo para poner todo el barco
-		
-			switch(orientacion) {
-			//Por derecha
+				randomCasilla();
+			} while (casillaSeleccionada.getHasBarco() || !cabeElBarco());
+			// Acomodar solo el portaaviones
+
+			imagen = new ImageIcon(barcoSeleccionado.getBufferedImage());
+			Casilla casillaActual = null;
+			switch (orientacion) {
 			case 1:
-				for(int casilla = 0; casilla < barcos[barco].getTamanho(); casilla++) {
-					
-					barcos[barco].setCasillasDondeEstoy(casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() + casilla]);
-					casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() + casilla].setImagen(imagen);
+				// Por la derecha
+				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
+					casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() + i];
+					casillaActual.setImagen(imagen);
+					casillaActual.setHasBarco();
+					barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
 				}
 				break;
-			//por izquierda
 			case 2:
-				for(int casilla = 0; casilla < barcos[barco].getTamanho(); casilla++) {
-					
-					barcos[barco].setCasillasDondeEstoy(casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() - casilla]);
-					casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() - casilla].setImagen(imagen);
+				// Por la izquierda
+				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
+					casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() - i];
+					casillaActual.setImagen(imagen);
+					casillaActual.setHasBarco();
+					barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
 				}
 				break;
-			//por abajo
 			case 3:
-				for(int casilla = 0; casilla < barcos[barco].getTamanho(); casilla++) {
-					
-					barcos[barco].setCasillasDondeEstoy(casillas[casillaSeleccionada.getRow() + casilla][casillaSeleccionada.getCol()]);
-					casillas[casillaSeleccionada.getRow() + casilla][casillaSeleccionada.getCol()].setImagen(imagen);
+				// Por abajo
+				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
+					casillaActual = casillas[casillaSeleccionada.getRow() + i][casillaSeleccionada.getCol()];
+					casillaActual.setImagen(imagen);
+					casillaActual.setHasBarco();
+					barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
 				}
 				break;
-			//por arriba
 			case 4:
-				for(int casilla = 0; casilla < barcos[barco].getTamanho(); casilla++) {
-				
-					barcos[barco].setCasillasDondeEstoy(casillas[casillaSeleccionada.getRow() - casilla][casillaSeleccionada.getCol()]);
-					casillas[casillaSeleccionada.getRow() - casilla][casillaSeleccionada.getCol()].setImagen(imagen);
+				// Por arriba
+				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
+					casillaActual = casillas[casillaSeleccionada.getRow() - i][casillaSeleccionada.getCol()];
+					casillaActual.setImagen(imagen);
+					casillaActual.setHasBarco();
+					barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
 				}
 				break;
-				
+
 			}
-			
 		}
 	}
-	
+
 	private class Escucha implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 }
