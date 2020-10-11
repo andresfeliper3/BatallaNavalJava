@@ -26,8 +26,9 @@ public class TableroPosicion extends JPanel {
 	private Escucha escucha;
 	private int clicksDisponibles;
 	private BatallaNaval ventana;
+	private Barco[] misBarcos;
 	//Constructor 
-	public TableroPosicion(BatallaNaval ventana) {
+	public TableroPosicion(Barco[] misBarcos, BatallaNaval ventana) {
 		//Layout
 		this.setLayout(new GridLayout(gridSize, gridSize));
 		border = BorderFactory.createLineBorder(Color.BLACK, 5);
@@ -36,6 +37,9 @@ public class TableroPosicion extends JPanel {
 		
 		//Escucha
 		escucha = new Escucha();
+		
+		//Mis barcos
+		this.misBarcos = misBarcos;
 			
 		//JPanel configuration
 		this.ventana = ventana;
@@ -136,13 +140,17 @@ public class TableroPosicion extends JPanel {
 				clicksDisponibles--;
 				cambiarMensajeMuelle("Escoja una casilla adyacente a la casilla seleccionada");
 			}		
-		}		
+		}
+		
 		//Si ya puse todos las partes del barco, se borra el barco seleccionado para quem pueda escoger otro
 		if(clicksDisponibles == 0) {
 			barcoSeleccionado = null;
 			counter = 0;
 			cambiarMensajeMuelle("Haga click en un barco");
 		}	
+		
+		
+		
 	}
 	//Retorna true si hay al menos una dirección posible para poner el barco (arriba, abajo, izq, der). Retorna false si el barco en ninguna dirección cabe.
 	boolean porDerecha, porIzquierda, porArriba, porAbajo;
@@ -252,6 +260,24 @@ public class TableroPosicion extends JPanel {
 	//Cambiar mensaje muelle
 	private void cambiarMensajeMuelle(String mensaje) {
 		ventana.setMensajeMuelle(mensaje);
+	}
+	
+	//Genera un disparo del computador. Retorna true si logró disparar correctamente, false en caso contrario.
+	public boolean generarDisparo(int row, int col) {
+		casillaSeleccionada = casillas[row][col];	
+		if(!casillaSeleccionada.isZonaDestruida()) {
+			if(casillaSeleccionada.getHasBarco()) {
+				for(int barco = 0; barco < misBarcos.length; barco++) {
+					misBarcos[barco].disparoAcertado(casillaSeleccionada);
+				}
+			}
+			else {
+				casillaSeleccionada.setZonaDestruida(true);
+			}
+			ventana.setTurno(true);
+			return true;
+		}
+		return false;
 	}
 	private class Escucha implements ActionListener {
 		@Override

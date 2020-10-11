@@ -25,11 +25,13 @@ public class TableroPrincipal extends JPanel {
 	private int orientacion; // 1: derecha, 2: izquierda, 3: abajo, 4: arriba
 	private Barco barcoSeleccionado;
 	private int limiteInferior = 1;
+	private boolean disparoHabilitado = false;
+	private BatallaNaval ventana;
 	// Para quitar
 	private ImageIcon imagen;
 
 	// Constructor
-	public TableroPrincipal(Barco[] pcBarcos) {
+	public TableroPrincipal(Barco[] pcBarcos, BatallaNaval ventana) {
 		// Layout
 		this.setLayout(new GridLayout(gridSize, gridSize));
 		border = BorderFactory.createLineBorder(Color.BLACK, 5);
@@ -42,6 +44,8 @@ public class TableroPrincipal extends JPanel {
 		// barcos
 		barcos = new Barco[cantidadBarcos];
 		this.barcos = pcBarcos;
+		//referencia
+		this.ventana = ventana;
 
 		// JPanel configuration
 		pintarCasillas();
@@ -57,6 +61,7 @@ public class TableroPrincipal extends JPanel {
 		for (int row = 0; row < gridSize; row++) {
 			for (int col = 0; col < gridSize; col++) {
 				casillas[row][col] = new Casilla(id, row, col);
+				casillas[row][col].addActionListener(escucha);
 				add(casillas[row][col]);
 				id++;
 			}
@@ -180,48 +185,86 @@ public class TableroPrincipal extends JPanel {
 				// Por la derecha
 				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
 					casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() + i];
-					casillaActual.setImagen(imagen);
-					casillaActual.setHasBarco();
-					barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+					detallesAcomodarBarco(casillaActual);
 				}
 				break;
 			case 2:
 				// Por la izquierda
 				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
 					casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() - i];
-					casillaActual.setImagen(imagen);
-					casillaActual.setHasBarco();
-					barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+					detallesAcomodarBarco(casillaActual);
 				}
 				break;
 			case 3:
 				// Por abajo
 				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
 					casillaActual = casillas[casillaSeleccionada.getRow() + i][casillaSeleccionada.getCol()];
-					casillaActual.setImagen(imagen);
-					casillaActual.setHasBarco();
-					barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+					detallesAcomodarBarco(casillaActual);
 				}
 				break;
 			case 4:
 				// Por arriba
 				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
 					casillaActual = casillas[casillaSeleccionada.getRow() - i][casillaSeleccionada.getCol()];
-					casillaActual.setImagen(imagen);
-					casillaActual.setHasBarco();
-					barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+					detallesAcomodarBarco(casillaActual);
 				}
 				break;
 
 			}
 		}
 	}
-
+	//Configuraciones de cada barco a acomodar
+	private void detallesAcomodarBarco(Casilla casillaActual) {
+		//casillaActual.setImagen(imagen);
+		casillaActual.setHasBarco();
+		barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+	}
+	
+	//Habilita o deshabilita el disparo en las casilla
+	public void setDisparoHabilitado(boolean disponible) {
+		this.disparoHabilitado = disponible;
+		for(int row = 1; row < gridSize; row++) {
+			for(int col = 1; col < gridSize; col++) {
+				if(!casillas[row][col].isZonaDestruida()) {
+					casillas[row][col].setEnabled(disponible);
+				}
+				
+			}
+		}
+	}
+	//Analizaz si la casilla clickeada tiene un barco, e internamente el barco mira si está hundido
+	private void analizarDisparo(Casilla casillaClickeada) {
+		if(casillaClickeada.getHasBarco()) {
+			for(int barco = 0; barco < barcos.length; barco++) {
+				barcos[barco].disparoAcertado(casillaClickeada);
+			}
+		}
+		else {
+			casillaClickeada.setZonaDestruida(true);
+		}
+		
+		//Cambia el turno
+		ventana.setTurno(false);
+	}
 	private class Escucha implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
-
+			
+			/*
+			 * Al disparar:
+			 * 1. Tener la casilla seleccionada
+			 * 2. Uso el disparoAcertado de todos los barcos, le paso la casilla clickeada
+			 * 
+			 * */
+			Casilla casillaClickeada = (Casilla)eventAction.getSource();
+			//Si la casilla tiene agua, analiza el disparo
+			if(casillaClickeada.getHasWater() && !casillaClickeada.isZonaDestruida() && ventana.getEstado() == 1) {
+				analizarDisparo(casillaClickeada);
+				
+			
+			}
+			
 		}
 	}
 }

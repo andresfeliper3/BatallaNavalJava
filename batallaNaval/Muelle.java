@@ -142,6 +142,7 @@ public class Muelle extends JPanel {
 			misBarcos[i].addMouseListener(escucha);
 			panelSeleccionado.add(misBarcos[i]);
 		}
+		//Barcos restantes adquiere su valor inicial
 		barcosRestantes = misBarcos.length;
 
 	}
@@ -203,9 +204,16 @@ public class Muelle extends JPanel {
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
 			//Botón para empezar el juego
-			if(eventAction.getSource() == botonReady && barcosRestantes == 0) {
-				JOptionPane.showMessageDialog(null, "Empezar juego");
-				//EJECUTAR JUEGO
+			if(eventAction.getSource() == botonReady /*&& barcosRestantes == 0*/) {
+				//Cambia el estado de juego a jugar
+				ventana.setEstado(1);
+				//Turno del usuario
+				ventana.setTurno(true);
+				setVisible(false);
+				ventana.pack();
+				ventana.setLocationRelativeTo(null);
+				//Mensaje
+				
 			}
 			/*
 			if(eventAction.getSource() == botonReset) {

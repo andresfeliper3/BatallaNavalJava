@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -118,10 +119,10 @@ public class BatallaNaval extends JFrame {
 		muelle = new Muelle(referencia);
 		add(muelle, BorderLayout.WEST);
 		//Tablero posición
-		tableroPosicion = new TableroPosicion(referencia);
+		tableroPosicion = new TableroPosicion(misBarcos, referencia);
 		add(tableroPosicion, BorderLayout.CENTER);
 		//Tablero principal
-		tableroPrincipal = new TableroPrincipal(pcBarcos);
+		tableroPrincipal = new TableroPrincipal(pcBarcos, referencia);
 		add(tableroPrincipal, BorderLayout.EAST);
 
 		
@@ -134,11 +135,54 @@ public class BatallaNaval extends JFrame {
 	
 	//Retorna true si en el muelle se ha seleccionado un barco
 	public boolean hayBarcoSeleccionado() {
-		boolean hayBarco = tableroPosicion.getBarcoSeleccionado() == null ? false : true;
-		return hayBarco;	
+		return tableroPosicion.getBarcoSeleccionado() == null ? false : true;	
 	}
 	public void setMensajeMuelle(String mensaje) {
-		muelle.setMensaje(mensaje);
+		muelle.setMensaje(mensaje);	
+	}
+	
+	//Recibe el estado
+	/*	Estado del juego
+	 * 0: organizar
+	 * 1: jugar
+	 * 2: ganar
+	 * 3: perder
+	 * */
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+	
+	public int getEstado() {
+		return estado;
 	}
 
+	public void setTurno(boolean turno) {
+		this.turno = turno;
+		partidaEnCurso();
+	}
+	
+	private void partidaEnCurso() {
+		if(estado == 1) {
+			//Turno del jugador
+			if(turno) {
+				//Habilitar los disparos del usuario
+				tableroPrincipal.setDisparoHabilitado(true);
+					
+			}	
+			//Turno del computador
+			else {
+				//Deshabilitar los disparos del usuario
+				tableroPrincipal.setDisparoHabilitado(false);
+				//Disparo del computador	
+				while(!tableroPosicion.generarDisparo(randomPosition(), randomPosition())) {
+					//Si el disparo no es exitoso, el ciclo se sigue repitiendo hasta que dispara exitosamente en una casilla.
+				}
+			}
+		}
+	}
+	
+	private int randomPosition() {
+		Random rand = new Random();
+		return rand.nextInt(10) + 1;
+	}
 }

@@ -9,14 +9,16 @@ import javax.swing.JButton;
 
 
 public class Casilla extends JButton {
+	public static final ImageIcon hundido = new ImageIcon("src/imagenes/hundido.gif");	
+	public static final ImageIcon errado = new ImageIcon("src/imagenes/agua.gif");
+	public static final ImageIcon tocado = new ImageIcon("src/imagenes/tocado.gif");
 	private static int casillaSize = 0;
 	private static int maxCasillas = 0;
 	private static int lineCasillas = 0;
-	private static String rutaDelArchivoAgua = "";
 	private int idCasilla, row, col;
 	private boolean hasBarco, zonaDestruida, hasWater;
 	private Icon imagen;
-	private String texto;
+	private String texto;		
 	//Constructor
 	public Casilla(int idCasilla, int row, int col) {
 		this.idCasilla = idCasilla;
@@ -25,10 +27,7 @@ public class Casilla extends JButton {
 		this.hasBarco = false;
 		this.zonaDestruida = false;
 		//Revisar si tiene agua
-		revisarSiTieneAgua();
-		//Imagen de agua predeterminada
-		imagen = new ImageIcon(rutaDelArchivoAgua);
-		this.setIcon(imagen);	
+		revisarSiTieneAgua();	
 	
 		
 		this.setPreferredSize(new Dimension(casillaSize, casillaSize));
@@ -84,9 +83,20 @@ public class Casilla extends JButton {
 	public boolean isZonaDestruida() {
 		return zonaDestruida;
 	}
+	
 
 	public void setZonaDestruida(boolean zonaDestruida) {
+		if(hasBarco) {
+			this.setIcon(tocado);
+		}
+		else {
+			this.setIcon(errado);
+		}
 		this.zonaDestruida = zonaDestruida;
+	}
+	
+	public void naufragarBarco() {
+		this.setIcon(hundido);
 	}
 
 	public int getIdCasilla() {

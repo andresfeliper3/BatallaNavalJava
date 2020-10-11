@@ -6,7 +6,6 @@ import javax.swing.ImageIcon;
 
 public abstract class Barco {
 
-	protected String nombre;
 	protected int tamanho;
 	protected boolean naufragado = false;
 	protected Casilla[] casillasDondeEstoy;
@@ -14,7 +13,6 @@ public abstract class Barco {
 	
 	public Barco(int numeroCasillas) {
 		
-		this.nombre = nombre;
 		this.tamanho = numeroCasillas;
 		this.casillasDondeEstoy = new Casilla[tamanho];
 	}
@@ -25,13 +23,14 @@ public abstract class Barco {
 		
 		 for(int i = 0; i < casillasDondeEstoy.length; i++) {
 			 if(casilla == casillasDondeEstoy[i]) {
-				 casillasDondeEstoy[i] = null;
+				 casillasDondeEstoy[i].setZonaDestruida(true);
 				 revisarEstadoBarco();
 				 return true;
 			 }
 		 }
 		return false;
 	}
+	//Añade una casilla al array del barco
 	public void setCasillasDondeEstoy(Casilla casilla) {
 		for(int i = 0; i < tamanho; i++) {
 			if(casillasDondeEstoy[i] == null) {
@@ -42,6 +41,9 @@ public abstract class Barco {
 	}
 	private void hundirBarco() {
 		naufragado = true;
+		for(int i = 0; i < casillasDondeEstoy.length; i++) {
+			casillasDondeEstoy[i].naufragarBarco();
+		}
 	}
 	
 	public int getTamanho() {
@@ -51,7 +53,7 @@ public abstract class Barco {
 	//Revisa  el estado del barco
 	private void revisarEstadoBarco() {
 		for(int i = 0; i < casillasDondeEstoy.length; i++) {	
-			if(casillasDondeEstoy[i] != null) {
+			if(!casillasDondeEstoy[i].isZonaDestruida()) {
 				return;
 			}
 		}
@@ -69,5 +71,6 @@ public abstract class Barco {
 	public Casilla[] getCasillasDondeEstoy() {
 		return casillasDondeEstoy;
 	}
+	
 	
 }
