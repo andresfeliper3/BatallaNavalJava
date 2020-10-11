@@ -238,6 +238,10 @@ public class TableroPrincipal extends JPanel {
 			for(int barco = 0; barco < barcos.length; barco++) {
 				barcos[barco].disparoAcertado(casillaClickeada);
 			}
+			//Revisar si el computador perdió
+			if(ventana.revisarDerrota(barcos)) {
+				ventana.setEstado(2); //usuario gana
+			}
 			//Mantiene el turno del usuario
 			ventana.setTurno(true);
 		}
@@ -251,13 +255,6 @@ public class TableroPrincipal extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
-			
-			/*
-			 * Al disparar:
-			 * 1. Tener la casilla seleccionada
-			 * 2. Uso el disparoAcertado de todos los barcos, le paso la casilla clickeada
-			 * 
-			 * */
 			Casilla casillaClickeada = (Casilla)eventAction.getSource();
 			//Si la casilla tiene agua, analiza el disparo
 			if(casillaClickeada.getHasWater() && !casillaClickeada.isZonaDestruida() && ventana.getEstado() == 1) {

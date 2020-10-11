@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class BatallaNaval extends JFrame {
 	/*	Estado del juego
@@ -162,7 +163,8 @@ public class BatallaNaval extends JFrame {
 	}
 	
 	private void partidaEnCurso() {
-		if(estado == 1) {
+		switch(estado) {
+		case 1:
 			//Turno del jugador
 			if(turno) {
 				//Habilitar los disparos del usuario
@@ -178,11 +180,34 @@ public class BatallaNaval extends JFrame {
 					//Si el disparo no es exitoso, el ciclo se sigue repitiendo hasta que dispara exitosamente en una casilla.
 				}
 			}
+			break;
+		//Usuario gana
+		case 2:
+			//USUARIO GANA
+			JOptionPane.showMessageDialog(null, "Ganaste");
+			break;
+		//Usuario pierde
+		case 3:
+			//USUARIO PIERDE
+			JOptionPane.showMessageDialog(null, "Perdiste");
+			break;
+			
 		}
 	}
 	
 	private int randomPosition() {
 		Random rand = new Random();
 		return rand.nextInt(10) + 1;
+	}
+	
+	//Retorna true si todos los barcos del array están naufragados, y false en caso contrario.
+	public boolean revisarDerrota(Barco[] barcos) {
+		//Derrota
+		for(int barco = 0; barco < misBarcos.length; barco++) {
+			if(!misBarcos[barco].isNaufragado()) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

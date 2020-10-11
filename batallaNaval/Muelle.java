@@ -204,7 +204,7 @@ public class Muelle extends JPanel {
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
 			//Botón para empezar el juego
-			if(eventAction.getSource() == botonReady /*&& barcosRestantes == 0*/) {
+			if(eventAction.getSource() == botonReady && barcosRestantes == 0) {
 				//Cambia el estado de juego a jugar
 				ventana.setEstado(1);
 				//Turno del usuario

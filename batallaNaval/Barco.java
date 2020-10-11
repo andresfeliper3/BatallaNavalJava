@@ -49,7 +49,6 @@ public abstract class Barco {
 	public int getTamanho() {
 		return tamanho;
 	}
-
 	//Revisa  el estado del barco
 	private void revisarEstadoBarco() {
 		for(int i = 0; i < casillasDondeEstoy.length; i++) {	
@@ -60,7 +59,7 @@ public abstract class Barco {
 		hundirBarco();
 	}
 	
-	public boolean getEstadoBarco() {
+	public boolean isNaufragado() {
 		return naufragado;
 	}
 	
@@ -71,6 +70,5 @@ public abstract class Barco {
 	public Casilla[] getCasillasDondeEstoy() {
 		return casillasDondeEstoy;
 	}
-	
 	
 }

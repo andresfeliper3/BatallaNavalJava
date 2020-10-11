@@ -270,8 +270,14 @@ public class TableroPosicion extends JPanel {
 				for(int barco = 0; barco < misBarcos.length; barco++) {
 					misBarcos[barco].disparoAcertado(casillaSeleccionada);
 				}
+				//Revisar si el usuario pierde
+				if(ventana.revisarDerrota(misBarcos)) {
+					ventana.setEstado(3); //Usuario perdió
+				}
 				//Mantiene el turno del computador
 				ventana.setTurno(false);
+				
+				
 			}
 			else {
 				casillaSeleccionada.setZonaDestruida(true);
