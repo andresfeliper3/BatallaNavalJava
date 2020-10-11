@@ -270,11 +270,15 @@ public class TableroPosicion extends JPanel {
 				for(int barco = 0; barco < misBarcos.length; barco++) {
 					misBarcos[barco].disparoAcertado(casillaSeleccionada);
 				}
+				//Mantiene el turno del computador
+				ventana.setTurno(false);
 			}
 			else {
 				casillaSeleccionada.setZonaDestruida(true);
+				//Cambia al turno del usuario
+				ventana.setTurno(true);
 			}
-			ventana.setTurno(true);
+			
 			return true;
 		}
 		return false;

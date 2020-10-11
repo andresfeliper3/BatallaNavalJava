@@ -238,13 +238,14 @@ public class TableroPrincipal extends JPanel {
 			for(int barco = 0; barco < barcos.length; barco++) {
 				barcos[barco].disparoAcertado(casillaClickeada);
 			}
+			//Mantiene el turno del usuario
+			ventana.setTurno(true);
 		}
 		else {
 			casillaClickeada.setZonaDestruida(true);
+			//Cambia al turno del computador
+			ventana.setTurno(false);
 		}
-		
-		//Cambia el turno
-		ventana.setTurno(false);
 	}
 	private class Escucha implements ActionListener {
 		@Override
@@ -260,11 +261,8 @@ public class TableroPrincipal extends JPanel {
 			Casilla casillaClickeada = (Casilla)eventAction.getSource();
 			//Si la casilla tiene agua, analiza el disparo
 			if(casillaClickeada.getHasWater() && !casillaClickeada.isZonaDestruida() && ventana.getEstado() == 1) {
-				analizarDisparo(casillaClickeada);
-				
-			
-			}
-			
+				analizarDisparo(casillaClickeada);		
+			}		
 		}
 	}
 }
