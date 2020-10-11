@@ -300,6 +300,29 @@ public class TableroPrincipal extends JPanel {
 
 	}
 	
+	public void ocultarOMostrar(int orden) {
+		
+		//OCULTA LOS BARCOS
+		for(int row=0;row<gridSize;row++) {
+			for(int col=0;col<gridSize;col++) {
+				
+				if(casillas[row][col].getImagen() !=null && row>0 && col>0 && orden == 0) {
+
+					casillaSeleccionada = casillas[row][col];
+					casillaSeleccionada.setIcon(null);
+		//MOSTRAR BARCOS
+				}if(orden == 1) {
+
+					casillaSeleccionada = casillas[row][col];
+					casillaSeleccionada.setImagen(casillaSeleccionada.getImagen());
+						
+					}
+			}
+		}
+	}
+	
+	
+	
 	public class Escucha implements ActionListener{
 
 		@Override
@@ -308,9 +331,17 @@ public class TableroPrincipal extends JPanel {
 			casillaSeleccionada = (Casilla)eventAction.getSource();
 			
 			System.out.println(casillaSeleccionada.isHasBarco());
-	
+			casillaSeleccionada.setIcon(null);
 			
-			
+			if(casillaSeleccionada == casillas[0][0]) {
+
+				ocultarOMostrar(0);
+				
+			}if(casillaSeleccionada == casillas[0][1]) {
+				
+				ocultarOMostrar(1);
+
+			}
 		}
 	}
 }
