@@ -288,10 +288,10 @@ public class TableroPrincipal extends JPanel {
 		}
 	}
 
-	// Analizaz si la casilla clickeada tiene un barco, e internamente el barco mira
+	// Analiza si la casilla clickeada tiene un barco, e internamente el barco mira
 	// si está hundido
 	private void analizarDisparo(Casilla casillaClickeada) {
-		if (casillaClickeada.getHasBarco()) {
+		if(casillaClickeada.getHasBarco()) {
 			for (int barco = 0; barco < barcos.length; barco++) {
 				barcos[barco].disparoAcertado(casillaClickeada);
 			}

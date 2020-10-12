@@ -2,6 +2,8 @@ package batallaNaval;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,9 +13,13 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 public class BatallaNaval extends JFrame {
 	/*	Estado del juego
@@ -33,6 +39,8 @@ public class BatallaNaval extends JFrame {
 	private TableroPrincipal tableroPrincipal;
 	private BatallaNaval referencia = this;
 	private Muelle muelle;
+	private JPanel zonaNorte;
+	private JButton botonReset, botonMostrarOcultar;
 	//Barcos
 	private Portaaviones miPortaaviones, pcPortaaviones;
 	private Submarino miSubmarino1, miSubmarino2, pcSubmarino1, pcSubmarino2;
@@ -120,9 +128,36 @@ public class BatallaNaval extends JFrame {
 		
 		//Componentes gráficos
 		
-		//Título
-		//titulo = new JLabel("Batalla Naval");
-		//add(titulo, BorderLayout.NORTH);
+		//Zona superior
+		zonaNorte = new JPanel(new GridBagLayout());
+		zonaNorte.setBorder(new TitledBorder("Zona Norte"));
+		GridBagConstraints constraints = new GridBagConstraints();
+		add(zonaNorte, BorderLayout.NORTH);
+		//Titulo
+		titulo = new JLabel("Batalla Naval");
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.gridwidth = 2;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.anchor = GridBagConstraints.CENTER;
+		zonaNorte.add(titulo, constraints);
+		//Botón mostrar y ocultar
+		botonMostrarOcultar = new JButton("Ver/Ocultar barcos");
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.anchor = GridBagConstraints.CENTER;
+		zonaNorte.add(botonMostrarOcultar, constraints);
+		//Botón reiniciar juego
+		botonReset = new JButton("Reset");
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.fill = GridBagConstraints.NONE;
+		constraints.anchor = GridBagConstraints.LAST_LINE_END;
+		zonaNorte.add(botonReset, constraints);
+		
 		//Muelle
 		muelle = new Muelle(referencia);
 		add(muelle, BorderLayout.WEST);
