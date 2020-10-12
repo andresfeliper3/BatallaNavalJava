@@ -21,12 +21,13 @@ public abstract class Barco {
 	
 	public boolean disparoAcertado(Casilla casilla) {
 		// TODO Auto-generated method stub
-		for(int i = 0; i <= casillasDondeEstoy.length;i++ ) {
+		for(int i = 0; i < casillasDondeEstoy.length;i++ ) {
 
 			if(casilla == casillasDondeEstoy[i]) {
 
-				casillasDondeEstoy[i] = null;
+				casillasDondeEstoy[i].setZonaDestruida(true);
 				revisarBarco();
+				
 				return true;
 			}
 		}
@@ -38,14 +39,18 @@ public abstract class Barco {
 		return naufragado;
 	}
 	
-	public void hundirBarco() {
+	private void hundirBarco() {
+		
+		for(int i=0;i <casillasDondeEstoy.length;i++) {
+			casillasDondeEstoy[i].naufragarBarco();
+		}
 		naufragado = true;
 	}
 	
-	public void revisarBarco() {
-		for(int i=0;i <casillasDondeEstoy.length;) {
+	private void revisarBarco() {
+		for(int i=0;i <casillasDondeEstoy.length;i++) {
 			
-			if(casillasDondeEstoy[i] != null) {
+			if(!casillasDondeEstoy[i].isZonaDestruida()) {
 				return;
 			}
 		}

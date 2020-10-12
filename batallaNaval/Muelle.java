@@ -39,6 +39,7 @@ public class Muelle extends JPanel {
 	private JPanel[] zonas = new JPanel[4];
 	private int indexOfBarcoSeleccionado;
 	private BatallaNaval referenciaBatallaNaval;
+	private int barcosRestantes;
 	
 	public Muelle(BatallaNaval refBatallaNaval) {
 
@@ -172,6 +173,7 @@ public class Muelle extends JPanel {
 				barcos[i].addMouseMotionListener(escucha);
 				zonas[j].add(barcos[i]);
 		}
+			barcosRestantes = barcos.length;
 	}
     
 	private void indexOfBarco(JLabel barcoSeleccionado) {
@@ -188,11 +190,14 @@ public class Muelle extends JPanel {
 		public void mousePressed(MouseEvent eventMouse) {
 			//System.out.println(indexOfBarcoSeleccionado);
 
-			JLabel barcoSeleccionado = (JLabel)eventMouse.getSource();
-			barcoSeleccionado.setVisible(false);
-			indexOfBarco(barcoSeleccionado);
-			referenciaBatallaNaval.pasarBarco(indexOfBarcoSeleccionado);
-			
+			if(referenciaBatallaNaval.hayBarcoSeleccionado() == false) {
+				
+				JLabel barcoSeleccionado = (JLabel)eventMouse.getSource();
+				barcoSeleccionado.setVisible(false);
+				indexOfBarco(barcoSeleccionado);
+				referenciaBatallaNaval.pasarBarco(indexOfBarcoSeleccionado);
+				barcosRestantes--;
+			}
 		}
 
 		
@@ -206,16 +211,18 @@ public class Muelle extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
-			if(eventAction.getSource() == ready) {
+			
+			if(eventAction.getSource() == ready && barcosRestantes==0) {
 				
-				/*READY:
-				 * Cambiar el estado de juego a 1
-				 * Ocultar el Muelle
-				 */
-				
-				//BOTON RESTE EN BATALLA NAVAL:
-				referenciaBatallaNaval.dispose();
-				referenciaBatallaNaval = new BatallaNaval();
+				referenciaBatallaNaval.setEstadoDelJuego(1);
+				referenciaBatallaNaval.setTurno(true); //dispara primero el usuario
+				setVisible(false);
+				referenciaBatallaNaval.pack();
+				referenciaBatallaNaval.setLocationRelativeTo(null);
+				referenciaBatallaNaval.playSound("musicaFondo");
+				referenciaBatallaNaval.partidaEnCurso();
+		
+
 			}
 		}
 	}

@@ -11,11 +11,17 @@ import javax.swing.JComponent;
 public class Casilla extends JButton {
 	private static int casillaSize=0;
 	private static int maxCasillas=0;
+	
+	private static  final Icon hundido = new ImageIcon("src/imagenes/hundido.gif");
+	private static  final Icon agua = new ImageIcon("src/imagenes/agua.gif");
+	private static  final Icon tocado = new ImageIcon("src/imagenes/tocado.gif");
+	
 	private int idCasilla, row, col;
 	private boolean hasBarco;
 	private boolean zonaDestruida;
 	private Icon imagen;
 	private boolean isWater;
+	private boolean naufragado;
 	
 	//Constructor
 	public Casilla(int idCasilla, int row, int col) {
@@ -82,6 +88,16 @@ public class Casilla extends JButton {
 
 	public void setZonaDestruida(boolean zonaDestruida) {
 		this.zonaDestruida = zonaDestruida;
+		
+		if(this.isHasBarco()) {
+			setImagen(tocado);
+		}if(this.isWater && !isHasBarco()) {
+			setImagen(agua);
+		}
+	}
+	public void naufragarBarco() {
+		this.naufragado=true;
+		setImagen(hundido);
 	}
 
 	public int getIdCasilla() {
@@ -92,5 +108,9 @@ public class Casilla extends JButton {
 	}
 	public boolean isWater() {
 		return isWater;
-	}	
+	}
+	public boolean isNaufragado() {
+		return naufragado;
+	}
+
 }

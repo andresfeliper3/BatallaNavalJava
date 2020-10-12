@@ -4,8 +4,13 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -17,6 +22,7 @@ import javax.swing.border.Border;
 
 public class TableroPosicion extends JPanel {
 	
+	private Barco[] misBarcos;
 	private Casilla[][] casillas;
 	private BufferedImage bufferImage = null;
 	private Barco barcoSeleccionado;
@@ -26,13 +32,21 @@ public class TableroPosicion extends JPanel {
 	private Escucha escucha;
 	int clicksDisponibles;
 	int particionImagen=0;
+	private BatallaNaval referenciaBatallaNaval;
+	private Timer timer;
+	private boolean puedoPonerBarco=true;
 	
-	public TableroPosicion() {
-		//Layout
-		escucha = new Escucha();
+	
+	public TableroPosicion(Barco[] misBarcos, BatallaNaval referenciaBatallaNaval) {
 		
+		this.referenciaBatallaNaval = referenciaBatallaNaval;
+		this.misBarcos = misBarcos;
+		
+		//ESCUCHA
+		escucha = new Escucha();
+		//Layout
 		this.setLayout(new GridLayout(gridSize,gridSize));
-		Border border = BorderFactory.createLineBorder(Color.BLACK, 5);
+		Border border = BorderFactory.createLineBorder(Color.BLACK, 7);
 		this.setBorder(border);
 
 		casillas = new Casilla[casillaSize][casillaSize];
@@ -48,6 +62,7 @@ public class TableroPosicion extends JPanel {
 			for(int col=0;col<gridSize;col++) {
 				casillas[row][col] = new Casilla(id,row,col);
 				casillas[row][col].addActionListener(escucha);
+				casillas[row][col].addMouseListener(escucha);
 				add(casillas[row][col]);
 				id++;
 			}
@@ -56,6 +71,7 @@ public class TableroPosicion extends JPanel {
 	
 	private void pintarBarco(int caso,int fila,int columna) {
 		
+		//particionImagen=0;
 		int col = columna;
 		int row = fila;
 		bufferImage = barcoSeleccionado.getBufferedImage();
@@ -72,7 +88,10 @@ public class TableroPosicion extends JPanel {
 			particionImagen = particionImagen + 50;
 			
 		}else if(clicksDisponibles > 0 ) {
-			for(int cualCasilla=1;cualCasilla<barcoSeleccionado.getTamanho();cualCasilla++) {
+			
+			
+			for(int cualCasilla=0;cualCasilla<barcoSeleccionado.getTamanho()-1;cualCasilla++) {
+				
 				subImage = bufferImage.getSubimage(particionImagen, 0, casillaSize, casillaSize);
 				casillaImage = new ImageIcon(subImage);
 						switch(caso) {
@@ -81,10 +100,10 @@ public class TableroPosicion extends JPanel {
 									
 									barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(),RotatedIcon.Rotate.UP));
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.UP));
-									row--;
+									
 								}else{
 
-									casillaSeleccionada = casillas[row][col];
+									casillaSeleccionada = casillas[row-1][col];
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.UP));
 									row--;
 								}
@@ -93,9 +112,9 @@ public class TableroPosicion extends JPanel {
 								if(barcoSeleccionado.getCasillasDondeEstoy()[1] == null) {
 									barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(),RotatedIcon.Rotate.DOWN));
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.DOWN));
-									row++;
+									
 								}else {
-									casillaSeleccionada = casillas[row][col];
+									casillaSeleccionada = casillas[row+1][col];
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.DOWN));
 									row++;
 								}
@@ -104,9 +123,9 @@ public class TableroPosicion extends JPanel {
 								if(barcoSeleccionado.getCasillasDondeEstoy()[1] == null) {	
 									barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(),RotatedIcon.Rotate.REFLECT));
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.REFLECT));
-									col--;
+								
 								}else {
-									casillaSeleccionada = casillas[row][col];
+									casillaSeleccionada = casillas[row][col-1];
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.REFLECT));
 									col--;
 								}
@@ -114,9 +133,9 @@ public class TableroPosicion extends JPanel {
 							case 4://Right
 								if(barcoSeleccionado.getCasillasDondeEstoy()[1] == null) {
 									casillaSeleccionada.setImagen(casillaImage);
-									col++;
+								
 								}else {
-									casillaSeleccionada = casillas[row][col];
+									casillaSeleccionada = casillas[row][col+1];
 									casillaSeleccionada.setImagen(casillaImage);
 									col++;
 								}
@@ -125,11 +144,12 @@ public class TableroPosicion extends JPanel {
 					casillaSeleccionada.setHasBarco();
 					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 					clicksDisponibles--;
-					particionImagen = particionImagen + 50;					
+					particionImagen = particionImagen + 50;		
+					
 			}
 			
 		}if(clicksDisponibles == 0) {
-
+			
 				barcoSeleccionado = null;
 				particionImagen=0;
 		}
@@ -258,17 +278,91 @@ public class TableroPosicion extends JPanel {
 
 	}
 	
-	public class Escucha implements ActionListener{
+	//retorna el barco seleccionado
+	public Barco getBarcoSeleccionado() {
+		return barcoSeleccionado;
+	}
+	
+	//Simula un disparo del computador
+	public boolean generarDisparo(int row,int col) {
+		
+		
+		casillaSeleccionada = casillas[row][col];
+		
+		if(!casillaSeleccionada.isZonaDestruida()) {
+			referenciaBatallaNaval.playSound("disparo");
+					timer = new Timer("Timer");
+					TimerTask task = new TimerTask(){
+						public void run() {
+		
+					
+				System.out.println("TIRO: "+ casillaSeleccionada.getRow()+" "+ casillaSeleccionada.getCol());
+				
+				if(casillaSeleccionada.isHasBarco()) {
+					for(int i=0;i<misBarcos.length;i++) {
+							misBarcos[i].disparoAcertado(casillaSeleccionada);
+					}
+
+					if(referenciaBatallaNaval.revisarDerrota(misBarcos)) {
+					referenciaBatallaNaval.setEstadoDelJuego(3);//Usuario perdió
+					referenciaBatallaNaval.setTurno(false);
+					}else if(casillaSeleccionada.isNaufragado()) {
+					
+						referenciaBatallaNaval.playSound("naufragado");
+						referenciaBatallaNaval.setTurno(false);
+					}
+					//Computador dispara otra vez
+					else {	System.out.println("REPITO PORQUE TE DI EN: "+ casillaSeleccionada.getRow()+" "+ casillaSeleccionada.getCol());
+						referenciaBatallaNaval.playSound("disparoAcertado");
+						referenciaBatallaNaval.setTurno(false);
+					}
+					
+				}else{
+					referenciaBatallaNaval.playSound("disparoAlAgua");
+					casillaSeleccionada.setZonaDestruida(true);
+					referenciaBatallaNaval.setTurno(true);
+					cambiarBorde(Color.BLACK);
+				}
+			}
+		};
+		
+			timer.schedule(task,1500);
+			return true;
+			
+		}
+		return false;
+	}
+	//cambiar el color del borde del tablero
+	public void cambiarBorde(Color color) {
+		Border border = BorderFactory.createLineBorder(color ,7);
+		this.setBorder(border);
+	}
+	//cambia el booleano a falso para poder usarlo y parar el sonido de las casillas al pasar el mouse
+	public void setPuedoPonerBarco() {
+		this.puedoPonerBarco=false;
+	}
+
+
+
+	public class Escucha extends MouseAdapter implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
+			
+			
 			casillaSeleccionada = (Casilla)eventAction.getSource();
 			if(clicksDisponibles >0 && barcoSeleccionado != null && casillaSeleccionada.isHasBarco()==false && casillaSeleccionada.isWater()) {
 
 					examinarOrientacionBarco();		
 			}
+		}		@Override
+		public void mouseEntered(MouseEvent eventMouse) {
+			// TODO Auto-generated method stub
 			
+			if(puedoPonerBarco) {
+				referenciaBatallaNaval.playSound("pop");
+			}
 		}
 	}
 }
