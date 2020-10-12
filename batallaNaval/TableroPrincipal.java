@@ -27,6 +27,7 @@ public class TableroPrincipal extends JPanel {
 	private int limiteInferior = 1;
 	private boolean disparoHabilitado = false;
 	private BatallaNaval ventana;
+	private int clicksDisponibles;
 	// Para quitar
 	private ImageIcon imagen;
 
@@ -44,7 +45,7 @@ public class TableroPrincipal extends JPanel {
 		// barcos
 		barcos = new Barco[cantidadBarcos];
 		this.barcos = pcBarcos;
-		//referencia
+		// referencia
 		this.ventana = ventana;
 
 		// JPanel configuration
@@ -165,101 +166,157 @@ public class TableroPrincipal extends JPanel {
 
 	}
 
+	int counter = 0;
+	Casilla casillaActual;
+
 	private void acomodarBarcos() {
 
 		for (int barco = 0; barco < barcos.length; barco++) {
 
 			// Dentro del ciclo de los barcos
 			barcoSeleccionado = barcos[barco];
+			clicksDisponibles = barcoSeleccionado.getTamanho();
+			// Cargar imagen
+			bufferedImage = barcoSeleccionado.getBufferedImage();
 			// Generar casilla aleatoria que funcione. Mientras tenga un barco, genera otra
 			// casilla aleatoria.
 			do {
 				randomCasilla();
-			} while (casillaSeleccionada.getHasBarco() || !cabeElBarco());
-			// Acomodar solo el portaaviones
+			} while (casillaSeleccionada.getHasBarco() || !cabeElBarco());		
+			
+			
+			//Primera parte del barco
+			if (clicksDisponibles == barcoSeleccionado.getTamanho()) {
+				
+				BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+				imagen = new ImageIcon(subImagen);
+				casillaSeleccionada.setImagen(imagen);
+				casillaSeleccionada.setHasBarco(); // Decirle a la casilla que tiene un barco
+				barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
+				counter += 50;
+				clicksDisponibles--;
+			}		
+			//Si es la segunda parte del barco
+			if(clicksDisponibles == barcoSeleccionado.getTamanho() - 1 && clicksDisponibles != 0) {
+				switch (orientacion) {
+				case 1:
+					// Por la derecha
+					detallesBarco(1);
+					
+					break;
+				case 2:
+					// Por la izquierda
+					detallesBarco(2);
+					// Rota el primero
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(
+							barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.REFLECT));
 
-			imagen = new ImageIcon(barcoSeleccionado.getBufferedImage());
-			Casilla casillaActual = null;
-			switch (orientacion) {
-			case 1:
-				// Por la derecha
-				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
-					casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() + i];
-					detallesAcomodarBarco(casillaActual);
-				}
-				break;
-			case 2:
-				// Por la izquierda
-				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
-					casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() - i];
-					detallesAcomodarBarco(casillaActual);
-				}
-				break;
-			case 3:
-				// Por abajo
-				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
-					casillaActual = casillas[casillaSeleccionada.getRow() + i][casillaSeleccionada.getCol()];
-					detallesAcomodarBarco(casillaActual);
-				}
-				break;
-			case 4:
-				// Por arriba
-				for (int i = 0; i < barcoSeleccionado.getTamanho(); i++) {
-					casillaActual = casillas[casillaSeleccionada.getRow() - i][casillaSeleccionada.getCol()];
-					detallesAcomodarBarco(casillaActual);
-				}
-				break;
+					break;
+				case 3:
+					// Por abajo
+					detallesBarco(3);
+					// Rota el primero
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(
+							barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.DOWN));
+					break;
+				case 4:
+					// Por arriba
+					detallesBarco(4);
+					// Rota el primero
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(
+							barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.UP));
+					break;
 
+				}
 			}
+			// Si ya puse todos las partes del barco, se borra el barco seleccionado para que pueda escoger otro
+			if(clicksDisponibles == 0) {
+				barcoSeleccionado = null;
+				counter = 0;
+			}
+			
+			
 		}
 	}
-	//Configuraciones de cada barco a acomodar
-	private void detallesAcomodarBarco(Casilla casillaActual) {
-		//casillaActual.setImagen(imagen);
-		casillaActual.setHasBarco();
-		barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+
+	// Configuraciones de cada barco a acomodar
+	private void detallesBarco(int orientacion) {
+		for (int i = 1; i < barcoSeleccionado.getTamanho(); i++) {
+			BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
+			imagen = new ImageIcon(subImagen);
+			switch (orientacion) {
+			// Derecha
+			case 1:
+				casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() + i];
+				casillaActual.setImagen(imagen);
+				break;
+			// Izquierda
+			case 2:
+				casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() - i];
+				casillaActual.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.REFLECT));
+				break;
+			// Abajo	
+			case 3:
+				casillaActual = casillas[casillaSeleccionada.getRow() + i][casillaSeleccionada.getCol()];
+				casillaActual.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.DOWN));
+				break;
+			// Arriba
+			case 4:
+				casillaActual = casillas[casillaSeleccionada.getRow() - i][casillaSeleccionada.getCol()];
+				casillaActual.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.UP));
+				break;
+			}
+			casillaActual.setHasBarco();
+			barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
+			counter += 50;
+			clicksDisponibles--;
+			
+		}
+
 	}
-	
-	//Habilita o deshabilita el disparo en las casilla
+
+	// Habilita o deshabilita el disparo en las casilla
 	public void setDisparoHabilitado(boolean disponible) {
 		this.disparoHabilitado = disponible;
-		for(int row = 1; row < gridSize; row++) {
-			for(int col = 1; col < gridSize; col++) {
-				if(!casillas[row][col].isZonaDestruida()) {
+		for (int row = 1; row < gridSize; row++) {
+			for (int col = 1; col < gridSize; col++) {
+				if (!casillas[row][col].isZonaDestruida()) {
 					casillas[row][col].setEnabled(disponible);
 				}
-				
+
 			}
 		}
 	}
-	//Analizaz si la casilla clickeada tiene un barco, e internamente el barco mira si está hundido
+
+	// Analizaz si la casilla clickeada tiene un barco, e internamente el barco mira
+	// si está hundido
 	private void analizarDisparo(Casilla casillaClickeada) {
-		if(casillaClickeada.getHasBarco()) {
-			for(int barco = 0; barco < barcos.length; barco++) {
+		if (casillaClickeada.getHasBarco()) {
+			for (int barco = 0; barco < barcos.length; barco++) {
 				barcos[barco].disparoAcertado(casillaClickeada);
 			}
-			//Revisar si el computador perdió
-			if(ventana.revisarDerrota(barcos)) {
-				ventana.setEstado(2); //usuario gana
+			// Revisar si el computador perdió
+			if (ventana.revisarDerrota(barcos)) {
+				ventana.setEstado(2); // usuario gana
 			}
-			//Mantiene el turno del usuario
+			// Mantiene el turno del usuario
 			ventana.setTurno(true);
-		}
-		else {
+		} else {
 			casillaClickeada.setZonaDestruida(true);
-			//Cambia al turno del computador
+			// Cambia al turno del computador
 			ventana.setTurno(false);
 		}
 	}
+
 	private class Escucha implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
-			Casilla casillaClickeada = (Casilla)eventAction.getSource();
-			//Si la casilla tiene agua, analiza el disparo
-			if(casillaClickeada.getHasWater() && !casillaClickeada.isZonaDestruida() && ventana.getEstado() == 1) {
-				analizarDisparo(casillaClickeada);		
-			}		
+			Casilla casillaClickeada = (Casilla) eventAction.getSource();
+			// Si la casilla tiene agua, analiza el disparo
+			if (casillaClickeada.getHasWater() && !casillaClickeada.isZonaDestruida() && ventana.getEstado() == 1) {
+				analizarDisparo(casillaClickeada);
+			}
 		}
 	}
 }

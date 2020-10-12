@@ -4,8 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,6 +41,8 @@ public class BatallaNaval extends JFrame {
 	private JLabel titulo;
 	private Barco[] misBarcos, pcBarcos;
 	private Barco barcoSeleccionado;
+	//Sonido
+	private Clip clip;
 	//Constructor
 	public BatallaNaval() {
 		this.estado = 0;
@@ -202,12 +209,55 @@ public class BatallaNaval extends JFrame {
 	
 	//Retorna true si todos los barcos del array están naufragados, y false en caso contrario.
 	public boolean revisarDerrota(Barco[] barcos) {
+		System.out.println("entró a revisar derrota");
 		//Derrota
 		for(int barco = 0; barco < misBarcos.length; barco++) {
-			if(!misBarcos[barco].isNaufragado()) {
+			if(!barcos[barco].isNaufragado()) {
 				return false;
 			}
 		}
 		return true;
 	}
+	
+	//Sonidos del juego
+    public void playSound(String sonido) { 
+
+        File soundFile = new File("");
+        float volumen = 0;
+
+        try {
+            if(sonido=="musicaFondo") {
+
+                soundFile = new File("src/sonidos/musicaBatallaNaval.wav");
+                volumen = -15.0f;
+            }else if(sonido == "disparo") {
+                soundFile = new File("src/sonidos/disparo.wav");
+                volumen = -5.0f;
+            }else if(sonido == "disparoAcertado") {
+                soundFile = new File("src/sonidos/disparoAcertado.wav");
+                volumen = -5.0f;
+            }else if(sonido == "disparoAlAgua") {
+                soundFile = new File("src/sonidos/disparoAlAgua.wav");
+                volumen = -5.0f;
+            }else if(sonido == "naufragado") {
+                soundFile = new File("src/sonidos/naufragado.wav");
+                volumen = -0.0f;
+            }else if(sonido == "pop") {
+                soundFile = new File("src/sonidos/pop.wav");
+                volumen = -10.0f;
+            }
+
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            FloatControl gainControl = 
+                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(volumen); // Reduce volume by 10 decibels.
+            clip.start();
+
+        }catch(Exception ex){
+            System.err.println(ex.getMessage());
+        }
+
+    }
 }

@@ -27,7 +27,9 @@ public class TableroPosicion extends JPanel {
 	private int clicksDisponibles;
 	private BatallaNaval ventana;
 	private Barco[] misBarcos;
-
+	//Modo inteligente
+	private boolean barcoEnLaMira = false; //es true si el computador está atacando un barco definido, false si está en tiro aleatorio.
+	//VOLVER A MIRAR EL MODO INTELIGENTE DESPUÉS 
 	// Constructor
 	public TableroPosicion(Barco[] misBarcos, BatallaNaval ventana) {
 		// Layout
@@ -156,8 +158,7 @@ public class TableroPosicion extends JPanel {
 			}
 		}
 
-		// Si ya puse todos las partes del barco, se borra el barco seleccionado para
-		// quem pueda escoger otro
+		// Si ya puse todos las partes del barco, se borra el barco seleccionado para que pueda escoger otro
 		if (clicksDisponibles == 0) {
 			barcoSeleccionado = null;
 			counter = 0;
@@ -291,9 +292,12 @@ public class TableroPosicion extends JPanel {
 	// correctamente, false en caso contrario.
 	public boolean generarDisparo(int row, int col) {
 		casillaSeleccionada = casillas[row][col];
-		if (!casillaSeleccionada.isZonaDestruida()) {
-			if (casillaSeleccionada.getHasBarco()) {
-				for (int barco = 0; barco < misBarcos.length; barco++) {
+		
+		if (!barcoEnLaMira && !casillaSeleccionada.isZonaDestruida()) {
+			//Si la casilla tiene un barco, es decir, atinó el tiro
+			if (casillaSeleccionada.getHasBarco()) { 
+				//Revisa si fue golpeado alguna parte de algún barco del usuario
+				for(int barco = 0; barco < misBarcos.length; barco++) {
 					misBarcos[barco].disparoAcertado(casillaSeleccionada);
 				}
 				// Revisar si el usuario pierde
@@ -303,7 +307,10 @@ public class TableroPosicion extends JPanel {
 				// Mantiene el turno del computador
 				ventana.setTurno(false);
 
-			} else {
+			}
+			//Si el computador falla el tiro
+			else {
+				barcoEnLaMira = false;
 				casillaSeleccionada.setZonaDestruida(true);
 				// Cambia al turno del usuario
 				ventana.setTurno(true);
