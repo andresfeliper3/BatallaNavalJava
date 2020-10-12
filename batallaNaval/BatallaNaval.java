@@ -2,6 +2,7 @@ package batallaNaval;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -39,8 +40,9 @@ public class BatallaNaval extends JFrame {
 	private TableroPrincipal tableroPrincipal;
 	private BatallaNaval referencia = this;
 	private Muelle muelle;
-	private JPanel zonaNorte;
+	private JPanel zonaBotones;
 	private JButton botonReset, botonMostrarOcultar;
+	private Escucha escucha;
 	//Barcos
 	private Portaaviones miPortaaviones, pcPortaaviones;
 	private Submarino miSubmarino1, miSubmarino2, pcSubmarino1, pcSubmarino2;
@@ -63,16 +65,18 @@ public class BatallaNaval extends JFrame {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-		this.setBackground(Color.WHITE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 	
 	private void initGUI() {
 		//Container & layout
-	
+		Container container = getContentPane();
+		container.setLayout(new GridBagLayout());
+		container.setBackground(Color.WHITE);
+		GridBagConstraints constraints = new GridBagConstraints();
 		//Escucha
-	
+		escucha = new Escucha();
 		
 		//Objetos 
 		
@@ -128,45 +132,44 @@ public class BatallaNaval extends JFrame {
 		
 		//Componentes gráficos
 		
-		//Zona superior
-		zonaNorte = new JPanel(new GridBagLayout());
-		zonaNorte.setBorder(new TitledBorder("Zona Norte"));
-		GridBagConstraints constraints = new GridBagConstraints();
-		add(zonaNorte, BorderLayout.NORTH);
-		//Titulo
+		//Título
 		titulo = new JLabel("Batalla Naval");
 		constraints.gridx = 0;
 		constraints.gridy = 0;
-		constraints.gridwidth = 2;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.anchor = GridBagConstraints.CENTER;
-		zonaNorte.add(titulo, constraints);
-		//Botón mostrar y ocultar
-		botonMostrarOcultar = new JButton("Ver/Ocultar barcos");
-		constraints.gridx = 0;
-		constraints.gridy = 1;
-		constraints.gridwidth = 1;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.anchor = GridBagConstraints.CENTER;
-		zonaNorte.add(botonMostrarOcultar, constraints);
-		//Botón reiniciar juego
+		constraints.gridwidth = 3;
+		add(titulo, constraints);
+		//Zona botones
+		zonaBotones = new JPanel();
+		zonaBotones.setBackground(Color.WHITE);
+		botonMostrarOcultar = new JButton("Ver barcos");
+		botonMostrarOcultar.addActionListener(escucha);
+		zonaBotones.add(botonMostrarOcultar);
 		botonReset = new JButton("Reset");
-		constraints.gridx = 1;
+		botonReset.addActionListener(escucha);
+		zonaBotones.add(botonReset);
+		constraints.gridx = 2;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
-		constraints.fill = GridBagConstraints.NONE;
-		constraints.anchor = GridBagConstraints.LAST_LINE_END;
-		zonaNorte.add(botonReset, constraints);
+		constraints.anchor = GridBagConstraints.EAST;
+		add(zonaBotones, constraints);
 		
 		//Muelle
 		muelle = new Muelle(referencia);
-		add(muelle, BorderLayout.WEST);
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		constraints.anchor = GridBagConstraints.CENTER;
+		add(muelle, constraints);
 		//Tablero posición
 		tableroPosicion = new TableroPosicion(misBarcos, referencia);
-		add(tableroPosicion, BorderLayout.CENTER);
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+		add(tableroPosicion, constraints);
 		//Tablero principal
 		tableroPrincipal = new TableroPrincipal(pcBarcos, referencia);
-		add(tableroPrincipal, BorderLayout.EAST);
+		constraints.gridx = 2;
+		constraints.gridy = 2;
+		add(tableroPrincipal, constraints);
 
 		
 	}
@@ -254,6 +257,10 @@ public class BatallaNaval extends JFrame {
 		return true;
 	}
 	
+	//Editar texto del botonMostrarOcultar
+	public void setTextMostrarOcultar(String text) {
+		botonMostrarOcultar.setText(text);
+	}
 	//Sonidos del juego
     public void playSound(String sonido) { 
 
@@ -294,5 +301,19 @@ public class BatallaNaval extends JFrame {
             System.err.println(ex.getMessage());
         }
 
+    }
+    
+    private class Escucha implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent eventAction) {
+			// TODO Auto-generated method stub
+			if(eventAction.getSource() == botonReset) {
+				
+			} else if(eventAction.getSource() == botonMostrarOcultar) {
+				tableroPrincipal.mostrarOcultarBarcos();
+			}
+		}
+    	
     }
 }

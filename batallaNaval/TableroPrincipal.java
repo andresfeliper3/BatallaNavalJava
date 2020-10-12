@@ -25,7 +25,7 @@ public class TableroPrincipal extends JPanel {
 	private int orientacion; // 1: derecha, 2: izquierda, 3: abajo, 4: arriba
 	private Barco barcoSeleccionado;
 	private int limiteInferior = 1;
-	private boolean disparoHabilitado = false;
+	private boolean disparoHabilitado = false, mostrarBarcos = false;
 	private BatallaNaval ventana;
 	private int clicksDisponibles;
 	// Para quitar
@@ -191,6 +191,7 @@ public class TableroPrincipal extends JPanel {
 				BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
 				imagen = new ImageIcon(subImagen);
 				casillaSeleccionada.setImagen(imagen);
+				casillaSeleccionada.setIcon(null);
 				casillaSeleccionada.setHasBarco(); // Decirle a la casilla que tiene un barco
 				barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 				counter += 50;
@@ -210,7 +211,7 @@ public class TableroPrincipal extends JPanel {
 					// Rota el primero
 					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(
 							barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.REFLECT));
-
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setIcon(null);
 					break;
 				case 3:
 					// Por abajo
@@ -218,6 +219,7 @@ public class TableroPrincipal extends JPanel {
 					// Rota el primero
 					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(
 							barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.DOWN));
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setIcon(null);
 					break;
 				case 4:
 					// Por arriba
@@ -225,6 +227,7 @@ public class TableroPrincipal extends JPanel {
 					// Rota el primero
 					barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(
 							barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(), RotatedIcon.Rotate.UP));
+					barcoSeleccionado.getCasillasDondeEstoy()[0].setIcon(null);
 					break;
 
 				}
@@ -266,6 +269,7 @@ public class TableroPrincipal extends JPanel {
 				casillaActual.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.UP));
 				break;
 			}
+			casillaActual.setIcon(null);
 			casillaActual.setHasBarco();
 			barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
 			counter += 50;
@@ -305,6 +309,30 @@ public class TableroPrincipal extends JPanel {
 			casillaClickeada.setZonaDestruida(true);
 			// Cambia al turno del computador
 			ventana.setTurno(false);
+		}
+	}
+	//Muestra los barcos o los oculta
+	public void mostrarOcultarBarcos() {
+		//Si está mostrando los barcos, los oculta
+		if(mostrarBarcos) {
+			for(int row = 1; row < gridSize; row++) {
+				for(int col = 1; col < gridSize; col++) {
+					casillas[row][col].setIcon(null);
+				}
+			}
+			mostrarBarcos = false;
+			ventana.setTextMostrarOcultar("Ver barcos");
+		} 
+		//Si no está mostrando los barcos, los muestra 
+		else {
+			for(int row = 1; row < gridSize; row++) {
+				for(int col = 1; col < gridSize; col++) {
+					casillas[row][col].setIcon(casillas[row][col].getImagen());
+				}
+			}
+			
+			mostrarBarcos = true;
+			ventana.setTextMostrarOcultar("Ocultar barcos");
 		}
 	}
 
