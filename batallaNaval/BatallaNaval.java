@@ -3,17 +3,25 @@ package batallaNaval;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,8 +59,10 @@ public class BatallaNaval extends JFrame {
 	private JLabel titulo;
 	private Barco[] misBarcos, pcBarcos;
 	private Barco barcoSeleccionado;
+	private Timer timer;
 	//Sonido
 	private Clip clip;
+	private Clip musicaFondo;
 	//Constructor
 	public BatallaNaval() {
 		this.estado = 0;
@@ -62,18 +72,22 @@ public class BatallaNaval extends JFrame {
 		
 		this.setTitle("Batalla Naval");
 		this.pack();
-		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		this.setResizable(true);	
+		this.setVisible(true);	
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 	
 	private void initGUI() {
 		//Container & layout
+	
+		
+		
 		Container container = getContentPane();
 		container.setLayout(new GridBagLayout());
 		container.setBackground(Color.WHITE);
+		
 		GridBagConstraints constraints = new GridBagConstraints();
 		//Escucha
 		escucha = new Escucha();
@@ -133,7 +147,7 @@ public class BatallaNaval extends JFrame {
 		//Componentes gráficos
 		
 		//Título
-		titulo = new JLabel("Batalla Naval");
+		titulo = new JLabel(new ImageIcon(new ImageIcon("src/imagenes/banner.png").getImage().getScaledInstance(600, 100, Image.SCALE_SMOOTH)));
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.gridwidth = 3;
@@ -158,7 +172,7 @@ public class BatallaNaval extends JFrame {
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
-		constraints.anchor = GridBagConstraints.CENTER;
+		constraints.anchor = GridBagConstraints.SOUTH;
 		add(muelle, constraints);
 		//Tablero posición
 		tableroPosicion = new TableroPosicion(misBarcos, referencia);
@@ -170,7 +184,7 @@ public class BatallaNaval extends JFrame {
 		constraints.gridx = 2;
 		constraints.gridy = 2;
 		add(tableroPrincipal, constraints);
-
+		
 		
 	}
 
@@ -196,6 +210,7 @@ public class BatallaNaval extends JFrame {
 	 * */
 	public void setEstado(int estado) {
 		this.estado = estado;
+		System.out.println("estado cambiando a " + estado);
 	}
 	
 	public int getEstado() {
@@ -204,10 +219,13 @@ public class BatallaNaval extends JFrame {
 
 	public void setTurno(boolean turno) {
 		this.turno = turno;
+		System.out.println("en setTurno");
 		partidaEnCurso();
 	}
 	
 	private void partidaEnCurso() {
+		
+		System.out.println("En partida en curso, el estado " + estado);
 		switch(estado) {
 		case 1:
 			//Turno del jugador
@@ -218,6 +236,7 @@ public class BatallaNaval extends JFrame {
 			}	
 			//Turno del computador
 			else {
+				
 				//Deshabilitar los disparos del usuario
 				tableroPrincipal.setDisparoHabilitado(false);
 				//Disparo del computador	
@@ -237,7 +256,7 @@ public class BatallaNaval extends JFrame {
 			JOptionPane.showMessageDialog(null, "Perdiste");
 			break;
 			
-		}
+		}	
 	}
 	
 	private int randomPosition() {
@@ -247,12 +266,14 @@ public class BatallaNaval extends JFrame {
 	
 	//Retorna true si todos los barcos del array están naufragados, y false en caso contrario.
 	public boolean revisarDerrota(Barco[] barcos) {
-		System.out.println("entró a revisar derrota");
+		System.out.println("Dentro de revisarDerrota");
 		//Derrota
 		for(int barco = 0; barco < misBarcos.length; barco++) {
 			if(!barcos[barco].isNaufragado()) {
+				System.out.println("Barco naufragado1? " + barcos[barco].isNaufragado());
 				return false;
 			}
+			System.out.println("Barco naufragado2? " + barcos[barco].isNaufragado());
 		}
 		return true;
 	}
@@ -268,8 +289,7 @@ public class BatallaNaval extends JFrame {
         float volumen = 0;
 
         try {
-            if(sonido=="musicaFondo") {
-
+            if(sonido == "musicaFondo") {
                 soundFile = new File("src/sonidos/musicaBatallaNaval.wav");
                 volumen = -15.0f;
             }else if(sonido == "disparo") {
@@ -288,14 +308,23 @@ public class BatallaNaval extends JFrame {
                 soundFile = new File("src/sonidos/pop.wav");
                 volumen = -10.0f;
             }
-
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-            clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            FloatControl gainControl = 
-                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(volumen); // Reduce volume by 10 decibels.
-            clip.start();
+            if(sonido == "musicaFondo") {
+            	musicaFondo = AudioSystem.getClip();
+                musicaFondo.open(audioIn);
+                FloatControl gainControl = 
+                        (FloatControl) musicaFondo.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(volumen); // Reduce volume by 10 decibels.
+            	musicaFondo.start();
+            }
+            else {
+            	clip = AudioSystem.getClip();
+                clip.open(audioIn);
+                FloatControl gainControl = 
+                        (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(volumen); // Reduce volume by 10 decibels.
+            	clip.start();
+            }
 
         }catch(Exception ex){
             System.err.println(ex.getMessage());
@@ -309,7 +338,9 @@ public class BatallaNaval extends JFrame {
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
 			if(eventAction.getSource() == botonReset) {
-				
+				musicaFondo.stop();
+				dispose();
+				referencia = new BatallaNaval();
 			} else if(eventAction.getSource() == botonMostrarOcultar) {
 				tableroPrincipal.mostrarOcultarBarcos();
 			}

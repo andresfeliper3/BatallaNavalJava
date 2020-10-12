@@ -4,8 +4,12 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -25,9 +29,10 @@ public class TableroPrincipal extends JPanel {
 	private int orientacion; // 1: derecha, 2: izquierda, 3: abajo, 4: arriba
 	private Barco barcoSeleccionado;
 	private int limiteInferior = 1;
-	private boolean disparoHabilitado = false, mostrarBarcos = false;
+	private boolean disparoHabilitado = false, mostrarBarcos = false, puedoDisparar = true;
 	private BatallaNaval ventana;
 	private int clicksDisponibles;
+	private Timer timer;
 	// Para quitar
 	private ImageIcon imagen;
 
@@ -42,6 +47,8 @@ public class TableroPrincipal extends JPanel {
 		escucha = new Escucha();
 		// casillas
 		casillas = new Casilla[gridSize][gridSize];
+		// timer
+		timer = new Timer("Timer");
 		// barcos
 		barcos = new Barco[cantidadBarcos];
 		this.barcos = pcBarcos;
@@ -63,6 +70,7 @@ public class TableroPrincipal extends JPanel {
 			for (int col = 0; col < gridSize; col++) {
 				casillas[row][col] = new Casilla(id, row, col);
 				casillas[row][col].addActionListener(escucha);
+				casillas[row][col].addMouseListener(escucha);
 				add(casillas[row][col]);
 				id++;
 			}
@@ -182,12 +190,11 @@ public class TableroPrincipal extends JPanel {
 			// casilla aleatoria.
 			do {
 				randomCasilla();
-			} while (casillaSeleccionada.getHasBarco() || !cabeElBarco());		
-			
-			
-			//Primera parte del barco
+			} while (casillaSeleccionada.getHasBarco() || !cabeElBarco());
+
+			// Primera parte del barco
 			if (clicksDisponibles == barcoSeleccionado.getTamanho()) {
-				
+
 				BufferedImage subImagen = bufferedImage.getSubimage(counter, 0, casillaSize, casillaSize);
 				imagen = new ImageIcon(subImagen);
 				casillaSeleccionada.setImagen(imagen);
@@ -196,14 +203,14 @@ public class TableroPrincipal extends JPanel {
 				barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 				counter += 50;
 				clicksDisponibles--;
-			}		
-			//Si es la segunda parte del barco
-			if(clicksDisponibles == barcoSeleccionado.getTamanho() - 1 && clicksDisponibles != 0) {
+			}
+			// Si es la segunda parte del barco
+			if (clicksDisponibles == barcoSeleccionado.getTamanho() - 1 && clicksDisponibles != 0) {
 				switch (orientacion) {
 				case 1:
 					// Por la derecha
 					detallesBarco(1);
-					
+
 					break;
 				case 2:
 					// Por la izquierda
@@ -232,13 +239,13 @@ public class TableroPrincipal extends JPanel {
 
 				}
 			}
-			// Si ya puse todos las partes del barco, se borra el barco seleccionado para que pueda escoger otro
-			if(clicksDisponibles == 0) {
+			// Si ya puse todos las partes del barco, se borra el barco seleccionado para
+			// que pueda escoger otro
+			if (clicksDisponibles == 0) {
 				barcoSeleccionado = null;
 				counter = 0;
 			}
-			
-			
+
 		}
 	}
 
@@ -258,7 +265,7 @@ public class TableroPrincipal extends JPanel {
 				casillaActual = casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol() - i];
 				casillaActual.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.REFLECT));
 				break;
-			// Abajo	
+			// Abajo
 			case 3:
 				casillaActual = casillas[casillaSeleccionada.getRow() + i][casillaSeleccionada.getCol()];
 				casillaActual.setImagen(new RotatedIcon(imagen, RotatedIcon.Rotate.DOWN));
@@ -274,7 +281,7 @@ public class TableroPrincipal extends JPanel {
 			barcoSeleccionado.setCasillasDondeEstoy(casillaActual);
 			counter += 50;
 			clicksDisponibles--;
-			
+
 		}
 
 	}
@@ -295,56 +302,125 @@ public class TableroPrincipal extends JPanel {
 	// Analiza si la casilla clickeada tiene un barco, e internamente el barco mira
 	// si está hundido
 	private void analizarDisparo(Casilla casillaClickeada) {
-		if(casillaClickeada.getHasBarco()) {
+		puedoDisparar = true;
+		if (casillaClickeada.getHasBarco()) {
+			// Ejecución del timer
+			System.out.println("empezando disparo");
+			
+			ventana.playSound("disparoAcertado");
+			System.out.println("dentro del timer");
 			for (int barco = 0; barco < barcos.length; barco++) {
 				barcos[barco].disparoAcertado(casillaClickeada);
 			}
+
+			if(casillaClickeada.isNaufragado()) {
+				ventana.playSound("naufragado");
+			}
 			// Revisar si el computador perdió
 			if (ventana.revisarDerrota(barcos)) {
+				System.out.println("revisando derrota del computador");
 				ventana.setEstado(2); // usuario gana
 			}
 			// Mantiene el turno del usuario
+			System.out.println("antes de setTurno");
 			ventana.setTurno(true);
 		} else {
-			casillaClickeada.setZonaDestruida(true);
+
 			// Cambia al turno del computador
+			// Ejecución del timer
+			
+
+			casillaClickeada.setZonaDestruida(true);
+			ventana.playSound("disparoAlAgua");
+			
+
 			ventana.setTurno(false);
+
 		}
 	}
-	//Muestra los barcos o los oculta
+
+	// Muestra los barcos o los oculta
 	public void mostrarOcultarBarcos() {
-		//Si está mostrando los barcos, los oculta
-		if(mostrarBarcos) {
-			for(int row = 1; row < gridSize; row++) {
-				for(int col = 1; col < gridSize; col++) {
-					casillas[row][col].setIcon(null);
+		// Si está mostrando los barcos, los oculta
+		if (mostrarBarcos) {
+			for (int row = 1; row < gridSize; row++) {
+				for (int col = 1; col < gridSize; col++) {
+					// Si la zona no está destruida, quita el icon
+					if (!casillas[row][col].isZonaDestruida()) {
+						casillas[row][col].setIcon(null);
+					}
 				}
 			}
 			mostrarBarcos = false;
 			ventana.setTextMostrarOcultar("Ver barcos");
-		} 
-		//Si no está mostrando los barcos, los muestra 
+		}
+		// Si no está mostrando los barcos, los muestra
 		else {
-			for(int row = 1; row < gridSize; row++) {
-				for(int col = 1; col < gridSize; col++) {
-					casillas[row][col].setIcon(casillas[row][col].getImagen());
+			for (int row = 1; row < gridSize; row++) {
+				for (int col = 1; col < gridSize; col++) {
+					if (!casillas[row][col].isZonaDestruida()) {
+						casillas[row][col].setIcon(casillas[row][col].getImagen());
+					}
 				}
 			}
-			
+
 			mostrarBarcos = true;
 			ventana.setTextMostrarOcultar("Ocultar barcos");
 		}
 	}
 
-	private class Escucha implements ActionListener {
+	private class Escucha implements ActionListener, MouseListener {
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
 			Casilla casillaClickeada = (Casilla) eventAction.getSource();
 			// Si la casilla tiene agua, analiza el disparo
-			if (casillaClickeada.getHasWater() && !casillaClickeada.isZonaDestruida() && ventana.getEstado() == 1) {
-				analizarDisparo(casillaClickeada);
+			if (casillaClickeada.getHasWater() && !casillaClickeada.isZonaDestruida() && ventana.getEstado() == 1 && puedoDisparar) {
+				puedoDisparar = false;
+				ventana.playSound("disparo");
+				timer = new Timer("Timer");
+				TimerTask task = new TimerTask() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						analizarDisparo(casillaClickeada);
+					}				
+				};
+				timer.schedule(task, 1500);
 			}
 		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent eventMouse) {
+			// TODO Auto-generated method stub
+			if (ventana.getEstado() == 1 && puedoDisparar) {
+				ventana.playSound("pop");
+			}
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 }

@@ -16,9 +16,10 @@ public class Casilla extends JButton {
 	private static int maxCasillas = 0;
 	private static int lineCasillas = 0;
 	private int idCasilla, row, col;
-	private boolean hasBarco, zonaDestruida, hasWater;
+	private boolean hasBarco, zonaDestruida, hasWater, naufragado;
 	private Icon imagen;
 	private String texto;		
+
 	//Constructor
 	public Casilla(int idCasilla, int row, int col) {
 		this.idCasilla = idCasilla;
@@ -95,7 +96,12 @@ public class Casilla extends JButton {
 		this.zonaDestruida = zonaDestruida;
 	}
 	
-	public void naufragarBarco() {
+	
+	public boolean isNaufragado() {
+		return naufragado;
+	}
+	public void setNaufragado() {
+		naufragado = true;
 		this.setIcon(hundido);
 	}
 

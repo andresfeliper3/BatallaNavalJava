@@ -40,9 +40,10 @@ public abstract class Barco {
 		}
 	}
 	private void hundirBarco() {
+		System.out.println("hundir barco: " + tamanho);
 		naufragado = true;
 		for(int i = 0; i < casillasDondeEstoy.length; i++) {
-			casillasDondeEstoy[i].naufragarBarco();
+			casillasDondeEstoy[i].setNaufragado();
 		}
 	}
 	
