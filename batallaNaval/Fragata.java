@@ -13,10 +13,8 @@ import javax.swing.JOptionPane;
  */
 public class Fragata extends Barco {
 
-	/** The Constant rutaFile. */
-	public static final String rutaFile="src/imagenes/fragata.png";
 	
-	/** The Constant numeroCasillas. */
+	public static final String rutaFile="src/imagenes/fragata.png";
 	public static final int numeroCasillas = 1;
 
 	/**

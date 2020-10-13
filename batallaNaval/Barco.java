@@ -19,18 +19,10 @@ import javax.swing.Icon;
  */
 public abstract class Barco {
 
-	/** The tamanho. */
 	protected int tamanho;
-	
-	/** The naufragado. */
 	protected boolean naufragado=false;
-	
-	/** The casillas donde estoy. */
 	protected Casilla[] casillasDondeEstoy;
-	
-	/** The buffered image. */
 	protected BufferedImage bufferedImage = null;
-	
 	/**
 	 * Instantiates a new barco.
 	 *
@@ -42,14 +34,12 @@ public abstract class Barco {
 		this.tamanho = tamanhoBarco;
 		this.casillasDondeEstoy = new Casilla[tamanho];
 	}
-	
 	/**
 	 * Disparo acertado.
-	 *
+	 * Examina el disparo generado en los tableros para determinar si el barco fue impactado o no
 	 * @param casilla the casilla
 	 * @return true, if successful
 	 */
-	//Examina el disparo generado en los tableros para determinar si el barco fue impactado o no
 	public boolean disparoAcertado(Casilla casilla) {
 		// TODO Auto-generated method stub
 		for(int i = 0; i < casillasDondeEstoy.length;i++ ) {
@@ -61,11 +51,10 @@ public abstract class Barco {
 		}
 		return false;
 	}
-	
 	/**
 	 * Hundir barco.
+	 * Método que se encarga de recorrer todas las casillas donde se encuentra ubicado el barco para naufragarlo completamente
 	 */
-	//Método que se encarga de recorrer todas las casillas donde se encuentra ubicado el barco para naufragarlo completamente
 	private void hundirBarco() {
 		
 		for(int i=0;i <casillasDondeEstoy.length;i++) {
@@ -73,11 +62,10 @@ public abstract class Barco {
 		}
 		naufragado = true;
 	}
-	
 	/**
 	 * Revisar barco.
+	 * Método que se encarga de revisar el barco, si todas sus partes fueron impactadas, entonces el barco se naufraga
 	 */
-	//Método que se encarga de revisar el barco, si todas sus partes fueron impactadas, entonces el barco se naufraga
 	private void revisarBarco() {
 		for(int i=0;i <casillasDondeEstoy.length;i++) {
 			if(!casillasDondeEstoy[i].isZonaDestruida()) {
@@ -86,33 +74,27 @@ public abstract class Barco {
 		}
 		hundirBarco();
 	}
-	
 	/**
 	 * Gets the tamanho.
-	 *
-	 * @return the tamanho
+	 * @return the tamanho el tamaño del barco
 	 */
-	//retorna el tamaño del barco
 	public int getTamanho() {
 		return tamanho;
 	}
 	
 	/**
 	 * Gets the buffered image.
-	 *
+	 * retorna la imágen correspondiente al barco dependiendo del tipo del barco
 	 * @return the buffered image
 	 */
-	// retorna la imágen correspondiente al barco dependiendo del tipo del barco
 	public BufferedImage getBufferedImage() {
 		return bufferedImage;
 	}
-	
 	/**
 	 * Sets the casillas donde estoy.
-	 *
+	 * retorna la imágen correspondiente al barco dependiendo del tipo del barco
 	 * @param casilla the new casillas donde estoy
 	 */
-	//Método que se encarga de decirle al barco en qué casillas de los tableros va a estar posicionado
 	public void setCasillasDondeEstoy(Casilla casilla) {
 		
 		for(int i =0;i<casillasDondeEstoy.length;i++) {
@@ -122,27 +104,21 @@ public abstract class Barco {
 			}
 		}
 	}
-	
 	/**
 	 * Gets the casillas donde estoy.
-	 *
+	 * retorna el arreglo de casillas del tablero donde se encuentra el barco ubicado
 	 * @return the casillas donde estoy
 	 */
-	//retorna el arreglo de casillas del tablero donde se encuentra el barco ubicado
 	public Casilla[] getCasillasDondeEstoy() {
 		return casillasDondeEstoy;
 	}
-	
 	/**
 	 * Gets the estado barco.
 	 *
-	 * @return the estado barco
+	 * @return the estado barco Retorna el estado del barco, es decir; si el barco fue hundido, el barco pasa a estado naufragado = true
 	 */
-	//Retorna el estado del barco, es decir; si el barco fue hundido, el barco pasa a estado naufragado = true
 	public boolean getEstadoBarco() {
 		return naufragado;
 	}
 	
-	
-
 }

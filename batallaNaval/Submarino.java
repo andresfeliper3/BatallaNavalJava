@@ -13,10 +13,7 @@ import javax.swing.JOptionPane;
  */
 public class Submarino extends Barco {
 
-	/** The Constant rutaFile. */
 	public static final String rutaFile="src/imagenes/submarino.png";
-	
-	/** The Constant numeroCasillas. */
 	public static final int numeroCasillas = 3;
 
 	/**
