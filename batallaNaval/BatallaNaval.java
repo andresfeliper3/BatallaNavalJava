@@ -34,40 +34,90 @@ import javax.swing.border.TitledBorder;
 
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BatallaNaval.
+ */
 public class BatallaNaval extends JFrame {
 
+	/** The estado del juego. */
 	private int estadoDelJuego =0;
+	
+	/** The barcos en juego. */
 	private int barcosEnJuego =10;
+	
+	/** The turno. */
 	private boolean turno;
+	
+	/** The escucha. */
 	private Escucha escucha;
+	
+	/** The tablero posicion. */
 	private TableroPosicion tableroPosicion;
+	
+	/** The tablero principal. */
 	private TableroPrincipal tableroPrincipal;
+	
+	/** The referencia batalla naval. */
 	private BatallaNaval referenciaBatallaNaval=this;
+	
+	/** The muelle. */
 	private Muelle muelle;
+	
+	/** The contador barcos. */
 	private JLabel titulo,contadorBarcos;
+	
+	/** The clip 2. */
 	private Clip clip, clip2;
+	
+	/** The zona titulo. */
 	private JPanel zonaBotones,zonaTitulo;
+	
+	/** The mostrar Y ocultar. */
 	private JButton reset, mostrarYOcultar;
+	
+	/** The timer. */
 	private Timer timer;
 
 
+	/** The mi portaaviones. */
 	//Mi muelle
 	private Portaaviones miPortaaviones;
+	
+	/** The mi submarino 2. */
 	private Submarino miSubmarino1,miSubmarino2;
+	
+	/** The mi destructor 3. */
 	private Destructor miDestructor1,miDestructor2,miDestructor3;
+	
+	/** The mi fragata 4. */
 	private Fragata miFragata1,miFragata2,miFragata3,miFragata4;
 	
+	/** The pc portaaviones. */
 	//muelle computador
 	private Portaaviones pcPortaaviones;
+	
+	/** The pc submarino 2. */
 	private Submarino pcSubmarino1,pcSubmarino2;
+	
+	/** The pc destructor 3. */
 	private Destructor pcDestructor1,pcDestructor2,pcDestructor3;
+	
+	/** The pc fragata 4. */
 	private Fragata pcFragata1,pcFragata2,pcFragata3,pcFragata4;
 	
+	/** The mis barcos. */
 	private Barco[] misBarcos;
+	
+	/** The pc barcos. */
 	private Barco[] pcBarcos = new Barco[10];
+	
+	/** The barco seleccionado. */
 	private Barco barcoSeleccionado;
 
-	
+	/**
+	 * Instantiates a new batalla naval.
+	 */
 	public BatallaNaval() {
 			
 		
@@ -78,12 +128,15 @@ public class BatallaNaval extends JFrame {
 	this.setTitle("Batalla Naval");
 	this.pack();
 	this.setLocationRelativeTo(null);
-	this.setResizable(false);
+	//this.setResizable(false);
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.setVisible(true);
 
 	}
 	
+	/**
+	 * Inits the GUI.
+	 */
 	private void initGUI() {
 		//ImageIcon battleShip = new ImageIcon(new ImageIcon("src/imagenes/battleship.jpg").getImage().getScaledInstance(500,500,Image.SCALE_SMOOTH));
 		escucha = new Escucha();
@@ -215,26 +268,53 @@ public class BatallaNaval extends JFrame {
 		tableroPrincipal.ocultarOMostrar();
 
 	}
+	
+	/**
+	 * Sets the turno.
+	 *
+	 * @param turno the new turno
+	 */
 	//cambia el turno y ejecuta partidaEnCurso para que establezca a quién le toca disparar
 	public void setTurno(boolean turno) {
 		this.turno = turno;
 		
 		partidaEnCurso();
 	}
+	
+	/**
+	 * Pasar barco.
+	 *
+	 * @param index the index
+	 */
 	//método que se encarga de pasarle barco seleccionado en el muelle al tablero posicion
 	public void pasarBarco(int index) {
 		barcoSeleccionado = misBarcos[index];
 		tableroPosicion.setBarcoSeleccionado(barcoSeleccionado);
 	}
 	
+	/**
+	 * Hay barco seleccionado.
+	 *
+	 * @return true, if successful
+	 */
 	//Revisa en el tablero de posicion si tengo un barco seleccionado por poner
 	public boolean hayBarcoSeleccionado() {
 		return tableroPosicion.getBarcoSeleccionado() == null ? false : true;
 	}
+	
+	/**
+	 * Sets the estado del juego.
+	 *
+	 * @param estado the new estado del juego
+	 */
 	//Cambia el estado del juego: 0 Organizar, 1 Jugar, 2 Usuario Gana y 3 Usuario pierde
 	public void setEstadoDelJuego(int estado) {
 		this.estadoDelJuego = estado;
 	}
+	
+	/**
+	 * Partida en curso.
+	 */
 	//se encarga de controlar el juego, determinar si el usuario perdió o ganó y asigna los turnos al usuario y al computador
 	public void partidaEnCurso() {
 		tableroPosicion.setPuedoPonerBarco(); //cambia el boleano a falso para dejar de reproducir el pop de las casillas
@@ -302,6 +382,12 @@ public class BatallaNaval extends JFrame {
 
 	}
 	
+	/**
+	 * Revisar derrota.
+	 *
+	 * @param barcos the barcos
+	 * @return true, if successful
+	 */
 	//Función que revisa si el usuario perdió
 	public boolean revisarDerrota(Barco[] barcos) {
 		
@@ -314,6 +400,11 @@ public class BatallaNaval extends JFrame {
 		return true; //todos los barcos del usuario han sido naufragados
 	}
 	
+	/**
+	 * Random position.
+	 *
+	 * @return the int
+	 */
 	//Genera un número al azar de columna entre 1 y 10
 	private int randomPosition() {
 		
@@ -322,6 +413,12 @@ public class BatallaNaval extends JFrame {
 		
 		return col;
 	}
+	
+	/**
+	 * Play sound.
+	 *
+	 * @param cualSonido the cual sonido
+	 */
 	//método que ejecuta los sonidos dependiendo del nombre del sonido
 		public void playSound(String cualSonido) { 
 			File soundFile = new File("");
@@ -378,17 +475,31 @@ public class BatallaNaval extends JFrame {
 			}
 		}
 		
+		/**
+		 * Sets the text mostrar ocultar.
+		 *
+		 * @param texto the new text mostrar ocultar
+		 */
 		//cambia el texto del boton de ocultar o mostrar texto
 		public void setTextMostrarOcultar(String texto) {
 			this.mostrarYOcultar.setText(texto);
 		}
 		
+		/**
+		 * Sets the mensaje muelle.
+		 *
+		 * @param caso the new mensaje muelle
+		 */
 		//Le pasa el texto al muelle para que cambie su mensaje
 		public void setMensajeMuelle(int caso) {
 			
 			muelle.cambiarMensajeMuelle(caso);
 			
 		}
+		
+		/**
+		 * Sets the barcos restantes.
+		 */
 		//Método que define los barcos restantes del computador 
 		public void setBarcosRestantes() {
 			
@@ -396,8 +507,16 @@ public class BatallaNaval extends JFrame {
 			contadorBarcos.setText("Barcos restantes: "+ barcosEnJuego);
 		}
 
+	/**
+	 * The Class Escucha.
+	 */
 	private class Escucha implements ActionListener{
 
+		/**
+		 * Action performed.
+		 *
+		 * @param eventAction the event action
+		 */
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub

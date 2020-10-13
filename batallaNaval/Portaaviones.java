@@ -7,11 +7,21 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Portaaviones.
+ */
 public class Portaaviones extends Barco {
 	
+	/** The Constant rutaFile. */
 	public static final String rutaFile="src/imagenes/portaaviones.png";
+	
+	/** The Constant numeroCasillas. */
 	public static final int numeroCasillas = 4;
 
+	/**
+	 * Instantiates a new portaaviones.
+	 */
 	public Portaaviones() {
 			
 		super(numeroCasillas);

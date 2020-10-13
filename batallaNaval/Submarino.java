@@ -7,11 +7,21 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Submarino.
+ */
 public class Submarino extends Barco {
 
+	/** The Constant rutaFile. */
 	public static final String rutaFile="src/imagenes/submarino.png";
+	
+	/** The Constant numeroCasillas. */
 	public static final int numeroCasillas = 3;
 
+	/**
+	 * Instantiates a new submarino.
+	 */
 	public Submarino() {
 			
 		super(numeroCasillas);

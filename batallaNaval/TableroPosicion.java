@@ -19,22 +19,57 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TableroPosicion.
+ */
 public class TableroPosicion extends JPanel {
 	
+	/** The mis barcos. */
 	private Barco[] misBarcos;
+	
+	/** The casillas. */
 	private Casilla[][] casillas;
+	
+	/** The buffer image. */
 	private BufferedImage bufferImage = null;
+	
+	/** The barco seleccionado. */
 	private Barco barcoSeleccionado;
+	
+	/** The casilla seleccionada. */
 	private Casilla casillaSeleccionada;
+	
+	/** The casilla size. */
 	private int casillaSize = 50;
+	
+	/** The grid size. */
 	private int gridSize = 11;
+	
+	/** The escucha. */
 	private Escucha escucha;
+	
+	/** The clicks disponibles. */
 	int clicksDisponibles;
+	
+	/** The particion imagen. */
 	int particionImagen=0;
+	
+	/** The referencia batalla naval. */
 	private BatallaNaval referenciaBatallaNaval;
+	
+	/** The timer. */
 	private Timer timer;
+	
+	/** The puedo poner barco. */
 	private boolean puedoPonerBarco=true;
 	
+	/**
+	 * Instantiates a new tablero posicion.
+	 *
+	 * @param misBarcos the mis barcos
+	 * @param referenciaBatallaNaval the referencia batalla naval
+	 */
 	//Constructor
 	public TableroPosicion(Barco[] misBarcos, BatallaNaval referenciaBatallaNaval) {
 		
@@ -53,6 +88,10 @@ public class TableroPosicion extends JPanel {
 	
 		pintarCasillas();
 	}
+	
+	/**
+	 * Pintar casillas.
+	 */
 	//Pinta todas las casillas del tablero posicion y agrega las escuchas a cada casilla
 	private void pintarCasillas() {
 		// TODO Auto-generated method stub
@@ -67,6 +106,14 @@ public class TableroPosicion extends JPanel {
 			}
 		}
 	}
+	
+	/**
+	 * Pintar barco.
+	 *
+	 * @param caso the caso
+	 * @param fila the fila
+	 * @param columna the columna
+	 */
 	//Este método se encarga de pintar todo el barco una vez ya se haya analizado las direcciones posibles
 	private void pintarBarco(int caso,int fila,int columna) {
 		
@@ -150,6 +197,10 @@ public class TableroPosicion extends JPanel {
 				referenciaBatallaNaval.setMensajeMuelle(0);
 		}
 	}
+	
+	/**
+	 * Examinar orientacion barco.
+	 */
 	//Determina la orientación del barco determinando, es decir; en qué dirección puede pintarse todo el barco completo sin que hayan límites de casillas u otro barco ya esté ocupando las casillas
 	private  void examinarOrientacionBarco() {
 		// TODO Auto-generated method stub
@@ -190,6 +241,13 @@ public class TableroPosicion extends JPanel {
 				}
 		}
 	}
+	
+	/**
+	 * Puedo poner barco.
+	 *
+	 * @param direccion the direccion
+	 * @return true, if successful
+	 */
 	//Determina a través de booleanos si el barco se puede pintar en cualquiera de las cuatro direcciones
 	private boolean puedoPonerBarco(int direccion) {
 		// TODO Auto-generated method stub
@@ -267,6 +325,12 @@ public class TableroPosicion extends JPanel {
 
 		return true;
 	}
+	
+	/**
+	 * Sets the barco seleccionado.
+	 *
+	 * @param barco the new barco seleccionado
+	 */
 	//Método que asigna un barco seleccionado
 	public void setBarcoSeleccionado(Barco barco) {
 		barcoSeleccionado = barco;
@@ -274,6 +338,13 @@ public class TableroPosicion extends JPanel {
 
 	}
 	
+	/**
+	 * Generar disparo.
+	 *
+	 * @param row the row
+	 * @param col the col
+	 * @return true, if successful
+	 */
 	//Simula un disparo del computador y determina si le dió a un barco o no
 	public boolean generarDisparo(int row,int col) {
 
@@ -319,21 +390,47 @@ public class TableroPosicion extends JPanel {
 		}
 		return false;
 	}
+	
+	/**
+	 * Cambiar borde.
+	 *
+	 * @param color the color
+	 */
 	//cambiar el color del borde del tablero
 	public void cambiarBorde(Color color) {
 		Border border = BorderFactory.createLineBorder(color ,7);
 		this.setBorder(border);
 	}
+	
+	/**
+	 * Sets the puedo poner barco.
+	 */
 	//cambia el booleano a falso para poder usarlo y parar el sonido de las casillas al pasar el mouse
 	public void setPuedoPonerBarco() {
 		this.puedoPonerBarco=false;
 	}
+	
+	/**
+	 * Gets the barco seleccionado.
+	 *
+	 * @return the barco seleccionado
+	 */
 	//retorna el barco seleccionado
 	public Barco getBarcoSeleccionado() {
 		return barcoSeleccionado;
 	}
+	
+	/**
+	 * The Class Escucha.
+	 */
 	//Escucha
 	public class Escucha extends MouseAdapter implements ActionListener{
+		
+		/**
+		 * Action performed.
+		 *
+		 * @param eventAction the event action
+		 */
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
@@ -341,7 +438,13 @@ public class TableroPosicion extends JPanel {
 			if(clicksDisponibles >0 && barcoSeleccionado != null && casillaSeleccionada.isHasBarco()==false && casillaSeleccionada.isWater()) {
 				examinarOrientacionBarco();
 			}
-		}		@Override
+		}		
+		/**
+		 * Mouse entered.
+		 *
+		 * @param eventMouse the event mouse
+		 */
+		@Override
 		public void mouseEntered(MouseEvent eventMouse) {
 			// TODO Auto-generated method stub
 			if(puedoPonerBarco) {

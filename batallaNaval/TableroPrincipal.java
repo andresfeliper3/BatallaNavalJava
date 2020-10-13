@@ -20,32 +20,79 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TableroPrincipal.
+ */
 public class TableroPrincipal extends JPanel {
 
+	/** The barcos. */
 	private Barco[] barcos;
+	
+	/** The casillas. */
 	private Casilla[][] casillas;
+	
+	/** The buffer image. */
 	private BufferedImage bufferImage = null;
+	
+	/** The barco seleccionado. */
 	private Barco barcoSeleccionado;
+	
+	/** The casilla seleccionada. */
 	private Casilla casillaSeleccionada;
+	
+	/** The casilla size. */
 	private int casillaSize = 50;
+	
+	/** The grid size. */
 	private int gridSize = 11;
+	
+	/** The escucha. */
 	private Escucha escucha;
+	
+	/** The clicks disponibles. */
 	int clicksDisponibles;
+	
+	/** The particion imagen. */
 	int particionImagen=0;
+	
+	/** The puedo arriba. */
 	boolean puedoArriba=false;
+	
+	/** The puedo abajo. */
 	boolean puedoAbajo=false;
+	
+	/** The puedo izq. */
 	boolean puedoIzq=false;
+	
+	/** The puedo der. */
 	boolean puedoDer=false;
+	
+	/** The referencia batalla naval. */
 	private BatallaNaval referenciaBatallaNaval;
+	
+	/** The visible. */
 	private boolean visible =true;
+	
+	/** The timer. */
 	private Timer timer;
+	
+	/** The puedo disparar. */
 	private boolean puedoDisparar = false;
 	
+	
+	/**
+	 * Instantiates a new tablero principal.
+	 *
+	 * @param pcBarcos the pc barcos
+	 * @param referenciaBatallaNaval the referencia batalla naval
+	 */
 	//Constructor de tablero principal
 	public TableroPrincipal(Barco[] pcBarcos,BatallaNaval referenciaBatallaNaval) {
 		
 		this.referenciaBatallaNaval = referenciaBatallaNaval;
 		this.barcos = pcBarcos;
+		
 		//ESCUCHA
 		escucha = new Escucha();
 		//Layout
@@ -60,6 +107,10 @@ public class TableroPrincipal extends JPanel {
 		seleccionarBarcosYCasillas();
 		
 	}
+	
+	/**
+	 * Pintar casillas.
+	 */
 	//Pinta todas las casillas del tablero principal y agrega las escuchas a cada casilla
 	private void pintarCasillas() {
 		// TODO Auto-generated method stub
@@ -75,6 +126,11 @@ public class TableroPrincipal extends JPanel {
 		}
 	}
 	
+	/**
+	 * Random col.
+	 *
+	 * @return the int
+	 */
 	//Genera un número al azar de columna entre 1 y 10
 	private int randomCol() {
 		
@@ -82,6 +138,12 @@ public class TableroPrincipal extends JPanel {
 		int col = random.nextInt(10)+1;
 		return col;
 	}
+	
+	/**
+	 * Random row.
+	 *
+	 * @return the int
+	 */
 	//Genera un número al azar de fila entre 1 y 10
 	private int randomRow() {
 		
@@ -90,6 +152,9 @@ public class TableroPrincipal extends JPanel {
 		return row;
 	}
 	
+	/**
+	 * Seleccionar barcos Y casillas.
+	 */
 	//selecciona cada uno de los barcos que están en la lista de barcos del computador y los pinta en el tablero principal
 	private void seleccionarBarcosYCasillas() {
 		for(int i=0;i < barcos.length;i++) {
@@ -107,6 +172,11 @@ public class TableroPrincipal extends JPanel {
 		
 	}
 	
+	/**
+	 * Generar click.
+	 *
+	 * @return the casilla
+	 */
 	//Simula un click en la primera casilla para poner el barco
 	private Casilla generarClick() {
 		//Se genera una casilla al azar
@@ -119,6 +189,10 @@ public class TableroPrincipal extends JPanel {
 			return generarClick();
 		}
 	}
+	
+	/**
+	 * Examinar orientacion barco.
+	 */
 	//Determina la orientación del barco determinando, es decir; en qué dirección puede pintarse todo el barco completo sin que hayan límites de casillas u otro barco ya esté ocupando las casillas
 	private void examinarOrientacionBarco() {
 		// TODO Auto-generated method stub
@@ -149,6 +223,11 @@ public class TableroPrincipal extends JPanel {
 					}
 	}
 	
+	/**
+	 * Puedo poner barco.
+	 *
+	 * @return true, if successful
+	 */
 	//Determina a través de booleanos si el barco se puede pintar en cualquiera de las cuatro direcciones
 	private boolean puedoPonerBarco() {
 		// TODO Auto-generated method stub
@@ -192,6 +271,14 @@ public class TableroPrincipal extends JPanel {
 
 		return true;
 	}
+	
+	/**
+	 * Pintar barcos.
+	 *
+	 * @param caso the caso
+	 * @param fila the fila
+	 * @param columna the columna
+	 */
 	//Este método se encarga de pintar todo el barco una vez ya se haya analizado las direcciones posibles
 	private void pintarBarcos(int caso,int fila, int columna) {
 		
@@ -279,12 +366,22 @@ public class TableroPrincipal extends JPanel {
 		}
 
 	}
+	
+	/**
+	 * Sets the barco seleccionado.
+	 *
+	 * @param barco the new barco seleccionado
+	 */
 	//Método que asigna un barco seleccionado
 	public void setBarcoSeleccionado(Barco barco) {
 		barcoSeleccionado = barco;
 		clicksDisponibles = barcoSeleccionado.getTamanho();
 
 	}
+	
+	/**
+	 * Ocultar O mostrar.
+	 */
 	//Método que se encarga de mostrar u ocultar los barcos del tablero principal
 	public void ocultarOMostrar() {
 		//Ocultar Barcos
@@ -317,6 +414,11 @@ public class TableroPrincipal extends JPanel {
 		}
 	}
 	
+	/**
+	 * Sets the disparo habilitado.
+	 *
+	 * @param disponible the new disparo habilitado
+	 */
 	//habilita o deshabilita las casillas dependiendo del turno
 	public void setDisparoHabilitado(boolean disponible) {
 			
@@ -330,6 +432,10 @@ public class TableroPrincipal extends JPanel {
 			}
 		}
 	}
+	
+	/**
+	 * Analizar disparo.
+	 */
 	//Método que se encarga de analizar el disparo del computador que se ejecuta desde la Clase de BatallaNaval y determinar si le pegó a un barco o si falló el disparo
 	private void analizarDisparo() {
 	
@@ -360,18 +466,39 @@ public class TableroPrincipal extends JPanel {
 			
 			}
 	}
+	
+	/**
+	 * Permiso para disparar.
+	 *
+	 * @param fuego the fuego
+	 */
 	//Método encargado de dar permiso para disparar al usuario, es decir; el usuario no puede ejecutar un disparo si es false y sí puede disparar si es false
 	public void permisoParaDisparar(boolean fuego) {
 		this.puedoDisparar=fuego;
 	}
 	
+	/**
+	 * Cambiar borde.
+	 *
+	 * @param color the color
+	 */
 	//cambiar el color del borde del tablero, recibe como parámetro un color
 	public void cambiarBorde(Color color) {
 		Border border = BorderFactory.createLineBorder(color ,7);
 		this.setBorder(border);
 	}
+	
+	/**
+	 * The Class Escucha.
+	 */
 	//Escucha
 	public class Escucha extends MouseAdapter implements ActionListener{
+		
+		/**
+		 * Action performed.
+		 *
+		 * @param eventAction the event action
+		 */
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
@@ -393,6 +520,12 @@ public class TableroPrincipal extends JPanel {
 				}
 			}
 		}
+		
+		/**
+		 * Mouse entered.
+		 *
+		 * @param eventMouse the event mouse
+		 */
 		@Override
 		public void mouseEntered(MouseEvent eventMouse) {
 			// TODO Auto-generated method stub

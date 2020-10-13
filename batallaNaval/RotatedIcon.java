@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.RenderingHints;
 import javax.swing.Icon;
 
+// TODO: Auto-generated Javadoc
 /**
  *  The RotatedIcon allows you to change the orientation of an Icon by
  *  rotating the Icon before it is painted. This class supports the following
@@ -20,20 +21,39 @@ import javax.swing.Icon;
  */
 public class RotatedIcon implements Icon
 {
+    
+    /**
+     * The Enum Rotate.
+     */
     public enum Rotate
     {
+        
+        /** The down. */
         DOWN,
+        
+        /** The up. */
         UP,
+        
+        /** The upside down. */
         UPSIDE_DOWN,
+        
+        /** The about center. */
         ABOUT_CENTER,
-    	REFLECT;
+    	
+	    /** The reflect. */
+	    REFLECT;
     }
 
+    /** The icon. */
     private Icon icon;
 
+    /** The rotate. */
     private Rotate rotate;
 
+    /** The degrees. */
     private double degrees;
+    
+    /** The circular icon. */
     private boolean circularIcon;
 
     /**
@@ -47,10 +67,10 @@ public class RotatedIcon implements Icon
     }
 
     /**
-     *  Create a RotatedIcon
+     *  Create a RotatedIcon.
      *
-     *  @param icon the Icon to rotate
-     *  @param rotate  the direction of rotation
+     * @param icon the Icon to rotate
+     * @param rotate  the direction of rotation
      */
     public RotatedIcon(Icon icon, Rotate rotate)
     {
@@ -86,9 +106,9 @@ public class RotatedIcon implements Icon
     }
 
     /**
-     *  Gets the Icon to be rotated
+     *  Gets the Icon to be rotated.
      *
-     *  @return the Icon to be rotated
+     * @return the Icon to be rotated
      */
     public Icon getIcon()
     {
@@ -96,9 +116,9 @@ public class RotatedIcon implements Icon
     }
 
     /**
-     *  Gets the Rotate enum which indicates the direction of rotation
+     *  Gets the Rotate enum which indicates the direction of rotation.
      *
-     *  @return the Rotate enum
+     * @return the Rotate enum
      */
     public Rotate getRotate()
     {
@@ -209,12 +229,12 @@ public class RotatedIcon implements Icon
     }
 
     /**
-     *  Paint the icons of this compound icon at the specified location
+     *  Paint the icons of this compound icon at the specified location.
      *
-     *  @param c The component on which the icon is painted
-     *  @param g the graphics context
-     *  @param x the X coordinate of the icon's top-left corner
-     *  @param y the Y coordinate of the icon's top-left corner
+     * @param c The component on which the icon is painted
+     * @param g the graphics context
+     * @param x the X coordinate of the icon's top-left corner
+     * @param y the Y coordinate of the icon's top-left corner
      */
     @Override
     public void paintIcon(Component c, Graphics g, int x, int y)

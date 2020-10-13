@@ -7,11 +7,21 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Destructor.
+ */
 public class Destructor extends Barco {
 
+	/** The Constant rutaFile. */
 	public static final String rutaFile="src/imagenes/destructor.png";
+	
+	/** The Constant numeroCasillas. */
 	public static final int numeroCasillas = 2;
 
+	/**
+	 * Instantiates a new destructor.
+	 */
 	public Destructor() {
 			
 		super(numeroCasillas);

@@ -28,22 +28,54 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Muelle.
+ */
 public class Muelle extends JPanel {
 	
+	/** The ready. */
 	private JButton ready;
+	
+	/** The agua. */
 	private JLabel mensaje,ayudaReady,hundido,tocado,agua;
+	
+	/** The tocado info. */
 	private JTextArea aguaInfo,hundidoInfo,tocadoInfo;
+	
+	/** The escucha. */
 	private Escucha escucha;
+	
+	/** The zona informacion. */
 	private JPanel zonaPortaaviones,zonaSubmarinos,zonaDestructores,zonaFragatas,zonaInformacion;
+	
+	/** The imagen. */
 	private ImageIcon imagen;
+	
+	/** The mi fragata 4. */
 	private JLabel miPortaaviones,miSubmarino1,miSubmarino2,miDestructor1,miDestructor2,
 	   miDestructor3,miFragata1,miFragata2,miFragata3,miFragata4;
+	
+	/** The barcos. */
 	private JLabel[] barcos = new JLabel[10];;
+	
+	/** The zonas. */
 	private JPanel[] zonas = new JPanel[4];
+	
+	/** The index of barco seleccionado. */
 	private int indexOfBarcoSeleccionado;
+	
+	/** The referencia batalla naval. */
 	private BatallaNaval referenciaBatallaNaval;
+	
+	/** The barcos restantes. */
 	private int barcosRestantes;
 	
+	/**
+	 * Instantiates a new muelle.
+	 *
+	 * @param refBatallaNaval the ref batalla naval
+	 */
 	public Muelle(BatallaNaval refBatallaNaval) {
 
 			this.setBackground(Color.WHITE);
@@ -51,6 +83,9 @@ public class Muelle extends JPanel {
 			referenciaBatallaNaval=refBatallaNaval;
 	}
 	
+	/**
+	 * Inits the GUI.
+	 */
 	private void initGUI() {
 		// TODO Auto-generated method stub
 		//set up container - layout
@@ -251,6 +286,10 @@ public class Muelle extends JPanel {
 	
 		pintarBarcos();
 	}
+	
+	/**
+	 * Pintar barcos.
+	 */
 	//Pintar
 	private void pintarBarcos() {
 		// TODO Auto-generated method stub
@@ -283,6 +322,11 @@ public class Muelle extends JPanel {
 			barcosRestantes = barcos.length;
 	}
     
+	/**
+	 * Index of barco.
+	 *
+	 * @param barcoSeleccionado the barco seleccionado
+	 */
 	private void indexOfBarco(JLabel barcoSeleccionado) {
 
 		for(int i =0;i<barcos.length;i++) {
@@ -291,6 +335,12 @@ public class Muelle extends JPanel {
 			}
 		}
 	}
+	
+	/**
+	 * Cambiar mensaje muelle.
+	 *
+	 * @param caso the caso
+	 */
 	//Método encargado de cambiar el texto de mensaje
 	public void cambiarMensajeMuelle(int caso) {
 		mensaje.setForeground(Color.BLACK);
@@ -314,8 +364,16 @@ public class Muelle extends JPanel {
 		}
 	}
 	
+	/**
+	 * The Class Escucha.
+	 */
 	private class Escucha extends MouseAdapter implements ActionListener, MouseMotionListener{
 		
+		/**
+		 * Mouse pressed.
+		 *
+		 * @param eventMouse the event mouse
+		 */
 		public void mousePressed(MouseEvent eventMouse) {
 			if(!referenciaBatallaNaval.hayBarcoSeleccionado()) {
 				
@@ -327,6 +385,12 @@ public class Muelle extends JPanel {
 				barcosRestantes--;
 			}
 		}
+		
+		/**
+		 * Action performed.
+		 *
+		 * @param eventAction the event action
+		 */
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
