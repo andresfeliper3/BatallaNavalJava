@@ -6,10 +6,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -24,13 +27,16 @@ public class TableroPosicion extends JPanel {
 	private ImageIcon imagen;
 	private Border border;
 	private Escucha escucha;
-	private int clicksDisponibles;
+	private int clicksDisponibles, barcosRestantes = 10;
 	private BatallaNaval ventana;
 	private Barco[] misBarcos;
-	//Modo inteligente
-	private boolean barcoEnLaMira = false; //es true si el computador está atacando un barco definido, false si está en tiro aleatorio.
-	//VOLVER A MIRAR EL MODO INTELIGENTE DESPUÉS 
+	private Timer timer;
+	// Modo inteligente
+	private boolean barcoEnLaMira = false; // es true si el computador está atacando un barco definido, false si está en
+											// tiro aleatorio.
+	// VOLVER A MIRAR EL MODO INTELIGENTE DESPUÉS
 	// Constructor
+
 	public TableroPosicion(Barco[] misBarcos, BatallaNaval ventana) {
 		// Layout
 		this.setLayout(new GridLayout(gridSize, gridSize));
@@ -49,7 +55,6 @@ public class TableroPosicion extends JPanel {
 		pintarCasillas();
 
 	}
-
 	// Pinta las casillas inicialmente con agua
 	private void pintarCasillas() {
 		// Pintar casillas
@@ -113,7 +118,7 @@ public class TableroPosicion extends JPanel {
 			if (clicksDisponibles == barcoSeleccionado.getTamanho() - 1) {
 				// por la derecha
 				if (casillaSeleccionada.getRow() == barcoSeleccionado.getCasillasDondeEstoy()[0].getRow()
-						&& casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() + 1) {			
+						&& casillaSeleccionada.getCol() == barcoSeleccionado.getCasillasDondeEstoy()[0].getCol() + 1) {
 					detallesBarco(1);
 
 				}
@@ -154,15 +159,17 @@ public class TableroPosicion extends JPanel {
 				barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 				counter += 50;
 				clicksDisponibles--;
-				cambiarMensajeMuelle("Escoja una casilla adyacente a la casilla seleccionada");
+				cambiarMensajeMuelle(3);
 			}
 		}
 
-		// Si ya puse todos las partes del barco, se borra el barco seleccionado para que pueda escoger otro
+		// Si ya puse todos las partes del barco, se borra el barco seleccionado para
+		// que pueda escoger otro
 		if (clicksDisponibles == 0) {
 			barcoSeleccionado = null;
+			barcosRestantes--;
 			counter = 0;
-			cambiarMensajeMuelle("Haga click en un barco");
+			cambiarMensajeMuelle(1);
 		}
 
 	}
@@ -284,38 +291,57 @@ public class TableroPosicion extends JPanel {
 	}
 
 	// Cambiar mensaje muelle
-	private void cambiarMensajeMuelle(String mensaje) {
-		ventana.setMensajeMuelle(mensaje);
+	private void cambiarMensajeMuelle(int idMensaje) {
+		ventana.setMensajeMuelle(idMensaje);
 	}
 
 	// Genera un disparo del computador. Retorna true si logró disparar
 	// correctamente, false en caso contrario.
 	public boolean generarDisparo(int row, int col) {
+
 		casillaSeleccionada = casillas[row][col];
-		
+
 		if (!barcoEnLaMira && !casillaSeleccionada.isZonaDestruida()) {
-			//Si la casilla tiene un barco, es decir, atinó el tiro
-			if (casillaSeleccionada.getHasBarco()) { 
-				//Revisa si fue golpeado alguna parte de algún barco del usuario
-				for(int barco = 0; barco < misBarcos.length; barco++) {
-					misBarcos[barco].disparoAcertado(casillaSeleccionada);
-				}
-				// Revisar si el usuario pierde
-				if (ventana.revisarDerrota(misBarcos)) {
-					ventana.setEstado(3); // Usuario perdió
-				}
-				// Mantiene el turno del computador
-				ventana.setTurno(false);
 
-			}
-			//Si el computador falla el tiro
-			else {
-				barcoEnLaMira = false;
-				casillaSeleccionada.setZonaDestruida(true);
-				// Cambia al turno del usuario
-				ventana.setTurno(true);
-			}
+			timer = new Timer("Timer");
+			TimerTask task = new TimerTask() {
 
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					// Si la casilla tiene un barco, es decir, atinó el tiro
+					if (casillaSeleccionada.getHasBarco()) {
+						// Sonido de golpe
+						ventana.playSound("disparoAcertado");
+						// Revisa si fue golpeado alguna parte de algún barco del usuario
+						for (int barco = 0; barco < misBarcos.length; barco++) {
+							misBarcos[barco].disparoAcertado(casillaSeleccionada);
+						}
+						// Si el barco naufragó, se activa el sonido
+						if (casillaSeleccionada.isNaufragado()) {
+							ventana.playSound("naufragado");
+						}
+						// Revisar si el usuario pierde
+						if (ventana.revisarDerrota(misBarcos)) {
+							ventana.setEstado(3); // Usuario perdió
+						}
+						// Mantiene el turno del computador
+						ventana.setTurno(false);
+
+					}
+					// Si el computador falla el tiro
+					else {
+						barcoEnLaMira = false;
+						// Sonido de agua
+						ventana.playSound("disparoAlAgua");
+						casillaSeleccionada.setZonaDestruida(true);
+						// Cambia al turno del usuario
+						ventana.setTurno(true);
+					}
+				}
+
+			};
+			timer.schedule(task, 1500);
 			return true;
 		}
 		return false;
@@ -331,6 +357,9 @@ public class TableroPosicion extends JPanel {
 			// abajo, izq, der).
 			if (cabeElBarco()) {
 				pintarBarco(casillaSeleccionada);
+				if(barcosRestantes == 0) {
+					ventana.setMensajeMuelle(4);
+				}
 			}
 		}
 	}

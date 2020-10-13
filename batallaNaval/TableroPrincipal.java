@@ -59,7 +59,6 @@ public class TableroPrincipal extends JPanel {
 		pintarCasillas();
 		acomodarBarcos();
 	}
-
 	// Pinta las casillas inicialmente con agua
 	private void pintarCasillas() {
 		// Creación de barcos y casillas
@@ -305,24 +304,19 @@ public class TableroPrincipal extends JPanel {
 		puedoDisparar = true;
 		if (casillaClickeada.getHasBarco()) {
 			// Ejecución del timer
-			System.out.println("empezando disparo");
-			
 			ventana.playSound("disparoAcertado");
-			System.out.println("dentro del timer");
 			for (int barco = 0; barco < barcos.length; barco++) {
 				barcos[barco].disparoAcertado(casillaClickeada);
 			}
-
+			//Revisa si se hundió el barco para poner el sonido
 			if(casillaClickeada.isNaufragado()) {
 				ventana.playSound("naufragado");
 			}
 			// Revisar si el computador perdió
 			if (ventana.revisarDerrota(barcos)) {
-				System.out.println("revisando derrota del computador");
 				ventana.setEstado(2); // usuario gana
 			}
 			// Mantiene el turno del usuario
-			System.out.println("antes de setTurno");
 			ventana.setTurno(true);
 		} else {
 

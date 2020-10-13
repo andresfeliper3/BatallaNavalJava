@@ -2,6 +2,7 @@ package batallaNaval;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -54,29 +55,23 @@ public class Muelle extends JPanel {
 		//Ventana batalla naval
 		this.ventana = ventana;
 		//Componentes
-		//Título
-		titulo = new JLabel("Organice sus barcos");
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		constraints.gridwidth = 4;
-		constraints.gridheight = 1;
-		constraints.anchor = GridBagConstraints.CENTER;
-		add(titulo, constraints);
 		
 		//Mensaje de ayuda
 		mensaje = new JLabel("Haga click sobre un barco");
+		mensaje.setFont(new Font("Cosmic Sans MS", Font.ITALIC, 15));
 		constraints.gridx = 0;
-		constraints.gridy = 1;
-		constraints.gridwidth = 3;
+		constraints.gridy = 0;
+		constraints.gridwidth = 4;
 		constraints.anchor = GridBagConstraints.CENTER;
 		add(mensaje, constraints);
 		//Botón ready
 		botonReady = new JButton("Ready");
 		botonReady.addActionListener(escucha);
-		constraints.gridx = 3;
-		constraints.gridy = 1;
-		constraints.gridwidth = 1;
-		constraints.anchor = GridBagConstraints.LAST_LINE_END;
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.gridwidth = 4;
+		constraints.anchor = GridBagConstraints.CENTER;
+		
 		add(botonReady, constraints);
 		//Botón reset
 		//Barcos
@@ -85,28 +80,29 @@ public class Muelle extends JPanel {
 		zonaPortaaviones.setBackground(Color.WHITE);
 		zonaPortaaviones.setBorder(new TitledBorder("Portaaviones"));
 		constraints.gridx = 0;
-		constraints.gridy = 3;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
 		add(zonaPortaaviones, constraints);
 		zonaSubmarinos = new JPanel();
 		zonaSubmarinos.setBackground(Color.WHITE);
 		zonaSubmarinos.setPreferredSize(new Dimension(100,500));
 		zonaSubmarinos.setBorder(new TitledBorder("Submarinos"));
 		constraints.gridx = 1;
-		constraints.gridy = 3;
+		constraints.gridy = 2;
 		add(zonaSubmarinos, constraints);
 		zonaDestructores = new JPanel();
 		zonaDestructores.setBackground(Color.WHITE);
 		zonaDestructores.setPreferredSize(new Dimension(100,500));
 		zonaDestructores.setBorder(new TitledBorder("Destructores"));
 		constraints.gridx = 2;
-		constraints.gridy = 3;
+		constraints.gridy = 2;
 		add(zonaDestructores, constraints);
 		zonaFragatas = new JPanel();
 		zonaFragatas.setBackground(Color.WHITE);
 		zonaFragatas.setPreferredSize(new Dimension(100,500));
 		zonaFragatas.setBorder(new TitledBorder("Fragatas"));
 		constraints.gridx = 3;
-		constraints.gridy = 3;
+		constraints.gridy = 2;
 		add(zonaFragatas, constraints);
 		
 		pintarBarcos();
@@ -178,7 +174,7 @@ public class Muelle extends JPanel {
 				ventana.pasarBarcoSeleccionado(indexOfBarcoSeleccionado);
 				barcoSeleccionado.setVisible(false);
 				barcosRestantes--;
-				setMensaje("Haga click en una casilla");		
+				ventana.setMensajeMuelle(2);
 			}
 		}
 
