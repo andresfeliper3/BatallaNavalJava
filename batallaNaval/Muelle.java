@@ -90,7 +90,7 @@ public class Muelle extends JPanel {
 		//zona de los Portaaviones
 		zonaPortaaviones = new JPanel();
 		zonaPortaaviones.setBackground(Color.WHITE);
-		zonaPortaaviones.setPreferredSize(new Dimension(150,240));
+		zonaPortaaviones.setPreferredSize(new Dimension(95,240));
 		zonaPortaaviones.setBorder(new TitledBorder("Portaaviones"));
 				
 		constraints.gridx=0;
@@ -102,7 +102,7 @@ public class Muelle extends JPanel {
 		zonaSubmarinos = new JPanel();
 		zonaSubmarinos.setBackground(Color.WHITE);
 		zonaSubmarinos.setBorder(new TitledBorder("Submarinos"));
-		zonaSubmarinos.setPreferredSize(new Dimension(150,240));
+		zonaSubmarinos.setPreferredSize(new Dimension(120,240));
 		
 		constraints.gridx=1;
 		constraints.gridy=3;
@@ -113,7 +113,7 @@ public class Muelle extends JPanel {
 		zonaDestructores = new JPanel();
 		zonaDestructores.setBackground(Color.WHITE);
 		zonaDestructores.setBorder(new TitledBorder("Destructores"));
-		zonaDestructores.setPreferredSize(new Dimension(150,240));
+		zonaDestructores.setPreferredSize(new Dimension(120,240));
 				
 		constraints.gridx=2;
 		constraints.gridy=3;
@@ -123,7 +123,7 @@ public class Muelle extends JPanel {
 		//Zona de las fragatas
 		zonaFragatas = new JPanel();
 		zonaFragatas.setBackground(Color.WHITE);
-		zonaFragatas.setPreferredSize(new Dimension(150,240));
+		zonaFragatas.setPreferredSize(new Dimension(70,240));
 		zonaFragatas.setBorder(new TitledBorder("Fragatas"));
 				
 		constraints.gridx=3;
@@ -140,7 +140,7 @@ public class Muelle extends JPanel {
 		add(zonaInformacion,constraints);
 
 		zonaInformacion.setBackground(Color.WHITE);
-		zonaInformacion.setPreferredSize(new Dimension(600,250));
+		zonaInformacion.setPreferredSize(new Dimension(400,250));
 		
 		//Imagen de la X
 		agua = new JLabel(new ImageIcon("src/imagenes/agua.gif"));
@@ -168,8 +168,8 @@ public class Muelle extends JPanel {
 		zonaInformacion.add(hundido,constraints);
 		//Información de la X
 		aguaInfo = new JTextArea("Agua: Cuando se dispara sobre una casilla donde no está colocado ningún barco enemigo.En el tablero aparecerá una X. Pasa el turno a tu oponente.");
-		aguaInfo.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		aguaInfo.setPreferredSize(new Dimension(500,70));
+		aguaInfo.setFont(new Font("Comic Sans MS", Font.PLAIN, 5));
+		aguaInfo.setPreferredSize(new Dimension(395,70));
 		aguaInfo.setWrapStyleWord(true);
 		aguaInfo.setLineWrap(true);
 		aguaInfo.setEditable(false);
@@ -178,7 +178,7 @@ public class Muelle extends JPanel {
 		aguaInfo.setBackground(Color.WHITE);
 		
 		JPanel zonaAguaInfo = new JPanel();
-		zonaAguaInfo.setPreferredSize(new Dimension(590,62));
+		zonaAguaInfo.setPreferredSize(new Dimension(395,62));
 		zonaAguaInfo.setBackground(Color.WHITE);
 		zonaAguaInfo.add(aguaInfo);
 		
@@ -190,8 +190,8 @@ public class Muelle extends JPanel {
 		zonaInformacion.add(zonaAguaInfo,constraints);
 		//Información de la bomba
 		tocadoInfo = new JTextArea("Tocado: Cuando se dispara en una casilla en la que está ubicado un barco enemigo que ocupa 2 o más casillas; se destruye sólo una parte del barco. En el tablero del jugador aparecerá esa parte del barco con una marca indicativa de que ha sido tocado. El jugador vuelve a disparar.");
-		tocadoInfo.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		tocadoInfo.setPreferredSize(new Dimension(500,70));
+		tocadoInfo.setFont(new Font("Comic Sans MS", Font.PLAIN, 5));
+		tocadoInfo.setPreferredSize(new Dimension(395,70));
 		tocadoInfo.setWrapStyleWord(true);
 		tocadoInfo.setLineWrap(true);
 		tocadoInfo.setEditable(false);
@@ -200,7 +200,7 @@ public class Muelle extends JPanel {
 		tocadoInfo.setBackground(Color.WHITE);
 		
 		JPanel zonaTocadoInfo = new JPanel();
-		zonaTocadoInfo.setPreferredSize(new Dimension(590,62));
+		zonaTocadoInfo.setPreferredSize(new Dimension(395,62));
 		zonaTocadoInfo.add(tocadoInfo);
 		zonaTocadoInfo.setBackground(Color.WHITE);
 		constraints.gridx=1;
@@ -211,8 +211,8 @@ public class Muelle extends JPanel {
 		zonaInformacion.add(zonaTocadoInfo,constraints);
 		//Información del fuego
 		hundidoInfo = new JTextArea("Hundido: Si se dispara en una casilla en la que está ubicado una fragata (1 casilla) u otro barco con el resto de casillas tocadas, se habrá hundido, es decir, se ha eliminado ese barco del juego. Aparecerá en el tablero principal del jugador, el barco completo con la marca indicativa de que ha sido hundido. El jugador puede volver a disparar, siempre y cuando no hayas hundido toda la flota de su enemigo, en cuyo caso habrá ganado. ");
-		hundidoInfo.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		hundidoInfo.setPreferredSize(new Dimension(500,100));
+		hundidoInfo.setFont(new Font("Comic Sans MS", Font.PLAIN, 5));
+		hundidoInfo.setPreferredSize(new Dimension(395,100));
 		hundidoInfo.setWrapStyleWord(true);
 		hundidoInfo.setLineWrap(true);
 		hundidoInfo.setEditable(false);
@@ -221,7 +221,7 @@ public class Muelle extends JPanel {
 		hundidoInfo.setBackground(Color.WHITE);
 		
 		JPanel zonaHundidoInfo = new JPanel();
-		zonaHundidoInfo.setPreferredSize(new Dimension(590,62));
+		zonaHundidoInfo.setPreferredSize(new Dimension(395,62));
 		zonaHundidoInfo.add(hundidoInfo);
 		zonaHundidoInfo.setBackground(Color.WHITE);
 		constraints.gridx=1;
@@ -262,7 +262,8 @@ public class Muelle extends JPanel {
 				}
 				else if(i >0 && i <=2) {
 					imagen = new ImageIcon(Submarino.rutaFile);
-					barcos[i] = new JLabel(imagen);
+					barcos[i] = new JLabel(new RotatedIcon(imagen,RotatedIcon.Rotate.DOWN));
+					//barcos[i] = new JLabel(imagen);
 					j=1;
 				}
 				else if(i > 2 && i <=5) {

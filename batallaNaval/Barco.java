@@ -63,7 +63,7 @@ public abstract class Barco {
 				casillasDondeEstoy[i] = casilla;
 				break;
 			}
-		}
+		}	
 	}
 	//retorna el arreglo de casillas del tablero donde se encuentra el barco ubicado
 	public Casilla[] getCasillasDondeEstoy() {
