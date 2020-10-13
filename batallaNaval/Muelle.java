@@ -34,50 +34,27 @@ import javax.swing.border.TitledBorder;
  */
 public class Muelle extends JPanel {
 	
-	/** The ready. */
 	private JButton ready;
-	
-	/** The agua. */
 	private JLabel mensaje,ayudaReady,hundido,tocado,agua;
-	
-	/** The tocado info. */
 	private JTextArea aguaInfo,hundidoInfo,tocadoInfo;
-	
-	/** The escucha. */
 	private Escucha escucha;
-	
-	/** The zona informacion. */
 	private JPanel zonaPortaaviones,zonaSubmarinos,zonaDestructores,zonaFragatas,zonaInformacion;
-	
-	/** The imagen. */
 	private ImageIcon imagen;
-	
-	/** The mi fragata 4. */
 	private JLabel miPortaaviones,miSubmarino1,miSubmarino2,miDestructor1,miDestructor2,
 	   miDestructor3,miFragata1,miFragata2,miFragata3,miFragata4;
-	
-	/** The barcos. */
-	private JLabel[] barcos = new JLabel[10];;
-	
-	/** The zonas. */
+	private JLabel[] barcos = new JLabel[10];
 	private JPanel[] zonas = new JPanel[4];
-	
-	/** The index of barco seleccionado. */
 	private int indexOfBarcoSeleccionado;
-	
-	/** The referencia batalla naval. */
 	private BatallaNaval referenciaBatallaNaval;
-	
-	/** The barcos restantes. */
 	private int barcosRestantes;
 	
 	/**
+	 * Constructor
 	 * Instantiates a new muelle.
 	 *
 	 * @param refBatallaNaval the ref batalla naval
 	 */
 	public Muelle(BatallaNaval refBatallaNaval) {
-
 			this.setBackground(Color.WHITE);
 			initGUI();
 			referenciaBatallaNaval=refBatallaNaval;
@@ -289,8 +266,9 @@ public class Muelle extends JPanel {
 	
 	/**
 	 * Pintar barcos.
+	 * Pinta todos los barcos al inicio del juego en el muelle
+	 * para que el usuario los pueda seleccionar.
 	 */
-	//Pintar
 	private void pintarBarcos() {
 		// TODO Auto-generated method stub
 		int j = 0;
@@ -326,6 +304,7 @@ public class Muelle extends JPanel {
 	 * Index of barco.
 	 *
 	 * @param barcoSeleccionado the barco seleccionado
+	 * Identifica el índice del barco seleccionado en el array de barcos.
 	 */
 	private void indexOfBarco(JLabel barcoSeleccionado) {
 
@@ -340,8 +319,8 @@ public class Muelle extends JPanel {
 	 * Cambiar mensaje muelle.
 	 *
 	 * @param caso the caso
+	 * Cambia el texto del mensaje según la situación.
 	 */
-	//Método encargado de cambiar el texto de mensaje
 	public void cambiarMensajeMuelle(int caso) {
 		mensaje.setForeground(Color.BLACK);
 		mensaje.setBackground(null);
