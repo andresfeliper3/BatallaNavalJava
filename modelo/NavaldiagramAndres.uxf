@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>310</x>
+      <y>0</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>PrincipalBatallaNaval
+--
+main()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>610</x>
+      <y>250</y>
+      <w>170</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>TableroPrincipal (JPanel)
+--
+BarcosEnemigos
+--
+void organizarBarcos()
+//aleatorio y sin mostrar imagen
+disparar(getIdCasilla)
+//if portaaviones.disparoacerado y así
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>230</y>
+      <w>270</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>TableroPosicion (JPanel)
+--
+Barcos
+Barco barcoSeleccionado
+--
+private void pasarIdCasilla()
+void organizarBarcos()
+void pasarImgDeBarcoACasilla()
+void repintar() (pintar defensas)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>10</x>
+      <y>450</y>
+      <w>190</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Portaaviones
+--
+str nombre
+int tamanho
+ImageIcon imagen
+int[] idCasillas
+boolean naufragado
+--
+boolean disparoAcertado(id)
+//recorre idCasillas y compara con id
+//Si idCasillas está vacía, es que se hundió.
+//Al tener un disparo acerado, idCasillas pierde ese elemento.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>210</x>
+      <y>560</y>
+      <w>150</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Submarinos
+--
+nombre
+tamanho
+ImageIcon imagen
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>560</y>
+      <w>150</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Destructores
+--
+nombre
+tamanho
+ImageIcon imagen
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>450</y>
+      <w>130</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Fragatas
+--
+nombre
+tamanho
+ImagenIcon imagen
+int[] idCasillas
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>360</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+m1=1</panel_attributes>
+    <additional_attributes>10.0;100.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>470</y>
+      <w>130</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+m1=2
+
+</panel_attributes>
+    <additional_attributes>10.0;90.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>330</y>
+      <w>160</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>/Barco/
+--
+str nombre
+int tamanho
+ImageIcon imagen
+boolean naufragado
+--
+getNombre()
+getTamanho()
+revisarSiFueDestruido()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>360</y>
+      <w>180</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+m1=4</panel_attributes>
+    <additional_attributes>160.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>470</y>
+      <w>120</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+m1=3</panel_attributes>
+    <additional_attributes>100.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>630</y>
+      <w>190</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Casilla (JButton)
+--
+int idCasilla
+//int row
+//int col
+boolean hasBarco
+boolean zonaDestruida
+ImageIcon imagen
+--
+cambiarImagen()
+ponerParteBarco()
+int getIdCasilla()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>230</x>
+      <y>100</y>
+      <w>350</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>BatallaNaval
+--
+int estado (ganar, perder, organizar, ataque y defensa.
+int turno;
+--
+void jugar()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>50</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>70</x>
+      <y>170</y>
+      <w>310</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;290.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>170</y>
+      <w>230</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>210.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

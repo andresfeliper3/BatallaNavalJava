@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>12</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>528</x>
+      <y>0</y>
+      <w>180</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>PrincipalBatallaNaval
+--
+--
+main();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>336</x>
+      <y>204</y>
+      <w>192</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>TableroPosicion
+--
+Barco seleccionado
+--
+organizarBarcos();
+repintarTableroActual();
+cambiarImagen();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>708</x>
+      <y>204</y>
+      <w>168</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>TableroPrincipal
+--
+
+--
+Disparar();
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>48</x>
+      <y>588</y>
+      <w>228</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Portaaviones
+--
+Array Int casillasDondeestoy
+--
+disparoAcertado(Int idCasilla): bool</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>588</y>
+      <w>276</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Destructores
+--
+Array Int casillasDondeestoy
+--
+disparoAcertado(Int idCasilla): bool</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>912</x>
+      <y>588</y>
+      <w>276</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Fragatas
+--
+Int idCasilla
+--
+disparoAcertado(Int idCasilla): bool</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>612</x>
+      <y>588</y>
+      <w>276</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Submarinos
+--
+Array Int casillasDondeestoy
+--
+disparoAcertado(Int idCasilla): bool</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>456</x>
+      <y>756</y>
+      <w>276</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>/Barco/
+--
+String Nombre
+Int tamanho
+ImageIcon imagen
+boolean naufragado
+--
+disparoAcertado(Int idCasilla): bool
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>528</x>
+      <y>336</y>
+      <w>180</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>Casilla
+--
+Int fila
+Int Columna
+Int idCasilla
+boolean hasBarco
+boolean zonaDestruida
+ImageIcon imagen
+--
+cambiarImagen();
+getIdCasilla(); 
+ponerParteBarco();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>528</x>
+      <y>84</y>
+      <w>180</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>BatallaNaval
+--
+Int estadoDelJuego
+boolean turno //true, yo false, pc
+--
+jugar();
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>144</x>
+      <y>696</y>
+      <w>468</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;370.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>696</y>
+      <w>192</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;140.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>576</x>
+      <y>696</y>
+      <w>204</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>150.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>576</x>
+      <y>696</y>
+      <w>504</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>400.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>144</x>
+      <y>540</y>
+      <w>480</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>10.0;40.0;380.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>540</y>
+      <w>204</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+m1=2</panel_attributes>
+    <additional_attributes>10.0;40.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>588</x>
+      <y>540</y>
+      <w>192</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+m1=3</panel_attributes>
+    <additional_attributes>140.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>588</x>
+      <y>540</y>
+      <w>492</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+m1=4</panel_attributes>
+    <additional_attributes>390.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>312</y>
+      <w>216</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+m1=100</panel_attributes>
+    <additional_attributes>10.0;20.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>408</x>
+      <y>300</y>
+      <w>228</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+m1=100
+
+</panel_attributes>
+    <additional_attributes>170.0;30.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>408</x>
+      <y>180</y>
+      <w>228</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>180</y>
+      <w>216</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>160.0;20.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>612</x>
+      <y>60</y>
+      <w>36</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>0</x>
+      <y>48</y>
+      <w>300</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>Note..
+bg=white
+Tablero posición organizo mis barcos
+Tablero principal simula al enemigo
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
