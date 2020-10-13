@@ -13,10 +13,8 @@ import javax.swing.JOptionPane;
  */
 public class Destructor extends Barco {
 
-	/** The Constant rutaFile. */
+
 	public static final String rutaFile="src/imagenes/destructor.png";
-	
-	/** The Constant numeroCasillas. */
 	public static final int numeroCasillas = 2;
 
 	/**

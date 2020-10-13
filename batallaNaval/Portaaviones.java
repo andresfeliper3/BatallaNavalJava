@@ -13,12 +13,9 @@ import javax.swing.JOptionPane;
  */
 public class Portaaviones extends Barco {
 	
-	/** The Constant rutaFile. */
-	public static final String rutaFile="src/imagenes/portaaviones.png";
-	
-	/** The Constant numeroCasillas. */
-	public static final int numeroCasillas = 4;
 
+	public static final String rutaFile="src/imagenes/portaaviones.png";
+	public static final int numeroCasillas = 4;
 	/**
 	 * Instantiates a new portaaviones.
 	 */
