@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Autores: Jose David Barona Hernández - 1727590
  *                  Andrés Felipe Rincón    - 1922840
  * Correos: jose.david.barona@correounivalle.edu.co 
@@ -6,6 +7,8 @@
  * Fecha: 13/10/2020
  * 
  * */
+=======
+>>>>>>> 088e2c6b5197c2ed6663bb16a3986a5bcdc35b78
 package batallaNaval;
 
 import java.awt.Color;
