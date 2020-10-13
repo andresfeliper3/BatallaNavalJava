@@ -27,7 +27,6 @@ public class TableroPrincipal extends JPanel {
 	private BufferedImage bufferImage = null;
 	private Barco barcoSeleccionado;
 	private Casilla casillaSeleccionada;
-	private Casilla casilla2;
 	private int casillaSize = 50;
 	private int gridSize = 11;
 	private Escucha escucha;
@@ -42,7 +41,7 @@ public class TableroPrincipal extends JPanel {
 	private Timer timer;
 	private boolean puedoDisparar = false;
 	
-	
+	//Constructor de tablero principal
 	public TableroPrincipal(Barco[] pcBarcos,BatallaNaval referenciaBatallaNaval) {
 		
 		this.referenciaBatallaNaval = referenciaBatallaNaval;
@@ -61,7 +60,7 @@ public class TableroPrincipal extends JPanel {
 		seleccionarBarcosYCasillas();
 		
 	}
-	//Pinta todas las casillas del tablero principal
+	//Pinta todas las casillas del tablero principal y agrega las escuchas a cada casilla
 	private void pintarCasillas() {
 		// TODO Auto-generated method stub
 		int id = 0;
@@ -81,7 +80,6 @@ public class TableroPrincipal extends JPanel {
 		
 		Random random = new Random();
 		int col = random.nextInt(10)+1;
-		
 		return col;
 	}
 	//Genera un número al azar de fila entre 1 y 10
@@ -89,35 +87,31 @@ public class TableroPrincipal extends JPanel {
 		
 		Random random = new Random();
 		int row = random.nextInt(10)+1;
-		
 		return row;
 	}
 	
-	//pintar los barcos
+	//selecciona cada uno de los barcos que están en la lista de barcos del computador y los pinta en el tablero principal
 	private void seleccionarBarcosYCasillas() {
 		for(int i=0;i < barcos.length;i++) {
 				
 				//Selecciona el barco
 				setBarcoSeleccionado(barcos[i]);
-				
-					casillaSeleccionada = generarClick();
+				casillaSeleccionada = generarClick();
 				if(clicksDisponibles >0 && barcoSeleccionado != null) {
 					examinarOrientacionBarco();
 				}
 				else {
-						i--;
+					i--;
 			}
 		}
 		
 	}
 	
-	/*
-	 * Simula un click en la primera casilla para poner el barco
-	 */
+	//Simula un click en la primera casilla para poner el barco
 	private Casilla generarClick() {
-		
+		//Se genera una casilla al azar
 		casillaSeleccionada = casillas[randomRow()][randomCol()];
-		
+		//Si la casilla al azar ya fue una que se generó anteriormente o hay un barco, genera otra casilla
 		if(!casillaSeleccionada.isHasBarco() && puedoPonerBarco()) {
 			return casillaSeleccionada;
 		}else {
@@ -125,16 +119,14 @@ public class TableroPrincipal extends JPanel {
 			return generarClick();
 		}
 	}
-	
+	//Determina la orientación del barco determinando, es decir; en qué dirección puede pintarse todo el barco completo sin que hayan límites de casillas u otro barco ya esté ocupando las casillas
 	private void examinarOrientacionBarco() {
 		// TODO Auto-generated method stub
-			
 			int row = casillaSeleccionada.getRow();
 			int col = casillaSeleccionada.getCol();
 			
 			if(barcoSeleccionado.getCasillasDondeEstoy()[0] == null) {
 				//primer click
-				
 				puedoPonerBarco();
 				pintarBarcos(0,row,col);
 
@@ -157,7 +149,7 @@ public class TableroPrincipal extends JPanel {
 					}
 	}
 	
-
+	//Determina a través de booleanos si el barco se puede pintar en cualquiera de las cuatro direcciones
 	private boolean puedoPonerBarco() {
 		// TODO Auto-generated method stub
 		puedoArriba=true;
@@ -169,9 +161,7 @@ public class TableroPrincipal extends JPanel {
 			for(int i=0;i<barcoSeleccionado.getTamanho();i++) {
 				//mira por arriba
 				if(!casillas[casillaSeleccionada.getRow()-i][casillaSeleccionada.getCol()].isWater() || casillas[casillaSeleccionada.getRow()-i][casillaSeleccionada.getCol()].isHasBarco()) {
-					
 					puedoArriba = false;
-					
 					break;
 				}
 			}
@@ -179,7 +169,6 @@ public class TableroPrincipal extends JPanel {
 				//mira por abajo
 				if(casillas[casillaSeleccionada.getRow()+i][casillaSeleccionada.getCol()].getRow()+1 == 11 || casillas[casillaSeleccionada.getRow()+i][casillaSeleccionada.getCol()].isHasBarco()) {
 					puedoAbajo = false;
-
 					break;
 				}
 			}
@@ -187,7 +176,6 @@ public class TableroPrincipal extends JPanel {
 				//mira por izquierda
 				if(!casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol()-i].isWater() || casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol()-i].isHasBarco()) {
 					puedoIzq = false;
-
 					break;
 				}
 			}
@@ -195,18 +183,16 @@ public class TableroPrincipal extends JPanel {
 				//mira por derecha
 				if(casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol()+i].getCol()+1 == 11 || casillas[casillaSeleccionada.getRow()][casillaSeleccionada.getCol()+i].isHasBarco()) {
 					puedoDer = false;
-
 					break;
 				}
 			}
-			if(!puedoArriba && !puedoAbajo && !puedoIzq && !puedoDer) {
-					
+			if(!puedoArriba && !puedoAbajo && !puedoIzq && !puedoDer) {	
 				return false;
 			}
 
 		return true;
 	}
-	
+	//Este método se encarga de pintar todo el barco una vez ya se haya analizado las direcciones posibles
 	private void pintarBarcos(int caso,int fila, int columna) {
 		
 		particionImagen=0;
@@ -222,7 +208,6 @@ public class TableroPrincipal extends JPanel {
 			casillaSeleccionada.setImagen(casillaImage);
 			casillaSeleccionada.setHasBarco();
 			barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
-			
 			clicksDisponibles--;
 			particionImagen = particionImagen + 50;
 			
@@ -230,7 +215,6 @@ public class TableroPrincipal extends JPanel {
 		}else if(clicksDisponibles > 0) {
 			particionImagen=50;
 			for(int cualCasilla=0;cualCasilla<barcoSeleccionado.getTamanho()-1;cualCasilla++) {
-		
 				subImage = bufferImage.getSubimage(particionImagen, 0, casillaSize, casillaSize);
 				casillaImage = new ImageIcon(subImage);
 						switch(caso) {
@@ -289,29 +273,30 @@ public class TableroPrincipal extends JPanel {
 			
 		}else if(clicksDisponibles == 0) {
 			
-			casillaSeleccionada.setHasBarco();
-			
+			casillaSeleccionada.setHasBarco();			
 			barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 			
 		}
 
 	}
-	
+	//Método que asigna un barco seleccionado
 	public void setBarcoSeleccionado(Barco barco) {
 		barcoSeleccionado = barco;
 		clicksDisponibles = barcoSeleccionado.getTamanho();
 
 	}
-	
+	//Método que se encarga de mostrar u ocultar los barcos del tablero principal
 	public void ocultarOMostrar() {
 		//Ocultar Barcos
 		if(visible) {
 			for(int row=1;row<gridSize;row++) {
 				for(int col=1;col<gridSize;col++) {
-					casillaSeleccionada = casillas[row][col];
-					if(!casillaSeleccionada.isZonaDestruida()) {
+					
+					
+					
+					if(!casillas[row][col].isZonaDestruida()) {
 						
-						casillaSeleccionada.setIcon(null);
+						casillas[row][col].setIcon(null);
 					}
 				}
 			}
@@ -322,8 +307,8 @@ public class TableroPrincipal extends JPanel {
 		else if(!visible) {
 			for(int row=1;row<gridSize;row++) {
 				for(int col=1;col<gridSize;col++) {
-					casillaSeleccionada = casillas[row][col];
-					casillaSeleccionada.setImagen(casillaSeleccionada.getImagen());
+					
+					casillas[row][col].setImagen(casillas[row][col].getImagen());
 				
 					}
 			}
@@ -335,29 +320,22 @@ public class TableroPrincipal extends JPanel {
 	//habilita o deshabilita las casillas dependiendo del turno
 	public void setDisparoHabilitado(boolean disponible) {
 			
-		
 		for(int row=1;row<gridSize;row++) {
 			for(int col=1;col<gridSize;col++) {
 				
-				
-					casillaSeleccionada = casillas[row][col];
-					if(!casillaSeleccionada.isZonaDestruida())
-					{
-						
-						casillaSeleccionada.setEnabled(disponible);
+					if(!casillas[row][col].isZonaDestruida())
+					{	
+						casillas[row][col].setEnabled(disponible);
 					}
-			
 			}
 		}
 	}
-	
+	//Método que se encarga de analizar el disparo del computador que se ejecuta desde la Clase de BatallaNaval y determinar si le pegó a un barco o si falló el disparo
 	private void analizarDisparo() {
 	
 		if(casillaSeleccionada.isHasBarco()) {
-			for(int i=0;i<barcos.length;i++) {
-						 
+			for(int i=0;i<barcos.length;i++) {		 
 					barcos[i].disparoAcertado(casillaSeleccionada);
-					
 			}
 			if(referenciaBatallaNaval.revisarDerrota(barcos)) {
 				referenciaBatallaNaval.setEstadoDelJuego(2);//Usuario Ganó
@@ -367,7 +345,7 @@ public class TableroPrincipal extends JPanel {
 			else if(casillaSeleccionada.isNaufragado()) {
 				
 				referenciaBatallaNaval.playSound("naufragado");
-					
+				referenciaBatallaNaval.setBarcosRestantes();
 			}
 			else{
 				referenciaBatallaNaval.playSound("disparoAcertado");
@@ -382,47 +360,42 @@ public class TableroPrincipal extends JPanel {
 			
 			}
 	}
+	//Método encargado de dar permiso para disparar al usuario, es decir; el usuario no puede ejecutar un disparo si es false y sí puede disparar si es false
 	public void permisoParaDisparar(boolean fuego) {
 		this.puedoDisparar=fuego;
 	}
 	
-	//cambiar el color del borde del tablero
+	//cambiar el color del borde del tablero, recibe como parámetro un color
 	public void cambiarBorde(Color color) {
 		Border border = BorderFactory.createLineBorder(color ,7);
 		this.setBorder(border);
 	}
-	
+	//Escucha
 	public class Escucha extends MouseAdapter implements ActionListener{
-
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
 			if(puedoDisparar) {
+				cambiarBorde(Color.BLACK);
 				puedoDisparar=false;
 				casillaSeleccionada = (Casilla)eventAction.getSource();
 				
 				if(!casillaSeleccionada.isZonaDestruida() && casillaSeleccionada.isWater()) {
-					
 					//Ejecución del timer
 					referenciaBatallaNaval.playSound("disparo");	
 					timer = new Timer("Timer");
 					TimerTask task = new TimerTask(){
 						public void run() {
-
 							analizarDisparo();
-							
 						}
 					};
 					timer.schedule(task,1500);
 				}
 			}
-			
 		}
-
 		@Override
 		public void mouseEntered(MouseEvent eventMouse) {
 			// TODO Auto-generated method stub
-			
 			if(puedoDisparar) {
 				referenciaBatallaNaval.playSound("pop");
 			}

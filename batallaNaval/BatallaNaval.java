@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -35,19 +36,17 @@ import javax.swing.border.TitledBorder;
 
 public class BatallaNaval extends JFrame {
 
-	//estadoDelJuego 0 Organizar, 1 Jugar, 2 Ganar y 3 perder
-	//turno true Jugador, false Máquina
-	private int estadoDelJuego;
+	private int estadoDelJuego =0;
+	private int barcosEnJuego =10;
 	private boolean turno;
 	private Escucha escucha;
-	private JFrame	ZonaDeJuego;
 	private TableroPosicion tableroPosicion;
 	private TableroPrincipal tableroPrincipal;
-	private BatallaNaval referenciaBatallaNaval = this;
+	private BatallaNaval referenciaBatallaNaval=this;
 	private Muelle muelle;
-	private JLabel titulo;
+	private JLabel titulo,contadorBarcos;
 	private Clip clip, clip2;
-	private JPanel zonaBotones,zonaTitulo,zonaPadre;
+	private JPanel zonaBotones,zonaTitulo;
 	private JButton reset, mostrarYOcultar;
 	private Timer timer;
 
@@ -75,7 +74,7 @@ public class BatallaNaval extends JFrame {
 	initGUI();
 	
 	//Window default config
-	this.referenciaBatallaNaval = referenciaBatallaNaval;
+	//this.referenciaBatallaNaval = referenciaBatallaNaval;
 	this.setTitle("Batalla Naval");
 	this.pack();
 	this.setLocationRelativeTo(null);
@@ -87,11 +86,9 @@ public class BatallaNaval extends JFrame {
 	
 	private void initGUI() {
 		//ImageIcon battleShip = new ImageIcon(new ImageIcon("src/imagenes/battleship.jpg").getImage().getScaledInstance(500,500,Image.SCALE_SMOOTH));
-		//zonaPadre = new JPanel();
 		escucha = new Escucha();
 		
-		//setContentPane(new JLabel(battleShip));
-		//Set up Container BorderLayout
+		//Set up Container - GridBagLayout
 		Container container = getContentPane();
 		container.setBackground(Color.WHITE);
 		setLayout(new GridBagLayout());
@@ -108,15 +105,31 @@ public class BatallaNaval extends JFrame {
 		constraints.fill=GridBagConstraints.CENTER;
 		add(zonaTitulo,constraints);
 		
+		//Título
+		titulo = new JLabel("ORGANICE SUS BARCOS");
+		titulo.setFont(new Font("Comic Sans MS", Font.ITALIC, 20));
+		constraints.gridx=0;
+		constraints.gridy=1;
+		constraints.gridwidth=3;
+		constraints.fill=GridBagConstraints.CENTER;
+		add(titulo,constraints);
 		//Zona de botones
 		zonaBotones = new JPanel();
 		zonaBotones.setBackground(Color.WHITE);
-
-		
+		//Contador de Barcos restantes
+		contadorBarcos = new JLabel("Barcos restantes: 10");
+		zonaBotones.add(contadorBarcos);
+		constraints.gridx=2;
+		constraints.gridy=1;
+		constraints.gridwidth=2;
+		constraints.fill=GridBagConstraints.NONE;
+		constraints.anchor = GridBagConstraints.EAST;
+		add(zonaBotones,constraints);
+		//botón de reset
 		reset = new JButton("Reiniciar Juego");
 		reset.addActionListener(escucha);
 		zonaBotones.add(reset);
-		
+		//botón de mostrar y/u ocultar los barcos
 		mostrarYOcultar = new JButton("Mostrar Barcos");
 		mostrarYOcultar.addActionListener(escucha);
 		zonaBotones.add(mostrarYOcultar);
@@ -128,7 +141,7 @@ public class BatallaNaval extends JFrame {
 		constraints.anchor = GridBagConstraints.EAST;
 		add(zonaBotones,constraints);
 		
-		//Barcos
+		//Barcos del usuario
 		miPortaaviones = new Portaaviones();
 		miSubmarino1 = new Submarino();
 		miSubmarino2 = new Submarino();
@@ -139,7 +152,7 @@ public class BatallaNaval extends JFrame {
 		miFragata2 = new Fragata();
 		miFragata3 = new Fragata();
 		miFragata4 = new Fragata();
-		
+		//Barcos del computador
 		pcPortaaviones = new Portaaviones();
 		pcSubmarino1 = new Submarino();
 		pcSubmarino2 = new Submarino();
@@ -150,7 +163,7 @@ public class BatallaNaval extends JFrame {
 		pcFragata2 = new Fragata();
 		pcFragata3 = new Fragata();
 		pcFragata4 = new Fragata();
-		
+		//Lista de barcos del usuario
 		misBarcos = new Barco[10];
 		misBarcos[0] = miPortaaviones;
 		misBarcos[1] = miSubmarino1;
@@ -162,7 +175,7 @@ public class BatallaNaval extends JFrame {
 		misBarcos[7] = miFragata2;
 		misBarcos[8] = miFragata3;
 		misBarcos[9] = miFragata4;
-		
+		//Lista de barcos del computador
 		pcBarcos = new Barco[10];
 		pcBarcos[0] = pcPortaaviones;
 		pcBarcos[1] = pcSubmarino1;
@@ -175,7 +188,7 @@ public class BatallaNaval extends JFrame {
 		pcBarcos[8] = pcFragata3;
 		pcBarcos[9] = pcFragata4;
 		
-		//escucha, referencia y control
+		//escucha
 		escucha = new Escucha();		
 		//Muelle
 		muelle = new Muelle(referenciaBatallaNaval);
@@ -185,16 +198,14 @@ public class BatallaNaval extends JFrame {
 		constraints.fill=GridBagConstraints.CENTER;
 		add(muelle,constraints);
 		
-		muelle = new Muelle(referenciaBatallaNaval);
-		//Tableros
-		
+		//Tablero Posición	
 		tableroPosicion = new TableroPosicion(misBarcos, referenciaBatallaNaval);
 		constraints.gridx=1;
 		constraints.gridy=2;
 		constraints.gridwidth=1;
 		constraints.fill=GridBagConstraints.CENTER;
 		add(tableroPosicion,constraints);
-		
+		//tablero Principal
 		tableroPrincipal = new TableroPrincipal(pcBarcos, referenciaBatallaNaval);
 		constraints.gridx=2;
 		constraints.gridy=2;
@@ -204,39 +215,30 @@ public class BatallaNaval extends JFrame {
 		tableroPrincipal.ocultarOMostrar();
 
 	}
-	
+	//cambia el turno y ejecuta partidaEnCurso para que establezca a quién le toca disparar
 	public void setTurno(boolean turno) {
 		this.turno = turno;
 		
 		partidaEnCurso();
 	}
-
+	//método que se encarga de pasarle barco seleccionado en el muelle al tablero posicion
 	public void pasarBarco(int index) {
-		
 		barcoSeleccionado = misBarcos[index];
 		tableroPosicion.setBarcoSeleccionado(barcoSeleccionado);
-
 	}
 	
 	//Revisa en el tablero de posicion si tengo un barco seleccionado por poner
 	public boolean hayBarcoSeleccionado() {
-		
 		return tableroPosicion.getBarcoSeleccionado() == null ? false : true;
-		
 	}
-	
+	//Cambia el estado del juego: 0 Organizar, 1 Jugar, 2 Usuario Gana y 3 Usuario pierde
 	public void setEstadoDelJuego(int estado) {
-		
 		this.estadoDelJuego = estado;
-		
 	}
-	
+	//se encarga de controlar el juego, determinar si el usuario perdió o ganó y asigna los turnos al usuario y al computador
 	public void partidaEnCurso() {
-		
 		tableroPosicion.setPuedoPonerBarco(); //cambia el boleano a falso para dejar de reproducir el pop de las casillas
-		
-		reset.setEnabled(false);
-		mostrarYOcultar.setEnabled(false);
+	
 		//Ejecución del timer
 		timer = new Timer("Timer");
 		TimerTask task = new TimerTask(){
@@ -250,30 +252,48 @@ public class BatallaNaval extends JFrame {
 						mostrarYOcultar.setEnabled(true);
 						tableroPrincipal.permisoParaDisparar(true);
 						tableroPrincipal.cambiarBorde(Color.GREEN);
+						titulo.setText("¡ES TU TURNO DE ATACAR!");
+						titulo.setForeground(Color.GREEN);
 						tableroPrincipal.setDisparoHabilitado(true);//activa el tablero principal para que el usuario ejecute los disparos
 						
 					}else {
-						//COMPUTADOR
-						reset.setEnabled(false);
-						mostrarYOcultar.setEnabled(false);
+						//COMPUTADOR	
+
 						tableroPosicion.cambiarBorde(Color.RED);
+						titulo.setText("¡TE ESTÁN ATACANDO!");
+						titulo.setForeground(Color.RED);
 						tableroPrincipal.setDisparoHabilitado(false);//desactiva el tablero principal para que el usuario no pueda ejecutar los disparos
 						while(!tableroPosicion.generarDisparo(randomPosition(),randomPosition())) {};
 						
 					}
 				}else if(estadoDelJuego==2) {
 					
-					reset.setEnabled(true);
-					mostrarYOcultar.setEnabled(true);
+					titulo.setText("¡ES TU TURNO DE ATACAR!");
+					titulo.setForeground(Color.GREEN);
 					playSound("victoria");
-					JOptionPane.showMessageDialog(tableroPrincipal, "GANASTE");
-					
+					int option = JOptionPane.showConfirmDialog(tableroPrincipal, "¿Quieres jugar otra ronda?","GANASTE",JOptionPane.YES_NO_OPTION);
+					if(option == JOptionPane.YES_OPTION) {
+						removeAll();
+						clip2.stop();
+						clip.stop();
+						dispose();
+					}else if(option == JOptionPane.NO_OPTION){
+						System.exit(0);
+					}
 					
 				}else if(estadoDelJuego==3) {
 					reset.setEnabled(true);
 					mostrarYOcultar.setEnabled(true);
 					playSound("derrota");
-					JOptionPane.showMessageDialog(tableroPosicion, "PERDISTE");	
+					int option = JOptionPane.showConfirmDialog(tableroPosicion, "¿Quieres jugar otra ronda?","PERDISTE",JOptionPane.YES_NO_OPTION);
+					if(option == JOptionPane.YES_OPTION) {
+						removeAll();
+						clip2.stop();
+						clip.stop();
+						dispose();
+					}else if(option == JOptionPane.NO_OPTION){
+						System.exit(0);
+					}
 				}
 			}
 		};
@@ -302,13 +322,10 @@ public class BatallaNaval extends JFrame {
 		
 		return col;
 	}
-
-		//método que ejecuta los sonidos
+	//método que ejecuta los sonidos dependiendo del nombre del sonido
 		public void playSound(String cualSonido) { 
-			
 			File soundFile = new File("");
 			float volumen = 0;
-				
 				
 			try {
 				if(cualSonido=="musicaFondo") {
@@ -356,15 +373,27 @@ public class BatallaNaval extends JFrame {
 					clip.start();
 				}
 				
-				
 			}catch(Exception ex){
 				System.err.println(ex.getMessage());
 			}
-
-		} 
+		}
 		
+		//cambia el texto del boton de ocultar o mostrar texto
 		public void setTextMostrarOcultar(String texto) {
 			this.mostrarYOcultar.setText(texto);
+		}
+		
+		//Le pasa el texto al muelle para que cambie su mensaje
+		public void setMensajeMuelle(int caso) {
+			
+			muelle.cambiarMensajeMuelle(caso);
+			
+		}
+		//Método que define los barcos restantes del computador 
+		public void setBarcosRestantes() {
+			
+			barcosEnJuego--;
+			contadorBarcos.setText("Barcos restantes: "+ barcosEnJuego);
 		}
 
 	private class Escucha implements ActionListener{
@@ -374,16 +403,20 @@ public class BatallaNaval extends JFrame {
 			// TODO Auto-generated method stub
 			if(eventAction.getSource()==reset) {
 				//BOTON REST EN BATALLA NAVAL:
-				clip2.stop();
-				clip.stop();
-				dispose();
+				if(estadoDelJuego == 0) {
+						removeAll();
+						dispose();
+				}else {
+					
+					clip2.stop();
+					clip.stop();
+					dispose();
+				}
+
 				referenciaBatallaNaval = new BatallaNaval();
 			}if(eventAction.getSource()== mostrarYOcultar) {
 				tableroPrincipal.ocultarOMostrar();
 			}
-			
 		}
-		
 	}
-	
 }

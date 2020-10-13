@@ -19,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-
 public class TableroPosicion extends JPanel {
 	
 	private Barco[] misBarcos;
@@ -36,7 +35,7 @@ public class TableroPosicion extends JPanel {
 	private Timer timer;
 	private boolean puedoPonerBarco=true;
 	
-	
+	//Constructor
 	public TableroPosicion(Barco[] misBarcos, BatallaNaval referenciaBatallaNaval) {
 		
 		this.referenciaBatallaNaval = referenciaBatallaNaval;
@@ -54,7 +53,7 @@ public class TableroPosicion extends JPanel {
 	
 		pintarCasillas();
 	}
-
+	//Pinta todas las casillas del tablero posicion y agrega las escuchas a cada casilla
 	private void pintarCasillas() {
 		// TODO Auto-generated method stub
 		int id = 0;
@@ -68,7 +67,7 @@ public class TableroPosicion extends JPanel {
 			}
 		}
 	}
-	
+	//Este método se encarga de pintar todo el barco una vez ya se haya analizado las direcciones posibles
 	private void pintarBarco(int caso,int fila,int columna) {
 		
 		//particionImagen=0;
@@ -80,7 +79,7 @@ public class TableroPosicion extends JPanel {
 		
 		//pone la primera partición de la imágen del barco
 		if(caso == 0) {
-			
+			referenciaBatallaNaval.setMensajeMuelle(2);
 			casillaSeleccionada.setImagen(casillaImage);
 			casillaSeleccionada.setHasBarco();
 			barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
@@ -96,13 +95,11 @@ public class TableroPosicion extends JPanel {
 				casillaImage = new ImageIcon(subImage);
 						switch(caso) {
 							case 1://UP
-								if(barcoSeleccionado.getCasillasDondeEstoy()[1] == null) {
-									
+								if(barcoSeleccionado.getCasillasDondeEstoy()[1] == null) {		
 									barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(),RotatedIcon.Rotate.UP));
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.UP));
 									
 								}else{
-
 									casillaSeleccionada = casillas[row-1][col];
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.UP));
 									row--;
@@ -112,7 +109,7 @@ public class TableroPosicion extends JPanel {
 								if(barcoSeleccionado.getCasillasDondeEstoy()[1] == null) {
 									barcoSeleccionado.getCasillasDondeEstoy()[0].setImagen(new RotatedIcon(barcoSeleccionado.getCasillasDondeEstoy()[0].getImagen(),RotatedIcon.Rotate.DOWN));
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.DOWN));
-									
+							
 								}else {
 									casillaSeleccionada = casillas[row+1][col];
 									casillaSeleccionada.setImagen(new RotatedIcon(casillaImage,RotatedIcon.Rotate.DOWN));
@@ -145,16 +142,15 @@ public class TableroPosicion extends JPanel {
 					barcoSeleccionado.setCasillasDondeEstoy(casillaSeleccionada);
 					clicksDisponibles--;
 					particionImagen = particionImagen + 50;		
-					
 			}
-			
 		}if(clicksDisponibles == 0) {
 			
 				barcoSeleccionado = null;
 				particionImagen=0;
+				referenciaBatallaNaval.setMensajeMuelle(0);
 		}
 	}
-
+	//Determina la orientación del barco determinando, es decir; en qué dirección puede pintarse todo el barco completo sin que hayan límites de casillas u otro barco ya esté ocupando las casillas
 	private  void examinarOrientacionBarco() {
 		// TODO Auto-generated method stub
 		int row = casillaSeleccionada.getRow();
@@ -194,7 +190,7 @@ public class TableroPosicion extends JPanel {
 				}
 		}
 	}
-	
+	//Determina a través de booleanos si el barco se puede pintar en cualquiera de las cuatro direcciones
 	private boolean puedoPonerBarco(int direccion) {
 		// TODO Auto-generated method stub
 		boolean puedoArriba =true;
@@ -271,22 +267,16 @@ public class TableroPosicion extends JPanel {
 
 		return true;
 	}
-
+	//Método que asigna un barco seleccionado
 	public void setBarcoSeleccionado(Barco barco) {
 		barcoSeleccionado = barco;
 		clicksDisponibles = barcoSeleccionado.getTamanho();
 
 	}
 	
-	//retorna el barco seleccionado
-	public Barco getBarcoSeleccionado() {
-		return barcoSeleccionado;
-	}
-	
-	//Simula un disparo del computador
+	//Simula un disparo del computador y determina si le dió a un barco o no
 	public boolean generarDisparo(int row,int col) {
-		
-		
+
 		casillaSeleccionada = casillas[row][col];
 		
 		if(!casillaSeleccionada.isZonaDestruida()) {
@@ -294,9 +284,6 @@ public class TableroPosicion extends JPanel {
 					timer = new Timer("Timer");
 					TimerTask task = new TimerTask(){
 						public void run() {
-		
-					
-				System.out.println("TIRO: "+ casillaSeleccionada.getRow()+" "+ casillaSeleccionada.getCol());
 				
 				if(casillaSeleccionada.isHasBarco()) {
 					for(int i=0;i<misBarcos.length;i++) {
@@ -341,25 +328,22 @@ public class TableroPosicion extends JPanel {
 	public void setPuedoPonerBarco() {
 		this.puedoPonerBarco=false;
 	}
-
-
-
+	//retorna el barco seleccionado
+	public Barco getBarcoSeleccionado() {
+		return barcoSeleccionado;
+	}
+	//Escucha
 	public class Escucha extends MouseAdapter implements ActionListener{
-
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			// TODO Auto-generated method stub
-			
-			
 			casillaSeleccionada = (Casilla)eventAction.getSource();
 			if(clicksDisponibles >0 && barcoSeleccionado != null && casillaSeleccionada.isHasBarco()==false && casillaSeleccionada.isWater()) {
-
-					examinarOrientacionBarco();		
+				examinarOrientacionBarco();
 			}
 		}		@Override
 		public void mouseEntered(MouseEvent eventMouse) {
 			// TODO Auto-generated method stub
-			
 			if(puedoPonerBarco) {
 				referenciaBatallaNaval.playSound("pop");
 			}

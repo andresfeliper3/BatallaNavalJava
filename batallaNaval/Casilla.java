@@ -31,7 +31,7 @@ public class Casilla extends JButton {
 		this.hasBarco = false;
 		this.zonaDestruida = false;
 		//Imagen de agua predeterminada
-		
+	
 		if(row == 0 && col == 0) {
 			
 		}
@@ -39,53 +39,49 @@ public class Casilla extends JButton {
 			char letra = (char) ('A' + (col-1));
 			this.setText(Character.toString(letra));
 			this.isWater = false;
-
 			
 		}else if(col == 0) {
 			this.setText(row+"");
 			this.isWater = false;
-
-
+			
 		}else {
 			this.setIcon(imagen);
 			this.isWater = true;
 			this.setBackground(Color.CYAN);
 		}
-		//Configuración del botón
-		
 		this.setPreferredSize(new Dimension(casillaSize, casillaSize));
 	}
-
+	//establece un máximo de casillas y un tamaño para las casillas
 	public static void setCasillaSizeMaxCasillas(int tamanho,int numeroCasillas) {
 		casillaSize= tamanho;
 		maxCasillas= numeroCasillas;	
 	}
-	
+	//retorna la fila de la casilla
 	public int getRow() {
 		return row;
 	}
-
+	//retorna la columna de la casilla
 	public int getCol() {
 		return col;
 	}
-
+	//Le asigna una imágen a la casilla
 	public void setImagen(Icon imagen) {
 		this.imagen = imagen;
 		this.setIcon(imagen);
 	}
-	
+	//Retorna si la casilla tiene una parte del barco
 	public boolean isHasBarco() {
 		return hasBarco;
 	}
-
+	//Le asigna un barco a la casilla
 	public void setHasBarco() {
 		this.hasBarco = true;
 	}
-
+	//muestra si la casilla ha sido destruida (Impactada por un disparo)
 	public boolean isZonaDestruida() {
 		return zonaDestruida;
 	}
-
+	//Destruye la casilla
 	public void setZonaDestruida(boolean zonaDestruida) {
 		this.zonaDestruida = zonaDestruida;
 		
@@ -95,20 +91,24 @@ public class Casilla extends JButton {
 			setImagen(agua);
 		}
 	}
+	//Método que pone la casilla en naufragado
 	public void naufragarBarco() {
 		this.naufragado=true;
 		setImagen(hundido);
 	}
-
+	//Retorna el ID de la casilla
 	public int getIdCasilla() {
 		return idCasilla;
 	}
+	//Retorna el icono de la casilla
 	public Icon getImagen() {
 		return imagen;
 	}
+	//Muesta si la casilla es agua o no
 	public boolean isWater() {
 		return isWater;
 	}
+	//Muestra si la casilla está naufragada o no
 	public boolean isNaufragado() {
 		return naufragado;
 	}
