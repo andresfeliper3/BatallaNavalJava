@@ -387,7 +387,6 @@ public class TableroPrincipal extends JPanel {
 			}
 		}
 	}
-
 	/**
 	 * Analizar disparo.
 	 * 	 Método que se encarga de analizar el disparo del computador que se ejecuta 

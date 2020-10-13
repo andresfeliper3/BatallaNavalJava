@@ -1,6 +1,11 @@
-/*
+/* Autores: Jose David Barona Hernández - 1727590
+ *                  Andrés Felipe Rincón    - 1922840
+ * Correos: jose.david.barona@correounivalle.edu.co 
+ *             andres.rincon.lopez@correounivalle.edu.co
+ * Mini proyecto 2: Batalla Naval
+ * Fecha: 13/10/2020
  * 
- */
+ * */
 package batallaNaval;
 
 import java.awt.Color;
@@ -34,86 +39,35 @@ import javax.swing.JPanel;
  */
 public class BatallaNaval extends JFrame {
 
-	/** The estado del juego. */
+
 	private int estadoDelJuego =0;
-	
-	/** The barcos en juego. */
 	private int barcosEnJuego =10;
-	
-	/** The turno. */
 	private boolean turno;
-	
-	/** The escucha. */
 	private Escucha escucha;
-	
-	/** The tablero posicion. */
 	private TableroPosicion tableroPosicion;
-	
-	/** The tablero principal. */
 	private TableroPrincipal tableroPrincipal;
-	
-	/** The referencia batalla naval. */
 	private BatallaNaval referenciaBatallaNaval=this;
-	
-	/** The muelle. */
 	private Muelle muelle;
-	
-	/** The contador barcos. */
 	private JLabel titulo,contadorBarcos;
-	
-	/** The clip 2. */
 	private Clip clip, clip2;
-	
-	/** The zona titulo. */
 	private JPanel zonaBotones,zonaTitulo;
-	
-	/** The mostrar Y ocultar. */
 	private JButton reset, mostrarYOcultar;
-	
-	/** The timer. */
 	private Timer timer;
-
-
-	/** The mi portaaviones. */
-	//Mi muelle
 	private Portaaviones miPortaaviones;
-	
-	/** The mi submarino 2. */
 	private Submarino miSubmarino1,miSubmarino2;
-	
-	/** The mi destructor 3. */
 	private Destructor miDestructor1,miDestructor2,miDestructor3;
-	
-	/** The mi fragata 4. */
 	private Fragata miFragata1,miFragata2,miFragata3,miFragata4;
-	
-	/** The pc portaaviones. */
-	//muelle computador
 	private Portaaviones pcPortaaviones;
-	
-	/** The pc submarino 2. */
 	private Submarino pcSubmarino1,pcSubmarino2;
-	
-	/** The pc destructor 3. */
 	private Destructor pcDestructor1,pcDestructor2,pcDestructor3;
-	
-	/** The pc fragata 4. */
 	private Fragata pcFragata1,pcFragata2,pcFragata3,pcFragata4;
-	
-	/** The mis barcos. */
 	private Barco[] misBarcos;
-	
-	/** The pc barcos. */
 	private Barco[] pcBarcos = new Barco[10];
-	
-	/** The barco seleccionado. */
 	private Barco barcoSeleccionado;
-
 	/**
 	 * Instantiates a new batalla naval.
 	 */
-	public BatallaNaval() {
-			
+	public BatallaNaval() {		
 		
 	initGUI();
 	
@@ -378,11 +332,10 @@ public class BatallaNaval extends JFrame {
 	
 	/**
 	 * Revisar derrota.
-	 *
+	 * Función que revisa si el usuario perdió
 	 * @param barcos the barcos
 	 * @return true, if successful
 	 */
-	//Función que revisa si el usuario perdió
 	public boolean revisarDerrota(Barco[] barcos) {
 		
 		for(int cualBarco = 0;cualBarco < barcos.length;cualBarco++) {
@@ -393,13 +346,11 @@ public class BatallaNaval extends JFrame {
 		}
 		return true; //todos los barcos del usuario han sido naufragados
 	}
-	
 	/**
 	 * Random position.
-	 *
+	 * Genera un número al azar de columna entre 1 y 10
 	 * @return the int
 	 */
-	//Genera un número al azar de columna entre 1 y 10
 	private int randomPosition() {
 		
 		Random random = new Random();
@@ -410,10 +361,9 @@ public class BatallaNaval extends JFrame {
 	
 	/**
 	 * Play sound.
-	 *
+	 * método que ejecuta los sonidos dependiendo del nombre del sonido
 	 * @param cualSonido the cual sonido
 	 */
-	//método que ejecuta los sonidos dependiendo del nombre del sonido
 		public void playSound(String cualSonido) { 
 			File soundFile = new File("");
 			float volumen = 0;
@@ -468,39 +418,33 @@ public class BatallaNaval extends JFrame {
 				System.err.println(ex.getMessage());
 			}
 		}
-		
 		/**
 		 * Sets the text mostrar ocultar.
-		 *
+		 * cambia el texto del boton de ocultar o mostrar texto
 		 * @param texto the new text mostrar ocultar
 		 */
-		//cambia el texto del boton de ocultar o mostrar texto
 		public void setTextMostrarOcultar(String texto) {
 			this.mostrarYOcultar.setText(texto);
 		}
-		
 		/**
 		 * Sets the mensaje muelle.
-		 *
+		 * Le pasa el texto al muelle para que cambie su mensaje
 		 * @param caso the new mensaje muelle
 		 */
-		//Le pasa el texto al muelle para que cambie su mensaje
 		public void setMensajeMuelle(int caso) {
 			
 			muelle.cambiarMensajeMuelle(caso);
 			
 		}
-		
 		/**
 		 * Sets the barcos restantes.
-		 */
-		//Método que define los barcos restantes del computador 
+		 * Método que define los barcos restantes del computador 
+		 */	
 		public void setBarcosRestantes() {
 			
 			barcosEnJuego--;
 			contadorBarcos.setText("Barcos restantes: "+ barcosEnJuego);
 		}
-
 	/**
 	 * The Class Escucha.
 	 */
