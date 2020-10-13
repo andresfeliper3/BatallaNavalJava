@@ -10,8 +10,6 @@ package batallaNaval;
 
 import java.awt.image.BufferedImage;
 
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 
 // TODO: Auto-generated Javadoc
 /**

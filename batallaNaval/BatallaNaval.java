@@ -6,7 +6,6 @@
  * Fecha: 13/10/2020
  * 
  * */
-
 package batallaNaval;
 
 import java.awt.Color;
