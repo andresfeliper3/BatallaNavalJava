@@ -1,6 +1,3 @@
-/*
- * 
- */
 package batallaNaval;
 
 import java.awt.Color;
