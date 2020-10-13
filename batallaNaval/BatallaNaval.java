@@ -32,7 +32,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class BatallaNaval.
@@ -305,6 +304,7 @@ public class BatallaNaval extends JFrame {
 						clip2.stop();
 						clip.stop();
 						dispose();
+						referenciaBatallaNaval = new BatallaNaval();
 					}else if(option == JOptionPane.NO_OPTION){
 						System.exit(0);
 					}
@@ -319,6 +319,7 @@ public class BatallaNaval extends JFrame {
 						clip2.stop();
 						clip.stop();
 						dispose();
+						referenciaBatallaNaval = new BatallaNaval();
 					}else if(option == JOptionPane.NO_OPTION){
 						System.exit(0);
 					}
