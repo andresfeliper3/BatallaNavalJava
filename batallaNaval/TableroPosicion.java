@@ -377,8 +377,6 @@ public class TableroPosicion extends JPanel {
 						}
 						// Computador dispara otra vez
 						else {
-							System.out.println("REPITO PORQUE TE DI EN: " + casillaSeleccionada.getRow() + " "
-									+ casillaSeleccionada.getCol());
 							referenciaBatallaNaval.playSound("disparoAcertado");
 							referenciaBatallaNaval.setTurno(false);
 						}
